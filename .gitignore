@@ -1,0 +1,50 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# Django migrations
+*.pyc
+*.pyo
+*.pyd
+
+# Database files (MySQL)
+*.sqlite3
+*.log
+
+# Environment variables
+.env
+
+# Static files
+/staticfiles/
+
+# MySQL specific files
+*.sql
+*.dump
+mysql_data/
+*.cnf
+*.pem
+
+# Pytest
+.cache
+*.cover
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# VS Code settings
+.vscode/
+
+# Local configuration files
+local_settings.py

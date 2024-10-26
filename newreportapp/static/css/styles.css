@@ -1,0 +1,14 @@
+.container {
+    max-width: 500px; /* Ajuste a largura máxima do contêiner do formulário */
+}
+
+.form-responsive label,
+.form-responsive input {
+    font-size: 0.9rem; /* Reduz o tamanho da fonte */
+}
+
+@media (min-width: 768px) {
+    .form-responsive {
+        max-width: 400px; /* Largura máxima do formulário para telas maiores */
+    }
+}
