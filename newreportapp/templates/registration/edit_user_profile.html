@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Perfil{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form method="post" class="border p-4 bg-light shadow-sm rounded">
+        {% csrf_token %}
+        <h3>Dados do Perfil</h3>
+        {{ profile_form.as_p }}  <!-- Renderiza o formulário de perfil -->
+
+        <h3>Trocar Senha</h3>
+        {{ password_form.as_p }}  <!-- Renderiza o formulário de troca de senha -->
+
+        <button type="submit" class="btn btn-primary">Atualizar</button>
+    </form>
+</div>
+{% endblock %}

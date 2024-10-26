@@ -20,7 +20,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url "home" %}">Home</a>
+                            <a class="nav-link" href="{% url 'home' %}">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contato</a>
@@ -38,7 +38,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="#">Meus Laudos</a>
-                                    <a class="dropdown-item" href="#">Alterar Dados</a>
+                                    <a class="dropdown-item" href="{% url 'edit_profile' %}">Alterar Dados</a>
                                     <div class="dropdown-divider"></div>
                                     <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: inline;">
                                         {% csrf_token %}
@@ -47,12 +47,11 @@
                                 </div>
                             </li>
                         {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'login' %}">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Registrar</a>
-                            </li>
+                            {% if request.path != '/account/login/' %}  <!-- Ajuste aqui -->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                                </li>
+                            {% endif %}
                         {% endif %}
                     </ul>
                 </div>

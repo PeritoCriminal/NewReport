@@ -1,2 +1,3 @@
 
-from .user_registration_form import UserRegistrationForm
+from newreportapp.forms.user_registration_form import UserRegistrationForm
+from newreportapp.forms.user_profile_form import UserProfileForm, CustomPasswordChangeForm
