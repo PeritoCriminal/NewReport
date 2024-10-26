@@ -1,5 +1,103 @@
+/*  Do antigo styles */
+.titulo-2 {
+    color: gray !important;
+    margin-bottom: 30px !important;
+    margin-top: 45px !important;
+}
+
+div.item-header-dark {
+    /*background-color: #585353 !important;*/
+    /* Cor de fundo escura, ajuste conforme necessÃ¡rio */
+    /*color: #fefefe !important;*/
+    /* Cor do texto para garantir que seja visÃ­vel sobre o fundo escuro */
+    padding: 10px;
+    /* Ajuste o preenchimento conforme necessÃ¡rio */
+    border-radius: 4px;
+    /* Opcional: adicione bordas arredondadas */
+}
+
+.reports-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.report-image {
+    width: 150px;
+    height: auto;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.report-image:hover {
+    border-color: #007bff;
+}
+
+.form-check-inline {
+    margin-right: 15px;
+    margin-top: 15px;
+}
+
+input::placeholder {
+    color: rgb(43, 153, 226) !important;
+}
+
+textarea::placeholder {
+    color: rgb(43, 153, 226) !important;
+}
+
+.custom-file-label {
+    color: rgb(43, 153, 226) !important;
+}
+
+p.legenda {
+    text-align: center; /* Centraliza o texto */
+    font-family: Arial, sans-serif; /* Define a fonte como Arial */
+    font-size: 12px; /* Define o tamanho da fonte como 12px */
+    font-style: italic; /* Define o estilo como itÃ¡lico */
+    margin-top: 10px; /* Adiciona um espaÃ§o acima da legenda */
+    color: #be1616; /* Cor de texto para melhor visibilidade */
+}
+
+/* Estilos para a imagem */
+.img-report {
+    display: block; /* Permite que a imagem seja tratada como um bloco */
+    max-width: 16cm; /* Define a largura mÃ¡xima de 16 cm */
+    width: 100%; /* Faz com que a imagem ocupe 100% da largura do contÃªiner pai */
+    height: auto; /* MantÃ©m a proporÃ§Ã£o da imagem */
+    border: 1px solid black; /* Adiciona uma borda de 1px preta */
+    padding: 0; /* Remove qualquer espaÃ§amento interno */
+    background-color: #fff; /* Fundo branco para destacar a imagem */
+    float: left; /* Faz com que a imagem flutue Ã  esquerda */
+    margin-right: 15px; /* Adiciona um espaÃ§o Ã  direita da imagem, se necessÃ¡rio */
+}
+
+
+.file-image {
+    border: none;
+    box-shadow: none;
+}
+
+textarea::placeholder {
+    white-space: pre-line;
+}
+
+.navbar-nav {
+    white-space: nowrap; /* Impede que os itens do menu quebrem linha */
+}
+
+.overflow-auto {
+    max-width: 100%; /* Garante que o contÃªiner nÃ£o ultrapasse a largura da tela */
+}
+
+
+
+/* Novo styles*/
+
+
 .container {
-    max-width: 500px; /* Ajuste a largura máxima do contêiner do formulário */
+    max-width: 800px; /* Ajuste a largura máxima do contêiner do formulário */
 }
 
 .form-responsive label,

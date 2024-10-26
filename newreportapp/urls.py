@@ -5,6 +5,6 @@ from .views import register_user, index, UserLoginView, home_views
 urlpatterns = [
     path('account/register/', register_user, name='register'),
     path('account/login/', UserLoginView.as_view(), name='login'),
-    path('account/home/', home_views, name='home'),  # Corrigido para usar home_views corretamente
-    path('', index, name='index'),  # Verifique se Index é uma classe baseada em views
+    path('account/home/', home_views, name='home'),
+    path('', index, name='index'),
 ]
