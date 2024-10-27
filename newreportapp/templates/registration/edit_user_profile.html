@@ -7,10 +7,10 @@
     <form method="post" class="border p-4 bg-light shadow-sm rounded">
         {% csrf_token %}
         <h3>Dados do Perfil</h3>
-        {{ profile_form.as_p }}  <!-- Renderiza o formulário de perfil -->
+        {{ profile_form.as_p }} 
 
         <h3>Trocar Senha</h3>
-        {{ password_form.as_p }}  <!-- Renderiza o formulário de troca de senha -->
+        {{ password_form.as_p }} 
 
         <button type="submit" class="btn btn-primary">Atualizar</button>
     </form>
