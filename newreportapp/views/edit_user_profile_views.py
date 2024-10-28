@@ -1,3 +1,4 @@
+#newreport.views.edit_user_profile_views.py
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
@@ -5,7 +6,7 @@ from django.shortcuts import render, redirect
 from newreportapp.forms import UserProfileForm, CustomPasswordChangeForm
 
 @login_required
-def EditUserProfileView(request):
+def edit_user_profile_view(request):
     user = request.user  # Obtém o usuário logado
 
     if request.method == 'POST':

@@ -63,7 +63,7 @@ ROOT_URLCONF = 'newreportproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'newreportapp' / 'templates'], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,6 +136,7 @@ STATIC_ROOT = BASE_DIR /'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = 'home'  # Redirecionar para a página inicial após o login
 LOGOUT_REDIRECT_URL = 'login'  # Redirecionar para a página de login após o logout
 

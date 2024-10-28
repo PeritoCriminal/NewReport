@@ -1,11 +1,8 @@
 # newreportapp/urls.py
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import register_user, UserLoginView, home_views, index, EditUserProfileView  # Certifique-se de que a view foi importada
 
-from django.urls import path
-from django.contrib.auth import views as auth_views
-from .views import register_user, UserLoginView, home_views, EditUserProfileView, index
+from .views import register_user, user_login_view, home_views, edit_user_profile_view, index
 
 urlpatterns = [
     # URLs de redefinição de senha com templates personalizados
@@ -32,10 +29,10 @@ urlpatterns = [
     
     # URLs relacionadas à conta do usuário
     path('account/register/', register_user, name='register'),
-    path('account/login/', UserLoginView.as_view(), name='login'),
+    path('account/login/', user_login_view, name='login'),
     path('account/home/', home_views, name='home'),
-    path('account/edit-profile/', EditUserProfileView, name='edit_profile'),  # URL para editar o perfil
-
+    path('account/edit_user_profile/', edit_user_profile_view, name='edit_user_profile'),
+    
     # Página inicial
     path('', index, name='index'),
 ]

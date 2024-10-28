@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from newreportapp.forms.user_registration_form import UserRegistrationForm
-from newreportapp.utils import administrator_required
+from newreportapp.views.decorators import administrator_required
 
 @administrator_required
 def register_user(request):
