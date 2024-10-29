@@ -30,9 +30,9 @@ urlpatterns = [
     # URLs relacionadas à conta do usuário
     path('account/register/', register_user, name='register'),
     path('account/login/', user_login_view, name='login'),
-    path('account/home/', home_views, name='home'),
+    path('', home_views, name='home'),
     path('account/edit_user_profile/', edit_user_profile_view, name='edit_user_profile'),
     
     # Página inicial
-    path('', index, name='index'),
+    # path('', index, name='index'),
 ]
