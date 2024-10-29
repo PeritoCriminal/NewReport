@@ -16,7 +16,7 @@ def register_user(request):
             login(request, user)  
             return redirect('index')  
         else:
-            print('formulário não validado.')  #Essa msg aparece
+            print('formulário não validado.')
     else:
         form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
