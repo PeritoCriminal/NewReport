@@ -2,7 +2,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from .views import register_user, user_login_view, home_views, edit_user_profile_view, index
+from .views import register_user, user_login_view, home_views, edit_user_profile_view, create_post_view
 
 urlpatterns = [
     # URLs de redefinição de senha com templates personalizados
@@ -32,6 +32,7 @@ urlpatterns = [
     path('account/login/', user_login_view, name='login'),
     path('', home_views, name='home'),
     path('account/edit_user_profile/', edit_user_profile_view, name='edit_user_profile'),
+    path('create_post', create_post_view, name='create_post'),
     
     # Página inicial
     # path('', index, name='index'),

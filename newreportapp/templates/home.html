@@ -1,21 +1,36 @@
+<!-- newreport/templates/home.html -->
 {% extends 'base.html' %}
 
-{% block title %}home{% endblock title %}
+{% block title %}Home{% endblock title %}
 
 {% block content %}
-
-    <h3 class="titulo-2">Bem vindo</h3>
-
+    <h3 class="titulo-2">Bem-vindo</h3>
     <p>MYREPORT é um projeto independente.</p>
     <p>Tem como objetivo oferecer um ambiente seguro e eficiente para a elaboração e edição de laudos periciais, 
         inicialmente desenvolvido para Peritos Criminais Oficiais do Estado de São Paulo.</p>
-    {% if not user.is_authenticated %}
+    
+    {% if not is_authenticated %}
         <p>Faça login ou registre-se.</p>
-
-        {%else%}
-        <p>{{ user.display_name }}</p>
-
+    {% else %}
+        <p>Olá, {{ user.display_name }}!</p>
+        
+        <h2>Postagens:</h2>
+        {% if posts %}
+            <ul>
+                {% for post in posts %}
+                    <li>
+                        <strong>{{ post.author.username }}:</strong> {{ post.content }}
+                        <br>
+                        <em>Publicado em {{ post.created_at }}</em>
+                        {% if post.image %}
+                            <br><img src="{{ post.image.url }}" alt="Imagem do Post" style="max-width: 200px;">
+                        {% endif %}
+                        <br><em>Privacidade: {{ post.privacy }}</em>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Não há postagens para exibir.</p>
+        {% endif %}
     {% endif %}
-    </p>
-
 {% endblock content %}
