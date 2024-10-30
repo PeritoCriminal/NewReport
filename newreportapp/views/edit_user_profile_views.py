@@ -4,9 +4,13 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from newreportapp.forms import UserProfileForm, CustomPasswordChangeForm
+from newreportapp.views.decorators import login_forbidden
 
 @login_required
 def edit_user_profile_view(request):
+    if not request.user.is_authenticated:
+        return redirect('home')
+
     user = request.user  # Obtém o usuário logado
 
     if request.method == 'POST':

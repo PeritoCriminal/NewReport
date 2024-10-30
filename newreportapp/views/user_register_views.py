@@ -2,9 +2,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from newreportapp.forms.user_registration_form import UserRegistrationForm
-from newreportapp.views.decorators import administrator_required
+from newreportapp.views.decorators import administrator_required, login_forbidden
 
-@administrator_required
+# @administrator_required
+@login_forbidden
 def register_user(request):
     if request.method == 'POST':
         print('Médoto POST')
@@ -14,7 +15,7 @@ def register_user(request):
             user = form.save()
             print(user)
             login(request, user)  
-            return redirect('index')  
+            return redirect('home')  
         else:
             print('formulário não validado.')
     else:

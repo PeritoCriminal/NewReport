@@ -10,7 +10,7 @@
     <p>Tem como objetivo oferecer um ambiente seguro e eficiente para a elaboração e edição de laudos periciais, 
         inicialmente desenvolvido para Peritos Criminais Oficiais do Estado de São Paulo.</p>
     {% if not user.is_authenticated %}
-        <p>Faça login ou entre em contato.</p>
+        <p>Faça login ou registre-se.</p>
 
         {%else%}
         <p>{{ user.display_name }}</p>

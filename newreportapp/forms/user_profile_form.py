@@ -6,8 +6,9 @@ from newreportapp.models import CustomUserModel
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUserModel
-        fields = ['display_name', 'gender']  # Inclui apenas os campos desejados
+        fields = ['username', 'display_name', 'gender']  # Inclui apenas os campos desejados
         help_texts = {
+            'username': 'Identificação do usuário. Esse nome não será exibido nos laudos.', 
             'display_name': 'Nome conforme deseja que apareça no laudo. Você pode utilizar os prefixos Dr. ou Dra., se preferir.',
             'gender': 'Este campo é importante para a exibição do texto no laudo, especialmente no que diz respeito à concordância de gênero gramatical.',
         }

@@ -21,8 +21,9 @@
                     {{ form.non_field_errors }}
                 </div>
             {% endif %}
-            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+            <button type="submit" class="btn btn-primary btn-block">Entrar</button></br>
             <p><a href="{% url 'password_reset' %}">Esqueceu a senha?</a></p>
+            <p><a href="{% url 'register' %}">Deseja se registrar?</a></p>
         </form>
     </div>
 </div>
