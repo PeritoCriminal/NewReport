@@ -3,34 +3,44 @@
 
 {% block title %}Home{% endblock title %}
 
+
 {% block content %}
-    <h3 class="titulo-2">Bem-vindo</h3>
-    <p>MYREPORT é um projeto independente.</p>
-    <p>Tem como objetivo oferecer um ambiente seguro e eficiente para a elaboração e edição de laudos periciais, 
-        inicialmente desenvolvido para Peritos Criminais Oficiais do Estado de São Paulo.</p>
-    
+<div class="mt-4 border p-4 bg-light shadow-sm rounded">
     {% if not is_authenticated %}
+        <h3 class="titulo-2">Bem-vindo</h3>
+        <p>MYREPORT é um projeto independente.</p>
+        <p>Tem como objetivo oferecer um ambiente seguro e eficiente para a elaboração e edição de laudos periciais, 
+            inicialmente desenvolvido para Peritos Criminais Oficiais do Estado de São Paulo.</p>
         <p>Faça login ou registre-se.</p>
     {% else %}
+            <!--
         <p>Olá, {{ user.display_name }}!</p>
         
-        <h2>Postagens:</h2>
+        <h2 class="titulo-2">Postagens:</h2>
+        
+        -->
         {% if posts %}
             <ul>
                 {% for post in posts %}
                     <li>
-                        <strong>{{ post.author.username }}:</strong> {{ post.content }}
-                        <br>
-                        <em>Publicado em {{ post.created_at }}</em>
-                        {% if post.image %}
-                            <br><img src="{{ post.image.url }}" alt="Imagem do Post" style="max-width: 200px;">
+                        {% if post.caption %}
+                            <h4 class="titulo-2">{{ post.caption }}</h4>
                         {% endif %}
+                        <p>{{ post.content }}</p>
+                        <em>Publicado por {{ post.author.username }} em {{ post.created_at }}</em>
+                        {% if post.image %}
+                            <br><img src="{{ post.image.url }}" alt="Imagem do Post" class="imgpost">
+                        {% endif %}
+                        <!--
                         <br><em>Privacidade: {{ post.privacy }}</em>
+                        -->
                     </li>
+                    <hr>
                 {% endfor %}
             </ul>
         {% else %}
             <p>Não há postagens para exibir.</p>
         {% endif %}
     {% endif %}
+</div>
 {% endblock content %}
