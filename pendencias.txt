@@ -1,0 +1,13 @@
+O que falta implementar
+Imagem para o usuário,
+Icones para interção entre postagens, curtir, etc...
+Poder deletar postagens
+Poder comentar postagens
+Implemenar possibilidade de compartilhar com pessoas especígficas
+Corrigir amigos, está cadastrando tudo como amigos
+Tabela de Chavões
+Implementar Relatório
+ - Model head
+ - Model section
+Acervo para idendificação veicular
+Acervo para digitais

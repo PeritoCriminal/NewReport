@@ -24,6 +24,9 @@ ENV/
 # Static files
 /staticfiles/
 
+# Imagens salvas do BD
+/media/
+
 # MySQL specific files
 *.sql
 *.dump
