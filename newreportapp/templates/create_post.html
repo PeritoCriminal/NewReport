@@ -4,12 +4,11 @@
 {% block title %}Formulário para Postagem{% endblock title %}
 
 {% block content %}
-    <h2 class="titulo-2">Formulário para Postagem</h2>
+<h2 class="titulo-2">Formulário para Postagem</h2>
 
-    <form method="post" enctype="multipart/form-data" class="mt-4 border p-4 bg-light shadow-sm rounded"">
+    <form method="post" enctype="multipart/form-data" class="mt-4 border p-4 bg-light shadow-sm rounded">
         {% csrf_token %}
         
-        <!-- Renderiza cada campo do formulário com label acima -->
         <div class="form-group">
             <label for="id_caption">Título da Postagem</label>
             {{ form.caption }}
@@ -25,8 +24,11 @@
             {{ form.image }}
         </div>
         
-        <img id="id_image" src="#" alt="Pré-visualização da imagem" style="display:none; width: 100%; max-width: 400px; margin-top: 10px;" />
-        
+        <!-- Div que exibirá a imagem após a seleção -->
+        <div id="image-container" style="margin-top: 10px;">
+            <img id="image-preview" alt="Pré-visualização da imagem" class="imgpost" style="display: none;" />
+        </div>
+
         <div class="form-group">
             <label for="id_privacy">Privacidade</label>
             {{ form.privacy }}
@@ -34,25 +36,35 @@
 
         <button type="submit" class="btn btn-primary">Postar</button>
     </form>
-
 {% endblock content %}
 
-{% block script %}
+{% block scripts %}
     <script>
+        console.log('Formulário para postagem carregado.');
+
         function previewImage(event) {
             const input = event.target;
             const reader = new FileReader();
 
-            reader.onload = function(){
+            reader.onload = function() {
                 const imagePreview = document.getElementById('image-preview');
                 imagePreview.src = reader.result;
                 imagePreview.style.display = 'block'; // Torna a imagem visível
             }
 
-            reader.readAsDataURL(input.files[0]); // Lê a imagem como URL
+            if (input.files && input.files[0]) {
+                reader.readAsDataURL(input.files[0]); // Lê a imagem como URL
+            } else {
+                const imagePreview = document.getElementById('image-preview');
+                imagePreview.style.display = 'none'; // Oculta a imagem se não houver arquivo
+            }
         }
-        
-        // Adiciona o evento para o campo de imagem
-        document.getElementById('id_image').addEventListener('change', previewImage);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const imageInput = document.getElementById('id_image');
+            if (imageInput) {
+                imageInput.addEventListener('change', previewImage);
+            }
+        });
     </script>
-{% endblock script %}
+{% endblock scripts %}

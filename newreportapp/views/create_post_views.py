@@ -13,7 +13,7 @@ def create_post_view(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('create_post')  # Redireciona para ver a postagem criada
+            return redirect('home')  # Redireciona para ver a postagem criada
 
     else:
         form = PostForm()

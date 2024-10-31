@@ -3,7 +3,6 @@
 
 {% block title %}Home{% endblock title %}
 
-
 {% block content %}
 <div class="mt-4 border p-4 bg-light shadow-sm rounded">
     {% if not is_authenticated %}
@@ -13,12 +12,6 @@
             inicialmente desenvolvido para Peritos Criminais Oficiais do Estado de São Paulo.</p>
         <p>Faça login ou registre-se.</p>
     {% else %}
-            <!--
-        <p>Olá, {{ user.display_name }}!</p>
-        
-        <h2 class="titulo-2">Postagens:</h2>
-        
-        -->
         {% if posts %}
             <ul>
                 {% for post in posts %}
@@ -26,16 +19,12 @@
                         {% if post.caption %}
                             <h4 class="titulo-2">{{ post.caption }}</h4>
                         {% endif %}
-                        <p>{{ post.content }}</p>
-                        <em>Publicado por {{ post.author.username }} em {{ post.created_at }}</em>
+                        <p>{{ post.content|linebreaks }}</p>  <!-- Usando o filtro linebreaks para exibir como parágrafos -->
                         {% if post.image %}
                             <br><img src="{{ post.image.url }}" alt="Imagem do Post" class="imgpost">
+                            <em>Publicado por <strong>{{ post.author.username }}</strong> em {{ post.created_at }}</em>
                         {% endif %}
-                        <!--
-                        <br><em>Privacidade: {{ post.privacy }}</em>
-                        -->
                     </li>
-                    <hr>
                 {% endfor %}
             </ul>
         {% else %}

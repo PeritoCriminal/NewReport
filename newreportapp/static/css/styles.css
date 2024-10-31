@@ -121,8 +121,10 @@ hr {
     height: auto;
     display: block;
     margin: 0 auto;
+    border: 1px solid black; /* Correção: valores separados por espaços */
+    border-radius: 8px; /* Opcional: bordas arredondadas */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Opcional: sombra para destaque */
 }
-
 li {
     list-style-type: none;
     margin-left: 20px; /* opcional, para afastar o texto da borda */

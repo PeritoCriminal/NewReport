@@ -86,10 +86,14 @@
 
     <!--<script src="{% static 'js/jspdf.umd.min.js' %}"></script>-->
     <script src="{% static 'js/scripts.js' %}"></script>
+
+
 </body>
 
-    {% block scripts %}
-        <!-- Conteúdo javascript específico -->
-    {% endblock %}
+{% block scripts %} 
+    <script>
+        console.log('bloco scripts inciado.')
+    </script>
+{% endblock %}
 
 </html>

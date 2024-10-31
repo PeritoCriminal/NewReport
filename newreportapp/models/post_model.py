@@ -5,7 +5,7 @@ from stdimage.models import StdImageField
 
 class PostModel(models.Model):
     author = models.ForeignKey(CustomUserModel, on_delete=models.CASCADE, related_name="posts")
-    caption = models.CharField('Título', max_length=200, blank=True, default='')
+    caption = models.CharField('Título', max_length=200, blank=True, default='Imagem e Descrição')
     content = models.TextField()
     image = StdImageField(
         upload_to='posts/images/', null=True, blank=True,
