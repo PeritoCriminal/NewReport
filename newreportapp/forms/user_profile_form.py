@@ -6,7 +6,12 @@ from newreportapp.models import CustomUserModel
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUserModel
-        fields = ['username', 'display_name', 'gender']  # Inclui apenas os campos desejados
+        fields = ['username', 'display_name', 'gender', 'photo']  # Inclui apenas os campos desejados
+        
+        widgets = {
+            'photo': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
+        }
+        
         help_texts = {
             'username': 'Identificação do usuário. Esse nome não será exibido nos laudos.', 
             'display_name': 'Nome conforme deseja que apareça no laudo. Você pode utilizar os prefixos Dr. ou Dra., se preferir.',

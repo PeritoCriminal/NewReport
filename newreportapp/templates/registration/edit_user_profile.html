@@ -1,17 +1,24 @@
-<!--newreport/templates/registration/edit_user_profile.html -->
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+{% load static %}
 
-{% block title %}{{ user.user_name }}{% endblock %}
+{% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
 <div class="container">
-    <form method="post" class="border p-4 bg-light shadow-sm rounded">
+    <form method="post" class="border p-4 bg-light shadow-sm rounded" enctype="multipart/form-data">
         {% csrf_token %}
         <h5 class="titulo-2">Perfil do usuário. Atualmente seu usuário é {{ user.username }}.</h5>
 
+        <!-- Exibir imagem de perfil -->
+        <div class="form-group text-center">
+            <img id="profile-photo" src="{% if profile_form.instance.photo %}{{ profile_form.instance.photo.url }}{% else %}{% static 'default_photo.png' %}{% endif %}" alt="Foto de Perfil" class="user-photo mb-3" />
+            <input type="file" id="id_photo" name="photo" class="form-control-file d-none" accept="image/*" />
+            <label for="id_photo" class="btn btn-secondary" id="change-photo-label">Alterar Foto</label>
+        </div>
+
         <div class="form-group">
-            <label for="id_display_name">Nome de Usuário</label>
+            <label for="id_username">Nome de Usuário</label>
             {{ profile_form.username|add_class:"form-control" }}  
             <small class="form-text text-muted">{{ profile_form.username.help_text }}</small>
         </div>
@@ -31,7 +38,34 @@
         <h3>Trocar Senha</h3>
         {{ password_form.as_p }} 
 
-        <button type="submit" class="btn btn-primary">Atualizar</button>
+        <button type="submit" class="btn btn-primary mt-3">Atualizar</button>
     </form>
 </div>
-{% endblock %}
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const label = document.getElementById('change-photo-label');
+        const fileInput = document.getElementById('id_photo');
+
+        // Adiciona um único evento de clique ao rótulo
+        label.addEventListener('click', function(event) {
+            event.preventDefault(); // Impede a ação padrão do rótulo
+            fileInput.click();
+        });
+
+        // Adiciona um evento de mudança ao campo de entrada de arquivo
+        fileInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-photo').src = e.target.result; // Atualiza a imagem com o novo arquivo
+                };
+                reader.readAsDataURL(file); // Lê o arquivo como URL
+            }
+        });
+    });
+</script>
+{% endblock scripts %}

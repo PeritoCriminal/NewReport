@@ -14,7 +14,7 @@ def edit_user_profile_view(request):
     user = request.user  # Obtém o usuário logado
 
     if request.method == 'POST':
-        profile_form = UserProfileForm(request.POST, instance=user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=user)
         password_form = CustomPasswordChangeForm(user, request.POST)
 
         # Verifica se o formulário do perfil é válido
