@@ -1,4 +1,5 @@
 O que falta implementar
+Usuário poder alterar a imagem.
 segurança no cadatro, verificação de email,
 comentários em postagem,
 Imagem para o usuário,

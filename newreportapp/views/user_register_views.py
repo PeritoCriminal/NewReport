@@ -9,7 +9,7 @@ from newreportapp.views.decorators import administrator_required, login_forbidde
 def register_user(request):
     if request.method == 'POST':
         print('Médoto POST')
-        form = UserRegistrationForm(request.POST)
+        form = UserRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             print('formulário validado')
             user = form.save()

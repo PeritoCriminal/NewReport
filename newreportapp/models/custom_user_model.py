@@ -2,6 +2,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.exceptions import ValidationError
+from stdimage import StdImageField
 
 class CustomUserModel(AbstractUser):
     # Níveis de acesso
@@ -23,6 +24,16 @@ class CustomUserModel(AbstractUser):
 
     display_name = models.CharField(max_length=100, blank=True, null=True)  # Nome para exibição
     gender = models.CharField(max_length=1, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], blank=True, null=True)  # Sexo
+
+    photo = StdImageField(
+        upload_to='user_photos/',
+        variations={
+            'large': (300, 300),
+            'thumbnail': (100, 100, True),
+        },
+        blank=True,
+        null=True,
+    )
 
     # Campo de amigos
     friends = models.ManyToManyField('self', symmetrical=True, blank=True, related_name="user_friends")

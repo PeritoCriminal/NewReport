@@ -1,3 +1,4 @@
+<!-- newreportapp/templates/registration/register.html -->
 {% extends "base.html" %}
 {% load widget_tweaks %}
 
@@ -7,12 +8,13 @@
 <div class="container mt-5">
     <h5 class="titulo-2">Registro de Usuário</h5>
     
-    <form method="post" class="border p-4 bg-light shadow-sm rounded">
+    <form method="post" class="border p-4 bg-light shadow-sm rounded" enctype="multipart/form-data">
         {% csrf_token %}
         
         {% for field in form %}
+            {% if field.name != 'photo' %} <!-- Ignora o campo de foto -->
             <div class="form-group">
-                {{ field.label_tag }} 
+                {{ field.label_tag }}
                 {{ field|add_class:"form-control" }}
                 <small class="form-text text-muted">{{ field.help_text }}</small>
                 
@@ -24,11 +26,51 @@
                     </div>
                 {% endif %}
             </div>
+            {% endif %}
         {% endfor %}
         
-        <div class="text-center">
+        <!-- Campo de Foto e Pré-visualização -->
+        <div class="form-group">
+            <label for="id_photo">Foto do Usuário</label>
+            {{ form.photo|add_class:"form-control-file" }}
+            <small class="form-text text-muted">A imagem deve ser quadrada para melhor exibição.</small>
+        </div>
+
+        <!-- Área de Pré-visualização da Imagem -->
+        <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">>
+            <img id="photoPreview" src="" alt="Pré-visualização da foto" class="user-photo" style="display: none;">
+            <img id="photoThumbnailPreview" src="" alt="Pré-visualização da foto" class="user-large-thumbnail" style="display: none;">
+        </div>
+
+        <div class="text-center mt-3">
             <button type="submit" class="btn btn-primary">Register</button>
         </div>
     </form>
 </div>
 {% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('id_photo').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('photoPreview');
+        const previewthumbnail = document.getElementById('photoThumbnailPreview');
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                previewthumbnail.src = e.target.result;
+                previewthumbnail.style.display = 'block'; // Exibe a imagem
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+            previewthumbnail.src = '';
+            previewthumbnail.style.display = 'none';
+            preview.style.display = 'none'; // Esconde a imagem se nenhum arquivo for selecionado
+        }
+    });
+</script>
+{% endblock scripts %}

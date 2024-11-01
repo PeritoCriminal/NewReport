@@ -11,13 +11,24 @@
         
         <div class="form-group">
             <label for="id_caption">Título da Postagem</label>
-            {{ form.caption }}
+            <span class="input-group-addon" onclick="startVoiceRecognition('id_caption')">
+                <i class="fas fa-volume-up"></i> <!-- Ícone de autofalante -->
+            </span>
+            <div class="input-group">
+                {{ form.caption }}
+            </div>
         </div>
-
+        
         <div class="form-group">
             <label for="id_content">Conteúdo</label>
-            {{ form.content }}
+            <span class="input-group-addon" onclick="startVoiceRecognition('id_content')">
+                <i class="fas fa-volume-up"></i> <!-- Ícone de autofalante -->
+            </span>
+            <div class="input-group">
+                {{ form.content }}
+            </div>
         </div>
+        
 
         <div class="form-group">
             <label for="id_image">Imagem</label>

@@ -16,9 +16,14 @@
             <ul>
                 {% for post in posts %}
                     <li id="post-{{ post.id }}">
-                        {% if post.caption %}
-                            <h4 class="titulo-2">{{ post.caption }}</h4>
-                        {% endif %}
+                        <div class="post-header">
+                            {% if post.author.photo %}
+                                <img src="{{ post.author.photo.url }}" alt="Foto de {{ post.author }}" class="user-thumbnail">
+                            {% endif %}
+                            {% if post.caption %}
+                                <span class="titulo-post">{{ post.caption }}</span>
+                            {% endif %}
+                        </div>
                         <p>{{ post.content|linebreaks }}</p>
                         {% if post.image %}
                             <img src="{{ post.image.url }}" alt="Imagem do Post" class="imgpost">

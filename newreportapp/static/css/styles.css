@@ -5,6 +5,18 @@
     margin-top: 45px !important;
 }
 
+.titulo-post{
+    color: gray !important;
+    margin-bottom: 20px !important;
+    margin-top: 45px !important;
+    font-size: larger;
+    margin-left: 20px;
+}
+
+.post-header{
+    margin-top: 40px;
+}
+
 div.item-header-dark {
     /*background-color: #585353 !important;*/
     /* Cor de fundo escura, ajuste conforme necessÃ¡rio */
@@ -137,7 +149,7 @@ li {
     align-items: center;
 }
 
-.icon-like, .icon-comment, .icon-delete {
+.icon-like, .icon-comment, .icon-delete, .fas {
     color: #555;           /* Cor padrão dos ícones */
     text-decoration: none; /* Remove o sublinhado */
     font-size: 16px;       /* Tamanho dos ícones */
@@ -145,11 +157,38 @@ li {
     align-items: center;
 }
 
-.icon-like:hover, .icon-comment:hover, .icon-delete:hover {
+.icon-like:hover, .icon-comment:hover, .icon-delete:hover, .fas:hover {
     color: #007bff;        /* Cor de destaque ao passar o mouse */
 }
 
-.icon-like i, .icon-comment i, .icon-delete i {
+.icon-like i, .icon-comment i, .icon-delete i, .fas i {
     margin-right: 5px;     /* Espaço entre o ícone e o texto */
 }
 
+.user-thumbnail {
+    width: 50px;  /* Defina o tamanho desejado para o thumbnail */
+    height: 50px;
+    border-radius: 50%;  /* Para deixar a imagem circular */
+    object-fit: cover;  /* Para centralizar e cortar a imagem se necessário */
+    border: 1px solid gray;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.user-large-thumbnail {
+    width: 200px;  /* Defina o tamanho desejado para o thumbnail */
+    height: 200px;
+    margin-left: 20px;
+    margin-top: 20px;
+    border-radius: 50%;  /* Para deixar a imagem circular */
+    object-fit: cover;  /* Para centralizar e cortar a imagem se necessário */
+    border: 1px solid gray;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.user-photo{
+    width: 300px;  /* Defina o tamanho desejado para o thumbnail */    
+    border-radius: 8px;  /* Para deixar a imagem circular */
+    object-fit: cover;  /* Para centralizar e cortar a imagem se necessário */
+    border: 1px solid gray;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}

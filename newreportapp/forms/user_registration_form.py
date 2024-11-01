@@ -4,9 +4,17 @@ from django.contrib.auth.forms import UserCreationForm
 from newreportapp.models import CustomUserModel
 
 class UserRegistrationForm(UserCreationForm):
+    photo = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={
+            'class': 'form-control-file',
+            'accept': 'image/*',
+        }),
+        help_text="Escolha uma foto.",
+    )
     class Meta:
         model = CustomUserModel
-        fields = ['username', 'email', 'display_name', 'gender', 'password1', 'password2']  # `access_level` removido
+        fields = ['username', 'email', 'display_name', 'gender', 'photo', 'password1', 'password2']  # `access_level` removido
 
         # Widgets personalizados para cada campo do formulário
         widgets = {
