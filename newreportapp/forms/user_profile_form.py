@@ -1,4 +1,4 @@
-# newreport.forms.user_profile_forms.py
+# newreportapp.forms.user_profile_forms.py
 from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from newreportapp.models import CustomUserModel
@@ -6,7 +6,7 @@ from newreportapp.models import CustomUserModel
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = CustomUserModel
-        fields = ['username', 'display_name', 'gender', 'photo']  # Inclui apenas os campos desejados
+        fields = ['username', 'display_name', 'gender', 'photo']
         
         widgets = {
             'photo': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
@@ -20,7 +20,7 @@ class UserProfileForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
-        # Configura o autofocus no primeiro campo
+
         self.fields['display_name'].widget.attrs['autofocus'] = True
 
 class CustomPasswordChangeForm(PasswordChangeForm):

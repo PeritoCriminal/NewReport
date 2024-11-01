@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.exceptions import ValidationError
 from stdimage import StdImageField
+from django.core.files.storage import default_storage
 
 class CustomUserModel(AbstractUser):
     # Níveis de acesso
@@ -35,11 +36,22 @@ class CustomUserModel(AbstractUser):
         null=True,
     )
 
+    def save(self, *args, **kwargs):
+        # Exclui a imagem antiga, se existir
+        if self.pk:  # Apenas se o objeto já existir
+            old_instance = CustomUserModel.objects.get(pk=self.pk)
+            if old_instance.photo and old_instance.photo != self.photo:
+                # Remove a imagem antiga do armazenamento
+                if default_storage.exists(old_instance.photo.name):
+                    default_storage.delete(old_instance.photo.name)
+
+        super().save(*args, **kwargs)
+
     # Campo de amigos
-    friends = models.ManyToManyField('self', symmetrical=True, blank=True, related_name="user_friends")
+    # friends = models.ManyToManyField('self', symmetrical=True, blank=True, related_name="user_friends")
 
     # Campo de solicitações pendentes
-    friends_pending = models.ManyToManyField('self', symmetrical=False, blank=True, related_name="pending_requests")
+    # friends_pending = models.ManyToManyField('self', symmetrical=False, blank=True, related_name="pending_requests")
 
     # Lista de domínios permitidos
     ALLOWED_EMAIL_DOMAINS = ['@policiacientifica.sp.gov.br', '@policiacivil.sp.gov.br']
@@ -52,19 +64,19 @@ class CustomUserModel(AbstractUser):
                 raise ValidationError("O e-mail deve ser de um domínio permitido: " + ", ".join(self.ALLOWED_EMAIL_DOMAINS))
 
     # Método para enviar solicitação de amizade
-    def send_friend_request(self, user):
+    # def send_friend_request(self, user):
         """Enviar solicitação de amizade para outro usuário"""
-        user.friends_pending.add(self)
+        # user.friends_pending.add(self)
 
     # Método para aceitar solicitação de amizade
-    def accept_friend_request(self, user):
+    # def accept_friend_request(self, user):
         """Aceitar solicitação de amizade de outro usuário"""
-        if user in self.friends_pending.all():
+        #if user in self.friends_pending.all():
             # Adiciona ambos como amigos e remove a solicitação pendente
-            self.friends.add(user)
-            self.friends_pending.remove(user)
-            user.friends.add(self)
-            user.pending_requests.remove(self)  # Remove também do outro lado
+           # self.friends.add(user)
+           # self.friends_pending.remove(user)
+           # user.friends.add(self)
+           # user.pending_requests.remove(self)  # Remove também do outro lado
 
     class Meta:
         verbose_name = 'Custom User'
