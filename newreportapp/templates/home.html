@@ -15,15 +15,30 @@
         {% if posts %}
             <ul>
                 {% for post in posts %}
-                    <li>
+                    <li id="post-{{ post.id }}">
                         {% if post.caption %}
                             <h4 class="titulo-2">{{ post.caption }}</h4>
                         {% endif %}
-                        <p>{{ post.content|linebreaks }}</p>  <!-- Usando o filtro linebreaks para exibir como parágrafos -->
+                        <p>{{ post.content|linebreaks }}</p>
                         {% if post.image %}
-                            <br><img src="{{ post.image.url }}" alt="Imagem do Post" class="imgpost">
+                            <img src="{{ post.image.url }}" alt="Imagem do Post" class="imgpost">
                             <em>Publicado por <strong>{{ post.author.username }}</strong> em {{ post.created_at }}</em>
                         {% endif %}
+                        <div class="interaction-bar">
+                            <span id="likes-count-{{ post.id }}">{{ post.likes_count }}</span>
+                            <a href="#" class="icon-like" data-post-id="{{ post.id }}">
+                                <i class="fas fa-thumbs-up"></i>
+                            </a>
+                            
+                            <a href="#" class="icon-comment"><i class="fas fa-comment"></i> Comentar</a>
+                            
+                            <div id="post-{{ post.id }}">
+                            {% if request.user == post.author %}
+                                <a href="#" class="icon-delete delete-post" data-post-id="{{ post.id }}">
+                                    <i class="fas fa-trash"></i> Deletar
+                                </a>
+                            {% endif %}
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
@@ -33,3 +48,55 @@
     {% endif %}
 </div>
 {% endblock content %}
+
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $('.icon-like').on('click', function(event) {
+            event.preventDefault(); // Impede o recarregamento da página
+
+            const postId = $(this).data('post-id'); // Obtém o ID do post
+
+            $.ajax({
+                url: `/post/${postId}/like/`, // URL para a view de like
+                method: 'GET',
+                success: function(response) {
+                    // Atualiza a contagem de likes
+                    $('#likes-count-' + postId).text(response.likes_count);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erro ao curtir o post:', error);
+                }
+            });
+        });
+
+        // Lida com a deleção do post
+        $('.delete-post').on('click', function(event) {
+            event.preventDefault(); // Impede o recarregamento da página
+
+            const postId = $(this).data('post-id'); // Obtém o ID do post
+            const confirmed = confirm('Tem certeza que deseja deletar este post?');
+
+            if (confirmed) {
+                // Se confirmado, faz a requisição AJAX para deletar o post
+                $.ajax({
+                    url: `/post/${postId}/delete/`, // URL para a view de deletar
+                    method: 'POST', // Usando POST para deletar
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}' // Inclui o token CSRF
+                    },
+                    success: function(response) {
+                        // Remove o post do DOM ou atualiza a página
+                        $(`#post-${postId}`).remove(); // Supondo que o post tem o id "post-{id}"
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erro ao deletar o post:', error);
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock scripts %}
+

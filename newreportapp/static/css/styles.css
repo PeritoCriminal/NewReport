@@ -129,3 +129,27 @@ li {
     list-style-type: none;
     margin-left: 20px; /* opcional, para afastar o texto da borda */
 }
+
+.interaction-bar {
+    margin-top: 10px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.icon-like, .icon-comment, .icon-delete {
+    color: #555;           /* Cor padrão dos ícones */
+    text-decoration: none; /* Remove o sublinhado */
+    font-size: 16px;       /* Tamanho dos ícones */
+    display: flex;
+    align-items: center;
+}
+
+.icon-like:hover, .icon-comment:hover, .icon-delete:hover {
+    color: #007bff;        /* Cor de destaque ao passar o mouse */
+}
+
+.icon-like i, .icon-comment i, .icon-delete i {
+    margin-right: 5px;     /* Espaço entre o ícone e o texto */
+}
+

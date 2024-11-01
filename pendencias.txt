@@ -1,4 +1,6 @@
 O que falta implementar
+segurança no cadatro, verificação de email,
+comentários em postagem,
 Imagem para o usuário,
 Icones para interção entre postagens, curtir, etc...
 Poder deletar postagens

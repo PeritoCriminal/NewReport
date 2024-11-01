@@ -1,4 +1,4 @@
-# newreport/views/home_views.py
+# newreportapp/views/home_views.py
 from django.shortcuts import render
 from newreportapp.models import PostModel
 
