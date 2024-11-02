@@ -33,16 +33,38 @@
                             <a href="#" class="icon-like" data-post-id="{{ post.id }}">
                                 <i class="fas fa-thumbs-up"></i>
                             </a>
-                            
-                            <a href="#" class="icon-comment"><i class="fas fa-comment"></i> Comentar</a>
-                            
+                            <a href="#" class="icon-comment" data-post-id="{{ post.id }}">
+                                <i class="fas fa-comment"></i> Comentar
+                            </a>
                             <div id="post-{{ post.id }}">
-                            {% if request.user == post.author %}
-                                <a href="#" class="icon-delete delete-post" data-post-id="{{ post.id }}">
-                                    <i class="fas fa-trash"></i> Deletar
-                                </a>
-                            {% endif %}
+                                {% if request.user == post.author %}
+                                    <a href="#" class="icon-delete delete-post" data-post-id="{{ post.id }}">
+                                        <i class="fas fa-trash"></i> Deletar
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
+
+                        <!-- Seção de comentários -->
+                        <div class="comment-section" id="comment-section-{{ post.id }}" style="display: none;">
+                            <textarea class="comment-input" placeholder="Digite seu comentário..." rows="3"></textarea>
+                            <div class="comment-buttons">
+                                <button class="btn btn-primary submit-comment" data-post-id="{{ post.id }}">Salvar</button>
+                                <button class="btn btn-secondary cancel-comment">Cancelar</button>
+                            </div>
+                        </div>
+
+                        <!-- Exibição dos comentários existentes -->
+                        <div class="comments-list" id="comments-list-{{ post.id }}">
+                            {% for comment in post.comments.all|dictsortreversed:"created_at" %}
+                                <div class="comment">
+                                    <strong>{{ comment.user.username }}</strong> comentou em {{ comment.created_at }}.
+                                    <p>{{ comment.content|linebreaks }}</p>
+                                </div>
+                            {% empty %}
+                                <div class="no-comments">Nenhum comentário ainda.</div>
+                            {% endfor %}
+                        </div>        
                     </li>
                 {% endfor %}
             </ul>
@@ -72,10 +94,11 @@
 </div>
 {% endblock content %}
 
+
 {% block scripts %}
 <script>
-
     $(document).ready(function() {
+        // Lida com a ação de curtir um post
         $('.icon-like').on('click', function(event) {
             event.preventDefault(); // Impede o recarregamento da página
 
@@ -110,7 +133,7 @@
                         'csrfmiddlewaretoken': '{{ csrf_token }}' // Inclui o token CSRF
                     },
                     success: function(response) {
-                        // Remove o post do DOM ou atualiza a página
+                        // Remove o post do DOM
                         $(`#post-${postId}`).remove(); // Supondo que o post tem o id "post-{id}"
                     },
                     error: function(xhr, status, error) {
@@ -119,9 +142,63 @@
                 });
             }
         });
+
+        // Exibir textarea ao clicar no ícone de comentar
+        $('.icon-comment').on('click', function(event) {
+            event.preventDefault(); // Impede o recarregamento da página
+
+            const postId = $(this).data('post-id'); // Obtém o ID do post
+            $('#comment-section-' + postId).toggle(); // Alterna a visibilidade da seção de comentários
+        });
+
+        // Lidar com o envio do comentário
+        $('.submit-comment').on('click', function(event) {
+            const postId = $(this).data('post-id'); // Obtém o ID do post
+            const content = $('#comment-section-' + postId + ' .comment-input').val(); // Obtém o conteúdo do comentário
+
+            if (content.trim() === '') {
+                alert('Por favor, escreva um comentário antes de enviar.');
+                return;
+            }
+
+            $.ajax({
+                url: `/post/${postId}/comment/`, // URL para a view de adicionar comentário
+                method: 'POST',
+                data: {
+                    'content': content, // O conteúdo do comentário
+                    'csrfmiddlewaretoken': '{{ csrf_token }}' // Inclui o token CSRF
+                },
+                success: function(response) {
+                    // Alerta de sucesso
+                    //alert('Comentário adicionado com sucesso!');
+
+                    // Esconde a seção de comentários após o envio
+                    $('#comment-section-' + postId).hide(); 
+
+                    // Adiciona o novo comentário à lista
+                    const newComment = `
+                        <div class="comment">
+                            <strong>${response.username}</strong> comentou em ${response.created_at}.
+                            <p>${response.content}</p>
+                        </div>
+                    `;
+                    // Prepend o novo comentário no topo da lista
+                    $('#comments-list-' + postId).prepend(newComment);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erro ao adicionar comentário:', error);
+                }
+            });
+        });
+
+        // Lidar com o cancelamento do comentário
+        $('.cancel-comment').on('click', function() {
+            const postId = $(this).parent().data('post-id');
+            $('#comment-section-' + postId).hide(); // Esconde a seção de comentários
+        });
     });
 
+    // Função para esconder mensagens de alerta após um tempo
     hideMsg('.alert', 5000);
-
 </script>
 {% endblock scripts %}

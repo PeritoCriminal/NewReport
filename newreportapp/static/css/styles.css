@@ -234,3 +234,81 @@ li {
 .alert {
     margin-top: 60px;  /* Ajuste conforme necessário para o espaço entre o menu e a mensagem */
 }
+
+/* Estilo geral da lista de comentários */
+.comments-list {
+    margin-top: 15px; /* Espaço acima da lista */
+    padding: 15px; /* Espaçamento interno */
+    /*border: 1px solid #ddd; /* Borda leve ao redor da lista */
+    /*border-radius: 8px; /* Bordas arredondadas */
+    /*background-color: #f7f7f7; /* Fundo suave */
+    max-height: 300px; /* Altura máxima para controle */
+    overflow-y: auto; /* Rolagem vertical se necessário */
+}
+
+/* Estilo para cada comentário */
+.comment {
+    margin-bottom: 10px; /* Espaço entre os comentários */
+    padding: 10px; /* Espaçamento interno do comentário */
+    border-bottom: 1px solid #eaeaea; /* Linha separadora entre os comentários */
+}
+
+/* Destacando o último comentário (removendo a linha inferior) */
+.comment:last-child {
+    border-bottom: none; /* Remove a linha inferior do último comentário */
+}
+
+/* Estilo para o nome do usuário no comentário */
+.comment strong {
+    color: #007bff; /* Cor azul para o nome do usuário */
+}
+
+/* Estilo para o texto do comentário */
+.comment p {
+    margin: 5px 0 0; /* Margem para o parágrafo do comentário */
+    color: #333; /* Cor do texto do comentário */
+    font-size: 14px; /* Tamanho da fonte do comentário */
+}
+
+/* Estilo para a mensagem quando não há comentários */
+.no-comments {
+    color: #999; /* Cor mais clara para indicar que não há comentários */
+    font-style: italic; /* Estilo itálico para a mensagem */
+    text-align: center; /* Centraliza a mensagem */
+}
+
+/* Hover sobre o comentário (opcional) */
+.comment:hover {
+    background-color: #f0f0f0; /* Fundo levemente diferente ao passar o mouse */
+    transition: background-color 0.3s; /* Transição suave */
+}
+
+/*--------*/
+
+.comment-section {
+    margin-top: 10px; /* Espaço acima da seção de comentários */
+    padding: 10px; /* Espaço interno */
+    background-color: #f8f9fa; /* Cor de fundo suave */
+    /*border: 1px solid #ced4da; /* Borda leve */
+    /*border-radius: 5px; /* Cantos arredondados */
+}
+
+.comment-input {
+    width: 100%; /* Faz com que a textarea ocupe toda a largura disponível */
+    padding: 10px; /* Espaçamento interno */
+    border: 1px solid #ced4da; /* Borda leve */
+    border-radius: 5px; /* Cantos arredondados */
+    resize: none; /* Impede que o usuário redimensione a textarea */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interna sutil */
+    margin-bottom: 10px; /* Espaço abaixo da textarea */
+}
+
+.comment-buttons {
+    display: flex; /* Exibe os botões lado a lado */
+    justify-content: flex-end; /* Alinha os botões à direita */
+}
+
+.comment-buttons .btn {
+    margin-left: 10px; /* Espaçamento entre os botões */
+}
+

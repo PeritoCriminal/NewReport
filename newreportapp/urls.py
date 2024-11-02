@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import change_password_view, edit_user_profile_view, register_user, post_delete_views, post_likes_views, user_login_view, home_views, create_post_view
+from .views import change_password_view, edit_user_profile_view, register_user, post_delete_views, post_likes_views, user_login_view, home_views, create_post_view, comment_post_view
 
 urlpatterns = [
     # URLs de redefinição de senha com templates personalizados
@@ -32,4 +32,6 @@ urlpatterns = [
 
     path('account/edit_user_profile/', edit_user_profile_view, name='edit_user_profile'),
     path('create_post', create_post_view, name='create_post'),
+    path('post/<int:post_id>/comment/', comment_post_view, name='comment_post_view'),
+
 ]

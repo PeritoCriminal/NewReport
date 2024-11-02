@@ -4,11 +4,14 @@ Código está crescendo.
 O que falta implementar?
 ----------------------------------------------------
 Instalar sevidor apache?
+Estilizar comentário, data mnorzinha e texto um pouquinho recuado a esqeurda e maiorzinho.
 Home page do usuário
 Estilizar msg de erro no base.html
 model para friends
-segurança no cadatro, verificação de email,
-comentários em postagem,
+segurança no cadastro, verificação de email,
+comentários em comentários,
+apagar comentários,
+implementar segurança para postagens e comentários indesejados. dedoduro e exclusão.
 Poder comentar postagens
 Implemenar possibilidade de compartilhar com pessoas especígficas
 Tabela de Chavões
@@ -28,3 +31,4 @@ Poder deletar postagens
 Corrigir amigos, está cadastrando tudo como amigos
 separar form de atualização do usuário e o form de mudança de senha.
 verificar tentativa de alteração de senha e, se falhar, ficar na página.
+Comentar postagens.
