@@ -13,7 +13,6 @@
 <body>
     <header class="bg-light border-bottom mb-4">
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top border shadow-sm" style="padding: 0.5rem 1rem;">
-
             <div class="container">
                 <a class="navbar-brand" href="{% url 'home' %}">MyReport</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,13 +42,15 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="{% url 'create_post' %}">Incluir uma postagem</a>
-                                    
+                                
                                     <!-- Verifica se o nível de acesso do usuário é Editor -->
                                     {% if user.access_level == 'editor' %}
                                         <a class="dropdown-item" href="#">Meus Laudos</a>
                                     {% endif %}
+                                
+                                    <a class="dropdown-item" href="{% url 'edit_user_profile' %}">Alterar Dados do Perfil</a>
+                                    <a class="dropdown-item" href="{% url 'password_change' %}">Alterar Senha</a> <!-- Link para alteração de senha -->
                                     
-                                    <a class="dropdown-item" href="{% url 'edit_user_profile' %}">Alterar Dados</a>
                                     <div class="dropdown-divider"></div>
                                     <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: inline;">
                                         {% csrf_token %}
@@ -69,7 +70,23 @@
             </div>
         </nav>
     </header>
+    
     <main role="main" class="container mb-4">
+        
+        <!-- Seção para exibir mensagens de feedback -->
+        {% if messages %}
+            <div class="mt-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
         {% block content %}
         <!-- Conteúdo específico da página -->
         {% endblock %}
@@ -87,7 +104,6 @@
 
     <!--<script src="{% static 'js/jspdf.umd.min.js' %}"></script>-->
     <script src="{% static 'js/scripts.js' %}"></script>
-
 
 </body>
 

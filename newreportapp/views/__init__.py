@@ -8,3 +8,4 @@ from .create_post_views import create_post_view
 from .post_likes_views import post_like
 from .post_delete_views import post_delete_views
 from .decorators import administrator_required, login_forbidden
+from .change_password_views import change_password_view

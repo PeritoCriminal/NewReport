@@ -32,6 +32,8 @@ class EditUserProfileViewTest(TestCase):
         response = self.client.get(reverse('edit_user_profile'))
         self.assertRedirects(response, reverse('home'))
 
+    """
+    Esse teste não será mais executado vsito que a troca de senha foi removida do form de edição do usuário.
     def test_password_change_fails_without_current_password(self):
         response = self.client.post(reverse('edit_user_profile'), {
             'username': 'newusername',
@@ -53,3 +55,4 @@ class EditUserProfileViewTest(TestCase):
 
         # Status 200, permanecendo na página devido ao erro
         self.assertEqual(response.status_code, 200)
+        """

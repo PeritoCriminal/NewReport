@@ -35,14 +35,17 @@
             {{ profile_form.gender|add_class:"form-control" }}
             <small class="form-text text-muted">{{ profile_form.gender.help_text }}</small>
         </div>
-
+        <!--
+        Vamos deixar a troca de senha para outro formulário.
         <h3>Trocar Senha</h3>
         {{ password_form.as_p }}
-
+        -->
         <div class="d-flex justify-content-between mt-3">
             <button type="submit" class="btn btn-primary">Atualizar</button>
             <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
         </div>
+        
+        
     </form>
 </div>
 {% endblock content %}

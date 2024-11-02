@@ -3,6 +3,7 @@ Código está crescendo.
 ====================================================
 O que falta implementar?
 ----------------------------------------------------
+separar form de atualização do usuário e o form de mudança de senha.
 verificar tentativa de alteração de senha e, se falhar, ficar na página.
 Home page do usuário
 model para friends
