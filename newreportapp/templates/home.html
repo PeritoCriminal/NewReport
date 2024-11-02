@@ -74,6 +74,7 @@
 
 {% block scripts %}
 <script>
+
     $(document).ready(function() {
         $('.icon-like').on('click', function(event) {
             event.preventDefault(); // Impede o recarregamento da página
@@ -119,5 +120,8 @@
             }
         });
     });
+
+    hideMsg('.alert', 5000);
+
 </script>
 {% endblock scripts %}

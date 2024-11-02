@@ -3,9 +3,9 @@ Código está crescendo.
 ====================================================
 O que falta implementar?
 ----------------------------------------------------
-separar form de atualização do usuário e o form de mudança de senha.
-verificar tentativa de alteração de senha e, se falhar, ficar na página.
+Instalar sevidor apache?
 Home page do usuário
+Estilizar msg de erro no base.html
 model para friends
 segurança no cadatro, verificação de email,
 comentários em postagem,
@@ -26,3 +26,5 @@ Usuário poder alterar a imagem.
 Icones para interção entre postagens, curtir, etc...
 Poder deletar postagens
 Corrigir amigos, está cadastrando tudo como amigos
+separar form de atualização do usuário e o form de mudança de senha.
+verificar tentativa de alteração de senha e, se falhar, ficar na página.

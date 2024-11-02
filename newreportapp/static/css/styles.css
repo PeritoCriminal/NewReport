@@ -230,3 +230,7 @@ li {
 .ul-post{
     padding-left: 0px;
 }
+
+.alert {
+    margin-top: 60px;  /* Ajuste conforme necessário para o espaço entre o menu e a mensagem */
+}
