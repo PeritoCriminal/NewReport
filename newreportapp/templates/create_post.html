@@ -4,78 +4,82 @@
 {% block title %}Formulário para Postagem{% endblock title %}
 
 {% block content %}
-<h2 class="titulo-2">Formulário para Postagem</h2>
+<br>
+<h4 class="titulo-2">Crie uma Postagem</h4>
 
-    <form method="post" enctype="multipart/form-data" class="mt-4 border p-4 bg-light shadow-sm rounded">
-        {% csrf_token %}
-        
-        <div class="form-group">
-            <label for="id_caption">Título da Postagem</label>
-            <span class="input-group-addon" onclick="startVoiceRecognition('id_caption')">
-                <i class="fas fa-volume-up"></i> <!-- Ícone de autofalante -->
-            </span>
-            <div class="input-group">
-                {{ form.caption }}
-            </div>
+<form method="post" enctype="multipart/form-data" class="mt-4 border p-4 bg-light shadow-sm rounded">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        <label for="id_caption">Título da Postagem</label>
+        <!--
+        <span class="input-group-addon" onclick="startVoiceRecognition('id_caption')" style="cursor: pointer;">
+            <i class="fas fa-volume-up"></i> 
+        </span>
+        -->
+        <div class="input-group">
+            {{ form.caption }}
         </div>
-        
-        <div class="form-group">
-            <label for="id_content">Conteúdo</label>
-            <span class="input-group-addon" onclick="startVoiceRecognition('id_content')">
-                <i class="fas fa-volume-up"></i> <!-- Ícone de autofalante -->
-            </span>
-            <div class="input-group">
-                {{ form.content }}
-            </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="id_content">Conteúdo</label>
+        <!--
+        <span class="input-group-addon" onclick="startVoiceRecognition('id_content')" style="cursor: pointer;">
+            <i class="fas fa-volume-up"></i> 
+        </span>
+        -->
+        <div class="input-group">
+            {{ form.content }}
         </div>
-        
+    </div>
 
-        <div class="form-group">
-            <label for="id_image">Imagem</label>
-            {{ form.image }}
-        </div>
-        
-        <!-- Div que exibirá a imagem após a seleção -->
-        <div id="image-container" style="margin-top: 10px;">
-            <img id="image-preview" alt="Pré-visualização da imagem" class="imgpost" style="display: none;" />
-        </div>
+    <div class="form-group">
+        <label for="id_image">Imagem</label>
+        {{ form.image }}
+    </div>
+    
+    <!-- Div que exibirá a imagem após a seleção -->
+    <div id="image-container" style="margin-top: 10px;">
+        <img id="image-preview" alt="Pré-visualização da imagem" class="imgpost" style="display: none;" />
+    </div>
 
-        <div class="form-group">
-            <label for="id_privacy">Privacidade</label>
-            {{ form.privacy }}
-        </div>
+    <div class="form-group">
+        <label for="id_privacy">Privacidade</label>
+        {{ form.privacy }}
+    </div>
 
-        <button type="submit" class="btn btn-primary">Postar</button>
-    </form>
+    <button type="submit" class="btn btn-primary">Postar</button>
+</form>
 {% endblock content %}
 
 {% block scripts %}
-    <script>
-        console.log('Formulário para postagem carregado.');
+<script>
+    console.log('Formulário para postagem carregado.');
 
-        function previewImage(event) {
-            const input = event.target;
-            const reader = new FileReader();
+    function previewImage(event) {
+        const input = event.target;
+        const reader = new FileReader();
 
-            reader.onload = function() {
-                const imagePreview = document.getElementById('image-preview');
-                imagePreview.src = reader.result;
-                imagePreview.style.display = 'block'; // Torna a imagem visível
-            }
-
-            if (input.files && input.files[0]) {
-                reader.readAsDataURL(input.files[0]); // Lê a imagem como URL
-            } else {
-                const imagePreview = document.getElementById('image-preview');
-                imagePreview.style.display = 'none'; // Oculta a imagem se não houver arquivo
-            }
+        reader.onload = function() {
+            const imagePreview = document.getElementById('image-preview');
+            imagePreview.src = reader.result;
+            imagePreview.style.display = 'block'; // Torna a imagem visível
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const imageInput = document.getElementById('id_image');
-            if (imageInput) {
-                imageInput.addEventListener('change', previewImage);
-            }
-        });
-    </script>
+        if (input.files && input.files[0]) {
+            reader.readAsDataURL(input.files[0]); // Lê a imagem como URL
+        } else {
+            const imagePreview = document.getElementById('image-preview');
+            imagePreview.style.display = 'none'; // Oculta a imagem se não houver arquivo
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('id_image');
+        if (imageInput) {
+            imageInput.addEventListener('change', previewImage);
+        }
+    });
+</script>
 {% endblock scripts %}

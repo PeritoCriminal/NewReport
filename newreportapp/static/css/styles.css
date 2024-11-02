@@ -192,3 +192,41 @@ li {
     border: 1px solid gray;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+.pagination {
+    display: flex;
+    justify-content: center; /* Centraliza os itens */
+    margin: 20px 0; /* Margem acima e abaixo da paginação */
+}
+
+.step-links {
+    display: flex;
+    list-style: none; /* Remove os marcadores da lista */
+}
+
+.step-links a {
+    padding: 8px 12px; /* Espaçamento interno */
+    margin: 0 5px; /* Margem entre os links */
+    border: 1px solid #007bff; /* Borda azul */
+    border-radius: 4px; /* Cantos arredondados */
+    color: #007bff; /* Cor do texto */
+    text-decoration: none; /* Remove o sublinhado */
+    transition: background-color 0.3s, color 0.3s; /* Transições suaves */
+}
+
+.step-links a:hover {
+    background-color: #007bff; /* Cor de fundo ao passar o mouse */
+    color: #fff; /* Cor do texto ao passar o mouse */
+}
+
+.step-links .current {
+    padding: 8px 12px; /* Espaçamento interno */
+    margin: 0 5px; /* Margem entre os links */
+    background-color: #007bff; /* Cor de fundo para a página atual */
+    color: #fff; /* Cor do texto da página atual */
+    border-radius: 4px; /* Cantos arredondados */
+}
+
+.ul-post{
+    padding-left: 0px;
+}

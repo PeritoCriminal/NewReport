@@ -1,17 +1,13 @@
-#newreport.views.edit_user_profile_views.py
+# newreportapp.views.edit_user_profile_views.py
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from newreportapp.forms import UserProfileForm, CustomPasswordChangeForm
-from newreportapp.views.decorators import login_forbidden
 
 @login_required
 def edit_user_profile_view(request):
-    if not request.user.is_authenticated:
-        return redirect('home')
-
-    user = request.user  # Obtém o usuário logado
+    user = request.user
 
     if request.method == 'POST':
         profile_form = UserProfileForm(request.POST, request.FILES, instance=user)
@@ -19,15 +15,25 @@ def edit_user_profile_view(request):
 
         # Verifica se o formulário do perfil é válido
         if profile_form.is_valid():
-            profile_form.save()  # Salva as alterações no perfil
-
-            # Verifica se o formulário de senha foi preenchido e é válido
-            if password_form.is_valid() and password_form.cleaned_data.get('new_password1'):
-                user = password_form.save()  # Atualiza a senha
-                update_session_auth_hash(request, user)  # Mantém o usuário logado após a troca de senha
-
+            profile_form.save()  # Salva as alterações no perfil sem exigir senha
             messages.success(request, 'Perfil atualizado com sucesso!')
-            return redirect('home')  # Redireciona para a página inicial ou outra página desejada
+
+            # Verifica se o formulário de troca de senha foi preenchido corretamente
+            if password_form.is_valid():
+                user = password_form.save()  # Atualiza a senha
+                update_session_auth_hash(request, user)  # Mantém o usuário logado
+                messages.success(request, 'Senha alterada com sucesso!')
+                return redirect('home')
+            elif 'new_password1' in request.POST:  # Senha foi enviada, mas está incorreta
+                messages.error(request, 'Erro ao alterar a senha. Verifique os dados e tente novamente.')
+                #return render(request, 'registration/edit_user_profile.html', {
+                #    'profile_form': profile_form,
+                #    'password_form': password_form,
+                return redirect('home')
+                #})
+
+            return redirect('home')
+
         else:
             messages.error(request, 'Erro ao atualizar o perfil. Verifique os dados e tente novamente.')
 

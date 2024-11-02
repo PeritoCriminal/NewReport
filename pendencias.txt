@@ -1,16 +1,27 @@
-O que falta implementar
-Usuário poder alterar a imagem.
+
+Código está crescendo. 
+====================================================
+O que falta implementar?
+----------------------------------------------------
+verificar tentativa de alteração de senha e, se falhar, ficar na página.
+Home page do usuário
+model para friends
 segurança no cadatro, verificação de email,
 comentários em postagem,
-Imagem para o usuário,
-Icones para interção entre postagens, curtir, etc...
-Poder deletar postagens
 Poder comentar postagens
 Implemenar possibilidade de compartilhar com pessoas especígficas
-Corrigir amigos, está cadastrando tudo como amigos
 Tabela de Chavões
 Implementar Relatório
  - Model head
  - Model section
 Acervo para idendificação veicular
 Acervo para digitais
+
+=========================================================
+O que já foi feito.
+---------------------------------------------------------
+Imagem para o usuário,
+Usuário poder alterar a imagem.
+Icones para interção entre postagens, curtir, etc...
+Poder deletar postagens
+Corrigir amigos, está cadastrando tudo como amigos

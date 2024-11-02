@@ -1,4 +1,3 @@
-<!-- newreport/templates/home.html -->
 {% extends 'base.html' %}
 
 {% block title %}Home{% endblock title %}
@@ -12,9 +11,9 @@
             inicialmente desenvolvido para Peritos Criminais Oficiais do Estado de São Paulo.</p>
         <p>Faça login ou registre-se.</p>
     {% else %}
-        {% if posts %}
-            <ul>
-                {% for post in posts %}
+        {% if page_obj %}
+            <ul class="ul-post">
+                {% for post in page_obj %}
                     <li id="post-{{ post.id }}">
                         <div class="post-header">
                             {% if post.author.photo %}
@@ -47,13 +46,31 @@
                     </li>
                 {% endfor %}
             </ul>
+
+            <!-- Links de paginação -->
+            <div class="pagination">
+                <span class="step-links">
+                    {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; primeira</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                    {% endif %}
+
+                    <span class="current">
+                        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                    </span>
+
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}">próxima</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
         {% else %}
             <p>Não há postagens para exibir.</p>
         {% endif %}
     {% endif %}
 </div>
 {% endblock content %}
-
 
 {% block scripts %}
 <script>
@@ -104,4 +121,3 @@
     });
 </script>
 {% endblock scripts %}
-

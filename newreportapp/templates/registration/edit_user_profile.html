@@ -1,3 +1,4 @@
+<!-- newreportapp/templates/registration/edit_user_profile.html -->
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 {% load static %}
@@ -36,9 +37,12 @@
         </div>
 
         <h3>Trocar Senha</h3>
-        {{ password_form.as_p }} 
+        {{ password_form.as_p }}
 
-        <button type="submit" class="btn btn-primary mt-3">Atualizar</button>
+        <div class="d-flex justify-content-between mt-3">
+            <button type="submit" class="btn btn-primary">Atualizar</button>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
     </form>
 </div>
 {% endblock content %}
@@ -69,3 +73,4 @@
     });
 </script>
 {% endblock scripts %}
+

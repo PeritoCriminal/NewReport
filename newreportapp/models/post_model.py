@@ -20,7 +20,7 @@ class PostModel(models.Model):
     likes_count = models.PositiveIntegerField(default=0)
     privacy = models.CharField(
         max_length=20,
-        choices=[("public", "Público"), ("friends", "Amigos"), ("private", "Privado")],
+        choices=[("public", "Público"), ("private", "Privado")],
         default="public"
     )
     shared_post = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name="shares")
