@@ -56,12 +56,33 @@
                             {% for comment in post.comments.all|dictsortreversed:"created_at" %}
                                 <div class="comment" id="comment-{{ comment.id }}">
                                     <strong>{{ comment.user.username }}</strong> comentou em {{ comment.created_at }}:
-                                    <p>{{ comment.content|linebreaks }}</p>                                 
-                                    {% if comment.user == request.user %}
-                                        <a href="#" class="delete-comment" data-comment-id="{{ comment.id }}">
-                                            <i class="fas fa-trash"></i> Deletar
+                                    <p>{{ comment.content|linebreaks }}</p>  
+                                    
+
+
+
+
+
+
+                                    <!--Trabalhando aqui -->
+                                    <div class="interaction-bar">
+                                        <a href="#" class="icon-like" data-post-id="{{ comment.id }}">
+                                            <i class="fas fa-thumbs-up"></i>
                                         </a>
-                                    {% endif %}
+                                        <a href="#" class="icon-comment" data-post-id="{{ comment.id }}">
+                                            <i class="fas fa-comment"></i> Comentar
+                                        </a>
+                                        {% if comment.user == request.user %}
+                                            <a href="#" class="delete-comment" data-comment-id="{{ comment.id }}">
+                                                <i class="fas fa-trash"></i> Deletar
+                                            </a>
+                                        {% endif %}
+                                    </div>
+
+
+
+
+
                                 </div>                                
                             {% empty %}
                                 <div class="no-comments">Essa postagem não possui comentários.</div>

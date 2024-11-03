@@ -9,11 +9,13 @@ class CustomUserModel(AbstractUser):
     # Níveis de acesso
     VIEWER = 'viewer'
     EDITOR = 'editor'
+    MODERATOR = 'moderador'
     ADMINISTRATOR = 'administrator'
 
     ACCESS_LEVEL_CHOICES = [
         (VIEWER, 'Viewer'),
         (EDITOR, 'Editor'),
+        (MODERATOR, 'moderador'),
         (ADMINISTRATOR, 'Administrator'),
     ]
 
