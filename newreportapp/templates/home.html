@@ -48,7 +48,7 @@
                             <textarea class="comment-input" placeholder="Digite seu comentário..." rows="3"></textarea>
                             <div class="comment-buttons">
                                 <button class="btn btn-primary submit-comment" data-post-id="{{ post.id }}">Salvar</button>
-                                <button class="btn btn-secondary cancel-comment">Cancelar</button>
+                                <button class="btn btn-secondary cancel-comment" data-post-id="{{ post.id }}">Cancelar</button>
                             </div>
                         </div>
 
@@ -119,109 +119,116 @@
 {% block scripts %}
 <script>
     $(document).ready(function() {
+        
         function converterParaParagrafos(texto) {
             return texto.split('\n').map(linha => `<p>${linha.trim()}</p>`).join('');
         }
 
+        async function enviarRequisicao(url, method, data = {}) {
+            try {
+                const response = await $.ajax({
+                    url: url,
+                    method: method,
+                    data: data,
+                    timeout: 5000, // Timeout de 5 segundos
+                });
+                return response;
+            } catch (error) {
+                console.error(`Erro ao fazer a requisição para ${url}:`, error);
+            }
+        }
+
+        // Curtir post
         $('.icon-like').on('click', function(event) {
             event.preventDefault();
             const postId = $(this).data('post-id');
+            const url = `/post/${postId}/like/`;
 
-            $.ajax({
-                url: `/post/${postId}/like/`,
-                method: 'GET',
-                success: function(response) {
+            enviarRequisicao(url, 'GET').then(response => {
+                if (response) {
                     $('#likes-count-' + postId).text(response.likes_count);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Erro ao curtir o post:', error);
                 }
             });
         });
 
+        // Deletar post
         $('.delete-post').on('click', function(event) {
             event.preventDefault();
             const postId = $(this).data('post-id');
-            if (!postId) {
-                console.error('Erro: postId não definido.');
-                return;
-            }
-            const confirmed = confirm('Tem certeza que deseja deletar este post?');
-            if (confirmed) {
-                $.ajax({
-                    url: `/post/${postId}/delete/`,
-                    method: 'POST',
-                    data: {
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'
-                    },
-                    success: function(response) {
-                        $(`#post-${postId}`).remove();
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Erro ao deletar o post:', error);
-                    }
+            if (!postId) return console.error('Erro: postId não definido.');
+            
+            if (confirm('Tem certeza que deseja deletar este post?')) {
+                const url = `/post/${postId}/delete/`;
+                enviarRequisicao(url, 'POST', {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                }).then(() => {
+                    $(`#post-${postId}`).remove();
                 });
             }
         });
 
+        // Mostrar/Esconder seção de comentários ao clicar no ícone de comentário
         $('.icon-comment').on('click', function(event) {
             event.preventDefault();
             const postId = $(this).data('post-id');
             $('#comment-section-' + postId).toggle();
         });
 
-        $('.submit-comment').on('click', function(event) {
+        // Esconder a seção de comentários ao clicar no botão "Cancelar"
+        $('.cancel-comment').on('click', function(event) {
+            event.preventDefault();
             const postId = $(this).data('post-id');
-            const content = $('#comment-section-' + postId + ' .comment-input').val();
-            if (content.trim() === '') {
-                alert('Por favor, escreva um comentário antes de enviar.');
-                return;
-            }
-            $.ajax({
-                url: `/post/${postId}/comment/`,
-                method: 'POST',
-                data: {
-                    'content': content,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function(response) {
-                    $('#comment-section-' + postId).hide();
-                    $('#comment-section-' + postId + ' .comment-input').val('');
+            $('#comment-section-' + postId).hide();
+        });
 
-                    location.reload();
-                },
-                error: function(xhr, status, error) {
-                    console.error('Erro ao adicionar comentário:', error);
+        // Enviar comentário
+        $('.submit-comment').on('click', function(event) {
+            event.preventDefault();
+            const postId = $(this).data('post-id');
+            const content = $('#comment-section-' + postId + ' .comment-input').val().trim();
+            if (content === '') return alert('Por favor, escreva um comentário antes de enviar.');
+
+            const url = `/post/${postId}/comment/`;
+            enviarRequisicao(url, 'POST', {
+                'content': content,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            }).then(response => {
+                if (response) {
+                    $('#comment-section-' + postId + ' .comment-input').val('');
+                    $('#comment-section-' + postId).hide();
+
+                    // Adiciona o comentário recém-criado à lista, evitando o reload
+                    const newComment = `
+                        <div id="comment-${response.comment_id}" class="comment">
+                            <strong>${response.username}</strong> - comentou:
+                            <p>${converterParaParagrafos(response.content)}</p>
+                            {% if user.is_authenticated and user == response.user_is_author %}
+                                <button data-comment-id="${response.comment_id}" class="delete-comment">Deletar</button>
+                            {% endif %}
+                        </div>`;
+                    $('#comments-list-' + postId).append(newComment);
                 }
             });
         });
 
+        // Deletar comentário
         $('.comments-list').on('click', '.delete-comment', function(event) {
             event.preventDefault();
             const commentId = $(this).data('comment-id');
-            if (!commentId) {
-                console.error('Erro: commentId não definido.');
-                return;
-            }
-            const confirmed = confirm('Tem certeza que deseja deletar este comentário?');
-            if (confirmed) {
-                $.ajax({
-                    url: `/comment/${commentId}/delete/`,
-                    method: 'POST',
-                    data: {
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'
-                    },
-                    success: function(response) {
-                        $(`#comment-${commentId}`).remove();
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Erro ao deletar o comentário:', error);
-                    }
+            if (!commentId) return console.error('Erro: commentId não definido.');
+
+            if (confirm('Tem certeza que deseja deletar este comentário?')) {
+                const url = `/comment/${commentId}/delete/`;
+                enviarRequisicao(url, 'POST', {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                }).then(() => {
+                    $(`#comment-${commentId}`).remove();
                 });
             }
         });
     });
 
+    // Ocultar mensagens de alerta após um período
     function hideMsg(selector, timeout) {
         setTimeout(() => {
             $(selector).fadeOut();
@@ -231,3 +238,4 @@
     hideMsg('.alert', 5000);
 </script>
 {% endblock scripts %}
+
