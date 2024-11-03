@@ -11,7 +11,7 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 @admin.register(PostModel)  # Usando o decorador correto para registrar o modelo
 class PostModelAdmin(admin.ModelAdmin):
-    list_display = ('author', 'caption', 'created_at')  # Campos a serem exibidos
+    list_display = ('author', 'caption', 'created_at', 'updated_at')  # Campos a serem exibidos
     search_fields = ('author', 'created_at', 'updated_at')  # Campos pesquisáveis
     list_filter = ('privacy',)  # Filtros disponíveis
 
@@ -19,4 +19,4 @@ class PostModelAdmin(admin.ModelAdmin):
 class CommentPostModelAdmin(admin.ModelAdmin):
     list_display = ('user', 'post', 'content')  # Campos a serem exibidos
     search_fields = ('user', 'post')  # Campos pesquisáveis
-    # list_filter = ('privacy',)  # Filtros disponíveis
+    list_filter = ('user', 'post', 'content')  # Filtros disponíveis

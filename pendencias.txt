@@ -3,8 +3,12 @@ Código está crescendo.
 ====================================================
 O que falta implementar?
 ----------------------------------------------------
-Instalar sevidor apache?
-Estilizar comentário, data mnorzinha e texto um pouquinho recuado a esqeurda e maiorzinho.
+implemenar comentários de comentários
+ícones para curtir comentários
+Model curtir postagem
+Model curtir comentários
+Instalar servidor apache?
+Estilizar comentário, data menorzinha e texto um pouquinho recuado a esquerda e maiorzinho.
 Home page do usuário
 Estilizar msg de erro no base.html
 model para friends
@@ -32,3 +36,6 @@ Corrigir amigos, está cadastrando tudo como amigos
 separar form de atualização do usuário e o form de mudança de senha.
 verificar tentativa de alteração de senha e, se falhar, ficar na página.
 Comentar postagens.
+O tratamento com js é diferente do py, preciso ajustar as datas dos comentários e também os <p> ou \n
+parágrafos para comentários.
+Deletar comentários.

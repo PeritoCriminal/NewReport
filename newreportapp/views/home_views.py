@@ -15,7 +15,7 @@ def home_views(request):
         user_posts = PostModel.objects.filter(author=request.user)
 
         # Une todas as postagens relevantes
-        posts = public_posts.union(user_posts).order_by('-created_at')
+        posts = public_posts.union(user_posts).order_by('-updated_at')
 
     # Configura a paginação com 10 postagens por página
     paginator = Paginator(posts, 10)  # 10 postagens por página

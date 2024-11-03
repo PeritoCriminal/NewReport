@@ -28,6 +28,7 @@
                             <img src="{{ post.image.url }}" alt="Imagem do Post" class="imgpost">
                             <em>Publicado por <strong>{{ post.author.username }}</strong> em {{ post.created_at }}</em>
                         {% endif %}
+
                         <div class="interaction-bar">
                             <span id="likes-count-{{ post.id }}">{{ post.likes_count }}</span>
                             <a href="#" class="icon-like" data-post-id="{{ post.id }}">
@@ -36,16 +37,13 @@
                             <a href="#" class="icon-comment" data-post-id="{{ post.id }}">
                                 <i class="fas fa-comment"></i> Comentar
                             </a>
-                            <div id="post-{{ post.id }}">
-                                {% if request.user == post.author %}
-                                    <a href="#" class="icon-delete delete-post" data-post-id="{{ post.id }}">
-                                        <i class="fas fa-trash"></i> Deletar
-                                    </a>
-                                {% endif %}
-                            </div>
+                            {% if request.user == post.author %}
+                                <a href="#" class="icon-delete delete-post" data-post-id="{{ post.id }}">
+                                    <i class="fas fa-trash"></i> Deletar
+                                </a>
+                            {% endif %}
                         </div>
 
-                        <!-- Seção de comentários -->
                         <div class="comment-section" id="comment-section-{{ post.id }}" style="display: none;">
                             <textarea class="comment-input" placeholder="Digite seu comentário..." rows="3"></textarea>
                             <div class="comment-buttons">
@@ -54,22 +52,25 @@
                             </div>
                         </div>
 
-                        <!-- Exibição dos comentários existentes -->
                         <div class="comments-list" id="comments-list-{{ post.id }}">
                             {% for comment in post.comments.all|dictsortreversed:"created_at" %}
-                                <div class="comment">
-                                    <strong>{{ comment.user.username }}</strong> comentou em {{ comment.created_at }}.
-                                    <p>{{ comment.content|linebreaks }}</p>
-                                </div>
+                                <div class="comment" id="comment-{{ comment.id }}">
+                                    <strong>{{ comment.user.username }}</strong> comentou em {{ comment.created_at }}:
+                                    <p>{{ comment.content|linebreaks }}</p>                                 
+                                    {% if comment.user == request.user %}
+                                        <a href="#" class="delete-comment" data-comment-id="{{ comment.id }}">
+                                            <i class="fas fa-trash"></i> Deletar
+                                        </a>
+                                    {% endif %}
+                                </div>                                
                             {% empty %}
-                                <div class="no-comments">Nenhum comentário ainda.</div>
+                                <div class="no-comments">Essa postagem não possui comentários.</div>
                             {% endfor %}
-                        </div>        
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
 
-            <!-- Links de paginação -->
             <div class="pagination">
                 <span class="step-links">
                     {% if page_obj.has_previous %}
@@ -94,21 +95,21 @@
 </div>
 {% endblock content %}
 
-
 {% block scripts %}
 <script>
     $(document).ready(function() {
-        // Lida com a ação de curtir um post
-        $('.icon-like').on('click', function(event) {
-            event.preventDefault(); // Impede o recarregamento da página
+        function converterParaParagrafos(texto) {
+            return texto.split('\n').map(linha => `<p>${linha.trim()}</p>`).join('');
+        }
 
-            const postId = $(this).data('post-id'); // Obtém o ID do post
+        $('.icon-like').on('click', function(event) {
+            event.preventDefault();
+            const postId = $(this).data('post-id');
 
             $.ajax({
-                url: `/post/${postId}/like/`, // URL para a view de like
+                url: `/post/${postId}/like/`,
                 method: 'GET',
                 success: function(response) {
-                    // Atualiza a contagem de likes
                     $('#likes-count-' + postId).text(response.likes_count);
                 },
                 error: function(xhr, status, error) {
@@ -117,24 +118,23 @@
             });
         });
 
-        // Lida com a deleção do post
         $('.delete-post').on('click', function(event) {
-            event.preventDefault(); // Impede o recarregamento da página
-
-            const postId = $(this).data('post-id'); // Obtém o ID do post
+            event.preventDefault();
+            const postId = $(this).data('post-id');
+            if (!postId) {
+                console.error('Erro: postId não definido.');
+                return;
+            }
             const confirmed = confirm('Tem certeza que deseja deletar este post?');
-
             if (confirmed) {
-                // Se confirmado, faz a requisição AJAX para deletar o post
                 $.ajax({
-                    url: `/post/${postId}/delete/`, // URL para a view de deletar
-                    method: 'POST', // Usando POST para deletar
+                    url: `/post/${postId}/delete/`,
+                    method: 'POST',
                     data: {
-                        'csrfmiddlewaretoken': '{{ csrf_token }}' // Inclui o token CSRF
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
                     },
                     success: function(response) {
-                        // Remove o post do DOM
-                        $(`#post-${postId}`).remove(); // Supondo que o post tem o id "post-{id}"
+                        $(`#post-${postId}`).remove();
                     },
                     error: function(xhr, status, error) {
                         console.error('Erro ao deletar o post:', error);
@@ -143,47 +143,31 @@
             }
         });
 
-        // Exibir textarea ao clicar no ícone de comentar
         $('.icon-comment').on('click', function(event) {
-            event.preventDefault(); // Impede o recarregamento da página
-
-            const postId = $(this).data('post-id'); // Obtém o ID do post
-            $('#comment-section-' + postId).toggle(); // Alterna a visibilidade da seção de comentários
+            event.preventDefault();
+            const postId = $(this).data('post-id');
+            $('#comment-section-' + postId).toggle();
         });
 
-        // Lidar com o envio do comentário
         $('.submit-comment').on('click', function(event) {
-            const postId = $(this).data('post-id'); // Obtém o ID do post
-            const content = $('#comment-section-' + postId + ' .comment-input').val(); // Obtém o conteúdo do comentário
-
+            const postId = $(this).data('post-id');
+            const content = $('#comment-section-' + postId + ' .comment-input').val();
             if (content.trim() === '') {
                 alert('Por favor, escreva um comentário antes de enviar.');
                 return;
             }
-
             $.ajax({
-                url: `/post/${postId}/comment/`, // URL para a view de adicionar comentário
+                url: `/post/${postId}/comment/`,
                 method: 'POST',
                 data: {
-                    'content': content, // O conteúdo do comentário
-                    'csrfmiddlewaretoken': '{{ csrf_token }}' // Inclui o token CSRF
+                    'content': content,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function(response) {
-                    // Alerta de sucesso
-                    //alert('Comentário adicionado com sucesso!');
+                    $('#comment-section-' + postId).hide();
+                    $('#comment-section-' + postId + ' .comment-input').val('');
 
-                    // Esconde a seção de comentários após o envio
-                    $('#comment-section-' + postId).hide(); 
-
-                    // Adiciona o novo comentário à lista
-                    const newComment = `
-                        <div class="comment">
-                            <strong>${response.username}</strong> comentou em ${response.created_at}.
-                            <p>${response.content}</p>
-                        </div>
-                    `;
-                    // Prepend o novo comentário no topo da lista
-                    $('#comments-list-' + postId).prepend(newComment);
+                    location.reload();
                 },
                 error: function(xhr, status, error) {
                     console.error('Erro ao adicionar comentário:', error);
@@ -191,14 +175,38 @@
             });
         });
 
-        // Lidar com o cancelamento do comentário
-        $('.cancel-comment').on('click', function() {
-            const postId = $(this).parent().data('post-id');
-            $('#comment-section-' + postId).hide(); // Esconde a seção de comentários
+        $('.comments-list').on('click', '.delete-comment', function(event) {
+            event.preventDefault();
+            const commentId = $(this).data('comment-id');
+            if (!commentId) {
+                console.error('Erro: commentId não definido.');
+                return;
+            }
+            const confirmed = confirm('Tem certeza que deseja deletar este comentário?');
+            if (confirmed) {
+                $.ajax({
+                    url: `/comment/${commentId}/delete/`,
+                    method: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        $(`#comment-${commentId}`).remove();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erro ao deletar o comentário:', error);
+                    }
+                });
+            }
         });
     });
 
-    // Função para esconder mensagens de alerta após um tempo
+    function hideMsg(selector, timeout) {
+        setTimeout(() => {
+            $(selector).fadeOut();
+        }, timeout);
+    }
+
     hideMsg('.alert', 5000);
 </script>
 {% endblock scripts %}
