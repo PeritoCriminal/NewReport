@@ -1,6 +1,6 @@
 # newreportapp.views.__init__.py
 from .home_views import home_views
-from .user_register_views import register_user
+from .user_register_views import register_user, verify_email, send_verification_email
 from .index_views import index
 from .user_login_views import user_login_view
 from .edit_user_profile_views import edit_user_profile_view

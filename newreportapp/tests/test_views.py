@@ -2,7 +2,11 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
-from django.contrib.messages import get_messages
+from django.contrib import messages
+from django.core import mail
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
 
 class EditUserProfileViewTest(TestCase):
     
@@ -27,32 +31,66 @@ class EditUserProfileViewTest(TestCase):
         response = self.client.get(reverse('edit_user_profile'))
         self.assertRedirects(response, reverse('home'))  # Verifica redirecionamento
 
-    def test_unauthenticated_user_redirected_to_home(self):
-        self.client.logout()
-        response = self.client.get(reverse('edit_user_profile'))
-        self.assertRedirects(response, reverse('home'))
-
-    """
-    Esse teste não será mais executado vsito que a troca de senha foi removida do form de edição do usuário.
-    def test_password_change_fails_without_current_password(self):
-        response = self.client.post(reverse('edit_user_profile'), {
-            'username': 'newusername',
-            'display_name': 'New Display Name',
-            'new_password1': 'newtestpassword456',
-            'new_password2': 'newtestpassword456',
+    def test_register_user_with_existing_email(self):
+        # Tenta registrar um usuário com um e-mail já cadastrado
+        response = self.client.post(reverse('register'), {
+            'username': 'newuser',
+            'password1': 'newpassword123',
+            'password2': 'newpassword123',
+            'email': 'testuser@policiacientifica.sp.gov.br',  # E-mail existente
         })
+        self.assertFormError(response, 'form', 'email', 'Um usuário com esse e-mail já existe.')  # Verifica erro no formulário
 
-        self.user.refresh_from_db()
-        self.assertTrue(self.user.check_password('testpassword123'))
+    def test_register_user_with_existing_username(self):
+        # Tenta registrar um usuário com um nome de usuário já cadastrado
+        response = self.client.post(reverse('register'), {
+            'username': 'testuser',  # Nome de usuário existente
+            'password1': 'newpassword123',
+            'password2': 'newpassword123',
+            'email': 'newuser@policiacientifica.sp.gov.br',
+        })
+        self.assertFormError(response, 'form', 'username', 'Um usuário com esse nome já existe.')  # Verifica erro no formulário
 
-        # Exibir todas as mensagens para inspecionar o conteúdo
-        messages = list(get_messages(response.wsgi_request))
-        for message in messages:
-            print(f"Mensagem exibida: {message}")  # Linha de depuração para inspecionar as mensagens
+    def test_email_confirmation_link_sent(self):
+        # Tenta registrar um novo usuário e verifica se o link de confirmação foi enviado
+        response = self.client.post(reverse('register'), {
+            'username': 'newuser',
+            'password1': 'newpassword123',
+            'password2': 'newpassword123',
+            'email': 'newuser@policiacientifica.sp.gov.br',
+        })
+        self.assertEqual(len(mail.outbox), 1)  # Verifica que um e-mail foi enviado
+        self.assertIn('Verifique seu e-mail para concluir o cadastro', mail.outbox[0].subject)  # Verifica o assunto do e-mail
 
-        # Verificar por uma mensagem de erro mais genérica, por exemplo, "senha" para cobrir diferentes versões da mensagem
-        self.assertTrue(any('senha' in str(message).lower() for message in messages))
+    def test_user_is_not_activated_without_confirmation(self):
+        # Tenta fazer login sem confirmar o e-mail
+        response = self.client.post(reverse('register'), {
+            'username': 'newuser',
+            'password1': 'newpassword123',
+            'password2': 'newpassword123',
+            'email': 'newuser@policiacientifica.sp.gov.br',
+        })
+        self.assertRedirects(response, reverse('home'))  # Verifica redirecionamento após registro
+        user = get_user_model().objects.get(username='newuser')
+        self.assertFalse(user.is_active)  # Verifica se o usuário não está ativado
 
-        # Status 200, permanecendo na página devido ao erro
-        self.assertEqual(response.status_code, 200)
-        """
+    def test_user_can_be_activated_with_confirmation_link(self):
+        # Registra um novo usuário
+        response = self.client.post(reverse('register'), {
+            'username': 'newuser',
+            'password1': 'newpassword123',
+            'password2': 'newpassword123',
+            'email': 'newuser@policiacientifica.sp.gov.br',
+        })
+        user = get_user_model().objects.get(username='newuser')
+        
+        # Simula o clique no link de confirmação
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        verification_link = reverse('verify_email', kwargs={'uidb64': uid, 'token': token})
+        confirmation_response = self.client.get(verification_link)
+        
+        # Verifica se o usuário foi ativado
+        user.refresh_from_db()
+        self.assertTrue(user.is_active)  # Verifica se o usuário agora está ativado
+        self.assertRedirects(confirmation_response, reverse('login'))  # Verifica redirecionamento após ativação

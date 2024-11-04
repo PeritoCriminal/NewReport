@@ -1,4 +1,5 @@
 # newreportapp/forms/user_registration_form.py
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from newreportapp.models import CustomUserModel
@@ -56,13 +57,9 @@ class UserRegistrationForm(UserCreationForm):
         }
 
     def clean_email(self):
-        # Validação para garantir e-mails com domínios permitidos
         email = self.cleaned_data.get('email')
         if not any(email.endswith(domain) for domain in CustomUserModel.ALLOWED_EMAIL_DOMAINS):
             raise forms.ValidationError("O e-mail deve ser de um domínio permitido.")
-        
-        # Validação para e-mails únicos
-        if CustomUserModel.objects.filter(email=email).exists():
-            raise forms.ValidationError("Este email já está registrado.")
-        
+        if CustomUserModel.objects.filter(email=email, is_verified=True).exists():
+            raise forms.ValidationError("Este e-mail já foi registrado e verificado.")
         return email

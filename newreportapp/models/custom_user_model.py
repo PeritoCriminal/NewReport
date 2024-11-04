@@ -39,6 +39,8 @@ class CustomUserModel(AbstractUser):
         null=True,
     )
 
+    is_verified = models.BooleanField(default=False)
+
     def save(self, *args, **kwargs):
         # Exclui a imagem antiga, se existir
         if self.pk:  # Apenas se o objeto já existir
