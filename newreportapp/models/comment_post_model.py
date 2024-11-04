@@ -9,7 +9,7 @@ class ComentPostModel(models.Model):
     content = models.TextField(max_length=500)  # Conteúdo do comentário, limite de 500 caracteres
     created_at = models.DateTimeField(auto_now_add=True)  # Data de criação do comentário
     updated_at = models.DateTimeField(auto_now=True)  # Última atualização do comentário (se for editado)
-    parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')  # Para comentários em resposta a outros comentários
+    # parent_comment = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')  # Para comentários em resposta a outros comentários
     is_active = models.BooleanField(default=True)  # Para permitir desativação de comentários sem deletá-los
 
     class Meta:

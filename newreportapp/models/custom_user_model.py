@@ -1,4 +1,5 @@
-# newreportapp/models/custom_user_model.py
+# newreportapp.models.custom_user_model.py
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.exceptions import ValidationError
@@ -64,6 +65,7 @@ class CustomUserModel(AbstractUser):
         permissions = [
             ("can_view_content", "Can view content"),
             ("can_edit_content", "Can edit content"),
+            ("can_moderate_content", "Can moderate content"),
             ("can_administrate", "Can administrate"),
         ]
 

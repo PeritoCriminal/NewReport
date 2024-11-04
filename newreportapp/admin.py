@@ -1,7 +1,7 @@
 #newreportapp.admin.py
 
 from django.contrib import admin
-from .models import CustomUserModel, PostModel, ComentPostModel
+from .models import CustomUserModel, PostModel, ComentPostModel, LikeComment, LikePost
 
 @admin.register(CustomUserModel)  # Usando o decorador para registrar o modelo
 class CustomUserAdmin(admin.ModelAdmin):
@@ -20,3 +20,26 @@ class CommentPostModelAdmin(admin.ModelAdmin):
     list_display = ('user', 'post', 'content')  # Campos a serem exibidos
     search_fields = ('user', 'post')  # Campos pesquisáveis
     list_filter = ('user', 'post', 'content')  # Filtros disponíveis
+
+from django.contrib import admin
+from .models.user_likes_posts_and_comments_model import LikePost, LikeComment  # Certifique-se de que o caminho está correto
+
+@admin.register(LikePost)
+class LikePostModelAdmin(admin.ModelAdmin):
+    list_display = ('created_at', 'user', 'post', 'post_likes_count')
+
+    def post_likes_count(self, obj):
+        # Conta o número total de likes para o post associado
+        return LikePost.objects.filter(post=obj.post).count()
+    
+    post_likes_count.short_description = 'Total Likes on Post'  # Título mais descritivo
+
+@admin.register(LikeComment)
+class LikeCommentModelAdmin(admin.ModelAdmin):
+    list_display = ('created_at', 'user', 'comment', 'comment_likes_count')
+
+    def comment_likes_count(self, obj):
+        # Conta o número total de likes para o comentário associado
+        return LikeComment.objects.filter(comment=obj.comment).count()
+    
+    comment_likes_count.short_description = 'Total Likes on Comment'  # Título mais descritivo

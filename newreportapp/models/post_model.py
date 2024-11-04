@@ -1,4 +1,5 @@
 #newreportapp.models.post_model.py
+
 from django.db import models
 from newreportapp.models import CustomUserModel
 from stdimage.models import StdImageField
@@ -17,7 +18,7 @@ class PostModel(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    likes_count = models.PositiveIntegerField(default=0)
+    # likes_count = models.PositiveIntegerField(default=0)   #Posso elimnar já que quero ter uma tabela para tratar dos likes?
     privacy = models.CharField(
         max_length=20,
         choices=[("public", "Público"), ("private", "Privado")],

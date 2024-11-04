@@ -22,6 +22,10 @@ def home_views(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    # Adiciona a contagem de likes a cada post
+    for post in page_obj:
+        post.likes_count = post.likes.count()  # Adiciona um atributo likes_count a cada post
+
     return render(request, 'home.html', {
         'page_obj': page_obj,
         'is_authenticated': is_authenticated,

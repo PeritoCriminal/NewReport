@@ -29,11 +29,19 @@
                             <em>Publicado por <strong>{{ post.author.username }}</strong> em {{ post.created_at }}</em>
                         {% endif %}
 
+
+
+
+
+
+
+                        
                         <div class="interaction-bar">
-                            <span id="m-likes-count-{{ post.id }}">{{ post.likes_count }}</span>
-                            <a class="icon-like" data-post-id="{{ post.id }}">
+                            <span id="post-likes-count-{{ post.id }}">{{ post.likes_count }}</span>
+                            <a class="icon-like-post" data-url="{% url 'like_post' post.id %}" data-post-id="{{ post.id }}">
                                 <i class="fas fa-thumbs-up"></i>
                             </a>
+
                             <a href="#" class="icon-comment" data-post-id="{{ post.id }}">
                                 <i class="fas fa-comment"></i> Comentar
                             </a>
@@ -66,9 +74,11 @@
 
                                     <!--Trabalhando aqui -->
                                     <div class="interaction-bar">
-                                        <a class="icon-like" data-post-id="{{ comment.id }}">
+                                        <span id="comment-likes-count-{{ comment.id }}">{{ comment.likes.count }}</span>
+                                        <a class="icon-like-comment" data-url="{% url 'like_comment' comment.id %}" data-comment-id="{{ comment.id }}">
                                             <i class="fas fa-thumbs-up"></i>
                                         </a>
+
                                         {% if comment.user == request.user %}
                                             <a href="#" class="delete-comment" data-comment-id="{{ comment.id }}">
                                                 <i class="fas fa-trash"></i> Deletar
@@ -116,18 +126,23 @@
 {% block scripts %}
 <script>
     $(document).ready(function() {
-        
+        // Token CSRF para requisições AJAX
+        const csrftoken = '{{ csrf_token }}';
+
+        // Função para converter texto em parágrafos HTML
         function converterParaParagrafos(texto) {
             return texto.split('\n').map(linha => `<p>${linha.trim()}</p>`).join('');
         }
 
+        // Função para enviar requisições AJAX
         async function enviarRequisicao(url, method, data = {}) {
             try {
+                data['csrfmiddlewaretoken'] = csrftoken;
                 const response = await $.ajax({
                     url: url,
                     method: method,
                     data: data,
-                    timeout: 5000, // Timeout de 5 segundos
+                    timeout: 5000,
                 });
                 return response;
             } catch (error) {
@@ -135,68 +150,92 @@
             }
         }
 
-        // Curtir post
-        $('.icon-like').on('click', function(event) {
-           // event.preventDefault();
-           // const postId = $(this).data('post-id');
-           // const url = `/post/${postId}/like/`;
+        // Curtir/descurtir posts
+        $('.icon-like-post').on('click', function(event) {
+            event.preventDefault();
 
-           // enviarRequisicao(url, 'GET').then(response => {
-           //     if (response) {
-           //         $('#likes-count-' + postId).text(response.likes_count);
-           //     }
-           // });
-            console.log('Curtiu.');
+            const url = $(this).data('url');
+            const postId = $(this).data('post-id');
+            const likesCountElement = $(`#post-likes-count-${postId}`);
+
+            enviarRequisicao(url, 'POST').then(response => {
+                if (response) {
+                    likesCountElement.text(response.likes_count);
+                    console.log(response.message);
+                } else {
+                    console.error(`Erro ao fazer a requisição para ${url}`);
+                }
+            });
+        });
+
+        // Curtir/descurtir comentários
+        $('.icon-like-comment').on('click', function(event) {
+            event.preventDefault();
+
+            const commentId = $(this).data('comment-id');
+            const url = `/comment/${commentId}/like/`;
+            const likesCountElement = $(`#comment-likes-count-${commentId}`);
+
+            enviarRequisicao(url, 'POST').then(response => {
+                if (response) {
+                    likesCountElement.text(response.likes_count);
+                    console.log(response.message);
+                }
+            });
         });
 
         // Deletar post
         $('.delete-post').on('click', function(event) {
             event.preventDefault();
+
             const postId = $(this).data('post-id');
             if (!postId) return console.error('Erro: postId não definido.');
-            
+
             if (confirm('Tem certeza que deseja deletar este post?')) {
                 const url = `/post/${postId}/delete/`;
-                enviarRequisicao(url, 'POST', {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                }).then(() => {
+                enviarRequisicao(url, 'POST').then(() => {
                     $(`#post-${postId}`).remove();
                 });
             }
         });
 
-        // Mostrar/Esconder seção de comentários ao clicar no ícone de comentário
+        // Mostrar seção de comentários ao cliacar no balão
         $('.icon-comment').on('click', function(event) {
             event.preventDefault();
+
             const postId = $(this).data('post-id');
-            $('#comment-section-' + postId).show();
-            $('#comment-section-' + postId + ' .comment-input').focus();
+            $(`#comment-section-${postId}`).show();
+            $(`#comment-section-${postId} .comment-input`).focus();
         });
 
-        // Esconder a seção de comentários ao clicar no botão "Cancelar"
-        $('.cancel-comment').on('click', function(event) {
+        // Ocultar a seção de comentários ao clicar em "Cancelar"
+        $('.comments-list').on('click', '.cancel-comment', function(event) {
             event.preventDefault();
+
             const postId = $(this).data('post-id');
-            $('#comment-section-' + postId).hide();
+            $(`#comment-section-${postId}`).hide();
+            $(`#comment-section-${postId} .comment-input`).val(''); // Limpa o campo de entrada
         });
 
         // Enviar comentário
         $('.submit-comment').on('click', function(event) {
             event.preventDefault();
+
             const postId = $(this).data('post-id');
-            const content = $('#comment-section-' + postId + ' .comment-input').val().trim();
-            if (content === '') return alert('Por favor, escreva um comentário antes de enviar.');
+            const content = $(`#comment-section-${postId} .comment-input`).val().trim();
+
+            if (!content) {
+                alert('Por favor, escreva um comentário antes de enviar.');
+                return;
+            }
 
             const url = `/post/${postId}/comment/`;
-            enviarRequisicao(url, 'POST', {
-                'content': content,
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            }).then(response => {
+            enviarRequisicao(url, 'POST', { content: content }).then(response => {
                 if (response) {
-                    $('#comment-section-' + postId + ' .comment-input').val('');
-                    $('#comment-section-' + postId).hide();
+                    $(`#comment-section-${postId} .comment-input`).val('');
+                    $(`#comment-section-${postId}`).hide();
 
-                    // Adiciona o comentário recém-criado à lista, evitando o reload
+                    // Adiciona o comentário recém-criado à lista
                     const newComment = `
                         <div id="comment-${response.comment_id}" class="comment">
                             <strong>${response.username}</strong> - comentou:
@@ -205,7 +244,7 @@
                                 <button data-comment-id="${response.comment_id}" class="delete-comment">Deletar</button>
                             {% endif %}
                         </div>`;
-                    $('#comments-list-' + postId).prepend(newComment);
+                    $(`#comments-list-${postId}`).prepend(newComment);
                 }
             });
         });
@@ -213,21 +252,20 @@
         // Deletar comentário
         $('.comments-list').on('click', '.delete-comment', function(event) {
             event.preventDefault();
+
             const commentId = $(this).data('comment-id');
             if (!commentId) return console.error('Erro: commentId não definido.');
 
             if (confirm('Tem certeza que deseja deletar este comentário?')) {
                 const url = `/comment/${commentId}/delete/`;
-                enviarRequisicao(url, 'POST', {
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                }).then(() => {
+                enviarRequisicao(url, 'POST').then(() => {
                     $(`#comment-${commentId}`).remove();
                 });
             }
         });
     });
 
-    // Ocultar mensagens de alerta após um período
+    // Função para ocultar mensagens de alerta após um tempo
     function hideMsg(selector, timeout) {
         setTimeout(() => {
             $(selector).fadeOut();
@@ -237,4 +275,3 @@
     hideMsg('.alert', 5000);
 </script>
 {% endblock scripts %}
-
