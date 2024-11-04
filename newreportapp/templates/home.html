@@ -30,8 +30,8 @@
                         {% endif %}
 
                         <div class="interaction-bar">
-                            <span id="likes-count-{{ post.id }}">{{ post.likes_count }}</span>
-                            <a href="#" class="icon-like" data-post-id="{{ post.id }}">
+                            <span id="m-likes-count-{{ post.id }}">{{ post.likes_count }}</span>
+                            <a class="icon-like" data-post-id="{{ post.id }}">
                                 <i class="fas fa-thumbs-up"></i>
                             </a>
                             <a href="#" class="icon-comment" data-post-id="{{ post.id }}">
@@ -56,7 +56,7 @@
                             {% for comment in post.comments.all|dictsortreversed:"created_at" %}
                                 <div class="comment" id="comment-{{ comment.id }}">
                                     <strong>{{ comment.user.username }}</strong> comentou em {{ comment.created_at }}:
-                                    <p>{{ comment.content|linebreaks }}</p>  
+                                    <p class="comment-content">{{ comment.content|linebreaks }}</p>  
                                     
 
 
@@ -66,11 +66,8 @@
 
                                     <!--Trabalhando aqui -->
                                     <div class="interaction-bar">
-                                        <a href="#" class="icon-like" data-post-id="{{ comment.id }}">
+                                        <a class="icon-like" data-post-id="{{ comment.id }}">
                                             <i class="fas fa-thumbs-up"></i>
-                                        </a>
-                                        <a href="#" class="icon-comment" data-post-id="{{ comment.id }}">
-                                            <i class="fas fa-comment"></i> Comentar
                                         </a>
                                         {% if comment.user == request.user %}
                                             <a href="#" class="delete-comment" data-comment-id="{{ comment.id }}">
@@ -140,15 +137,16 @@
 
         // Curtir post
         $('.icon-like').on('click', function(event) {
-            event.preventDefault();
-            const postId = $(this).data('post-id');
-            const url = `/post/${postId}/like/`;
+           // event.preventDefault();
+           // const postId = $(this).data('post-id');
+           // const url = `/post/${postId}/like/`;
 
-            enviarRequisicao(url, 'GET').then(response => {
-                if (response) {
-                    $('#likes-count-' + postId).text(response.likes_count);
-                }
-            });
+           // enviarRequisicao(url, 'GET').then(response => {
+           //     if (response) {
+           //         $('#likes-count-' + postId).text(response.likes_count);
+           //     }
+           // });
+            console.log('Curtiu.');
         });
 
         // Deletar post
@@ -171,7 +169,8 @@
         $('.icon-comment').on('click', function(event) {
             event.preventDefault();
             const postId = $(this).data('post-id');
-            $('#comment-section-' + postId).toggle();
+            $('#comment-section-' + postId).show();
+            $('#comment-section-' + postId + ' .comment-input').focus();
         });
 
         // Esconder a seção de comentários ao clicar no botão "Cancelar"
@@ -206,7 +205,7 @@
                                 <button data-comment-id="${response.comment_id}" class="delete-comment">Deletar</button>
                             {% endif %}
                         </div>`;
-                    $('#comments-list-' + postId).append(newComment);
+                    $('#comments-list-' + postId).prepend(newComment);
                 }
             });
         });

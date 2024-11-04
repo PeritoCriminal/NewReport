@@ -3,8 +3,7 @@ Código está crescendo.
 ====================================================
 O que falta implementar?
 ----------------------------------------------------
-implemenar comentários de comentários
-ícones para curtir comentários
+desabilitar comentários de comentários no model
 Model curtir postagem
 Model curtir comentários
 Instalar servidor apache?
@@ -13,8 +12,6 @@ Home page do usuário
 Estilizar msg de erro no base.html
 model para friends
 segurança no cadastro, verificação de email,
-comentários em comentários,
-apagar comentários,
 implementar segurança para postagens e comentários indesejados. dedoduro e exclusão.
 Poder comentar postagens
 Implemenar possibilidade de compartilhar com pessoas especígficas
@@ -39,3 +36,5 @@ Comentar postagens.
 O tratamento com js é diferente do py, preciso ajustar as datas dos comentários e também os <p> ou \n
 parágrafos para comentários.
 Deletar comentários.
+ícones para curtir comentários
+apagar comentários,
