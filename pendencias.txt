@@ -3,6 +3,7 @@ Código está crescendo.
 ====================================================
 O que falta implementar?
 ----------------------------------------------------
+implementar lógica do btn cancelar de comentários. Não está funcionando
 Instalar servidor apache?
 Estilizar comentário, data menorzinha e texto um pouquinho recuado a esquerda e maiorzinho.
 Home page do usuário
