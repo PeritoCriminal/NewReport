@@ -6,7 +6,6 @@ O que falta implementar?
 Instalar servidor apache?
 Estilizar comentário, data menorzinha e texto um pouquinho recuado a esquerda e maiorzinho.
 Home page do usuário
-Estilizar msg de erro no base.html
 model para friends
 segurança no cadastro, verificação de email,
 implementar segurança para postagens e comentários indesejados. dedoduro e exclusão.
@@ -22,6 +21,8 @@ Limpar comentários desnecessários, enxugar o código.
 =========================================================
 O que já foi feito.
 ---------------------------------------------------------
+Estilizar msg de erro no base.html
+Implementar lógica para editar postagem somente se não houver comentários.
 implementar lógica do btn cancelar de comentários. Não está funcionando
 Imagem para o usuário,
 Usuário poder alterar a imagem.
