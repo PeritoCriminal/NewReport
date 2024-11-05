@@ -209,10 +209,11 @@
         });
 
         // Ocultar a seção de comentários ao clicar em "Cancelar"
-        $('.comments-list').on('click', '.cancel-comment', function(event) {
+        $(document).on('click', '.cancel-comment', function(event) {
             event.preventDefault();
-
             const postId = $(this).data('post-id');
+            
+            // Esconde o comentário da seção atual e limpa o campo de entrada
             $(`#comment-section-${postId}`).hide();
             $(`#comment-section-${postId} .comment-input`).val(''); // Limpa o campo de entrada
         });

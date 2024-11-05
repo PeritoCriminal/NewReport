@@ -35,6 +35,7 @@ urlpatterns = [
     path('post/<int:post_id>/like/', like_post, name='like_post'),
     path('comment/<int:comment_id>/like/', like_comment, name='like_comment'),
     path('verify-email/<uidb64>/<token>/', verify_email, name='verify_email'),
+    # path('msg_to_newcomer')
 
     path('account/edit_user_profile/', edit_user_profile_view, name='edit_user_profile'),
     path('create_post', create_post_view, name='create_post'),

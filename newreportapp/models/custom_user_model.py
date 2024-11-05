@@ -1,10 +1,9 @@
-# newreportapp.models.custom_user_model.py
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.exceptions import ValidationError
 from stdimage import StdImageField
 from django.core.files.storage import default_storage
+from django.utils.translation import gettext_lazy as _
 
 class CustomUserModel(AbstractUser):
     # Níveis de acesso
@@ -41,6 +40,9 @@ class CustomUserModel(AbstractUser):
 
     is_verified = models.BooleanField(default=False)
 
+    # Adicionando unique=True para o campo email
+    email = models.EmailField(unique=True)
+
     def save(self, *args, **kwargs):
         # Exclui a imagem antiga, se existir
         if self.pk:  # Apenas se o objeto já existir
@@ -59,7 +61,10 @@ class CustomUserModel(AbstractUser):
         if self.email:  # Verifica se o e-mail está preenchido
             # Verifica se o e-mail termina com um dos domínios permitidos
             if not any(self.email.endswith(domain) for domain in self.ALLOWED_EMAIL_DOMAINS):
-                raise ValidationError("O e-mail deve ser de um domínio permitido: " + ", ".join(self.ALLOWED_EMAIL_DOMAINS))
+                raise ValidationError(_("O e-mail deve ser de um domínio permitido: ") + ", ".join(self.ALLOWED_EMAIL_DOMAINS))
+            # Verifica se o e-mail já está em uso
+            if CustomUserModel.objects.exclude(pk=self.pk).filter(email=self.email).exists():
+                raise ValidationError(_("Este e-mail já está em uso."))
 
     class Meta:
         verbose_name = 'Custom User'
