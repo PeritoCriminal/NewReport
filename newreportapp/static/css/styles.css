@@ -157,12 +157,27 @@ li {
     align-items: center;
 }
 
+.big-interaction-bar .icon-like, 
+.big-interaction-bar .icon-comment, 
+.big-interaction-bar .icon-delete, 
+.big-interaction-bar .fas,
+.big-interaction-bar .fa-pencil-alt,
+.big-interaction-bar .fa-trash,
+.big-interaction-bar .fa-exclamation-triangle {
+    color: #555;           /* Cor padrão dos ícones */
+    text-decoration: none; /* Remove o sublinhado */
+    font-size: 20px;       /* Tamanho dos ícones */
+    display: flex;
+    margin-right: 30px;
+    align-items: justify;
+}
+
 .icon-like:hover, .icon-comment:hover, .icon-delete:hover, .fas:hover {
     color: #007bff;        /* Cor de destaque ao passar o mouse */
 }
 
 .icon-like i, .icon-comment i, .icon-delete i, .fas i {
-    margin-right: 5px;     /* Espaço entre o ícone e o texto */
+    margin-right: 0px;     /* Espaço entre o ícone e o texto */
 }
 
 .user-thumbnail {

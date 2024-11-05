@@ -7,23 +7,28 @@ from newreportapp.models import LikePost, ComentPostModel, LikeComment, PostMode
 
 @login_required
 def like_post(request, post_id):
-    # Primeiro, busca o post pelo post_id para garantir que existe
+    # Busca o post pelo post_id para garantir que existe
     post = get_object_or_404(PostModel, id=post_id)
 
-    # Em seguida, procura ou cria o 'LikePost' usando o usuário e o post
+    # Tenta obter ou criar um like relacionado ao usuário e ao post
     like, created = LikePost.objects.get_or_create(user=request.user, post=post)
 
-    if not created:
-        # Se já existe, significa que o usuário quer remover o like
+    if created:
+        # Caso o like tenha sido criado agora, significa que o usuário curtiu o post
+        message = "Liked post"
+    else:
+        # Caso contrário, o like já existia, então removemos para "descurtir"
         like.delete()
         message = "Unliked post"
-    else:
-        # Se foi criado agora, o usuário está curtindo o post
-        message = "Liked post"
 
     # Atualiza a contagem de likes do post
     likes_count = post.likes.count()
-    return JsonResponse({"message": message, "likes_count": likes_count})
+
+    # Retorna o JSON com a mensagem e a contagem atualizada de likes
+    return JsonResponse({
+        "message": message,
+        "likes_count": likes_count
+    })
 
 
 @login_required

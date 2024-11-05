@@ -25,31 +25,46 @@
                         </div>
                         <p>{{ post.content|linebreaks }}</p>
                         {% if post.image %}
-                            <img src="{{ post.image.url }}" alt="Imagem do Post" class="imgpost">
-                            <em>Publicado por <strong>{{ post.author.username }}</strong> em {{ post.created_at }}</em>
-                        {% endif %}
-
-
-
-
-
-
-
-                        
-                        <div class="interaction-bar">
+                            <div class="post-image-container mb-3">
+                                <img src="{{ post.image.url }}" alt="Imagem do Post" class="imgpost img-fluid rounded shadow-sm" style="max-width: 100%; height: auto;">
+                                <p class="text-muted mt-2">
+                                    <em>
+                                        Publicado por <strong>{{ post.author.username }}</strong> em {{ post.created_at|date:"d/m/Y H:i" }} 
+                                        {% if post.updated_at and post.updated_at != post.created_at %}
+                                            | Atualizado em {{ post.updated_at|date:"d/m/Y H:i" }}
+                                        {% endif %}
+                                    </em>
+                                </p>
+                            </div>
+                        {% endif %}                        
+                        <div class="interaction-bar big-interaction-bar">
                             <span id="post-likes-count-{{ post.id }}">{{ post.likes_count }}</span>
-                            <a class="icon-like-post" data-url="{% url 'like_post' post.id %}" data-post-id="{{ post.id }}">
+                            <a href="#" class="icon-like-post" data-url="{% url 'like_post' post.id %}" data-post-id="{{ post.id }}" title="Curtir">
                                 <i class="fas fa-thumbs-up"></i>
                             </a>
 
-                            <a href="#" class="icon-comment" data-post-id="{{ post.id }}">
-                                <i class="fas fa-comment"></i> Comentar
+                            <a href="#" class="icon-comment" data-post-id="{{ post.id }}" title="Comentar">
+                                <i class="fas fa-comment"></i>
                             </a>
+
                             {% if request.user == post.author %}
-                                <a href="#" class="icon-delete delete-post" data-post-id="{{ post.id }}">
-                                    <i class="fas fa-trash"></i> Deletar
+                                {% if not post.comments.exists %}
+                                    <a href="{% url 'create_post' post.id %}" title="Editar">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                {% endif %}
+                            
+                                <a href="#" class="icon-delete delete-post" data-post-id="{{ post.id }}" title="Deletar">
+                                    <i class="fas fa-trash"></i>
                                 </a>
+
                             {% endif %}
+                            {% if user.access_level == 'moderador' or user.access_level == 'administrador' %}  
+                                <a href="#" title="Conteúdo Crítico">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </a>  
+                            {% endif %}
+                        
                         </div>
 
                         <div class="comment-section" id="comment-section-{{ post.id }}" style="display: none;">
@@ -75,7 +90,7 @@
                                     <!--Trabalhando aqui -->
                                     <div class="interaction-bar">
                                         <span id="comment-likes-count-{{ comment.id }}">{{ comment.likes.count }}</span>
-                                        <a class="icon-like-comment" data-url="{% url 'like_comment' comment.id %}" data-comment-id="{{ comment.id }}">
+                                        <a href="#" class="icon-like-comment" data-url="{% url 'like_comment' comment.id %}" data-comment-id="{{ comment.id }}">
                                             <i class="fas fa-thumbs-up"></i>
                                         </a>
 
