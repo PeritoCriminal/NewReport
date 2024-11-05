@@ -25,6 +25,8 @@ class PostModel(models.Model):
         default="public"
     )
     shared_post = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name="shares")
+    set_as_inappropriate = models.BooleanField('Marcado como inapropriado', default=False)
+    # accept_comments = models.BooleanField('Aceita comentários', default=True)
 
     def __str__(self):
         return f"Post by {self.author.username} at {self.created_at}"

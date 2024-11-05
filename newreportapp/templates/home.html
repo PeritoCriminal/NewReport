@@ -59,10 +59,10 @@
                                 </a>
 
                             {% endif %}
-                            {% if user.access_level == 'moderador' or user.access_level == 'administrador' %}  
-                                <a href="#" title="Conteúdo Crítico">
+                            {% if user.access_level == 'moderador' or user.access_level == 'administrador' %}
+                                <a href="{% url 'mark_post_inappropriate' post.id %}" title="Conteúdo Crítico" onclick="return confirm('Você tem certeza que deseja marcar este post como inapropriado?');">
                                     <i class="fas fa-exclamation-triangle"></i>
-                                </a>  
+                                </a>
                             {% endif %}
                         
                         </div>

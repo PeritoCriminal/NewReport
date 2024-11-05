@@ -1,4 +1,5 @@
 <!-- myreportapp/templates/create_post.html -->
+
 {% extends 'base.html' %}
 
 {% block title %}Formulário para Postagem{% endblock title %}
@@ -12,11 +13,6 @@
     
     <div class="form-group">
         <label for="id_caption">Título da Postagem</label>
-        <!--
-        <span class="input-group-addon" onclick="startVoiceRecognition('id_caption')" style="cursor: pointer;">
-            <i class="fas fa-volume-up"></i> 
-        </span>
-        -->
         <div class="input-group">
             {{ form.caption }}
         </div>
@@ -24,11 +20,6 @@
     
     <div class="form-group">
         <label for="id_content">Conteúdo</label>
-        <!--
-        <span class="input-group-addon" onclick="startVoiceRecognition('id_content')" style="cursor: pointer;">
-            <i class="fas fa-volume-up"></i> 
-        </span>
-        -->
         <div class="input-group">
             {{ form.content }}
         </div>
@@ -55,8 +46,9 @@
         <label for="id_privacy">Privacidade</label>
         {{ form.privacy }}
     </div>
-
+    
     <button type="submit" class="btn btn-primary">Postar</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
 </form>
 {% endblock content %}
 
