@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from stdimage import StdImageField
 from django.core.files.storage import default_storage
 from django.utils.translation import gettext_lazy as _
-from PIL import Image
+from PIL import Image, ExifTags
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
@@ -43,6 +43,8 @@ class CustomUserModel(AbstractUser):
     # Adicionando unique=True para o campo email
     email = models.EmailField(unique=True)
 
+    ALLOWED_EMAIL_DOMAINS = ['@policiacientifica.sp.gov.br', '@policiacivil.sp.gov.br']
+
     def save(self, *args, **kwargs):
         # Exclui a imagem antiga, se existir
         if self.pk:  # Apenas se o objeto já existir
@@ -52,28 +54,43 @@ class CustomUserModel(AbstractUser):
                 if default_storage.exists(old_instance.photo.name):
                     default_storage.delete(old_instance.photo.name)
 
-        # Redimensiona a imagem antes de salvá-la
+        # Ajuste de orientação e redimensionamento da imagem antes de salvá-la
         if self.photo:
             img = Image.open(self.photo)
-            max_width = 1200  # largura máxima para notebook
+            max_width = 1200  # Largura máxima para visualização em notebook
 
-            # Redimensiona a imagem se ela for maior que o tamanho máximo
+            # Corrige a orientação da imagem com base nos metadados EXIF
+            try:
+                for orientation in ExifTags.TAGS.keys():
+                    if ExifTags.TAGS[orientation] == 'Orientation':
+                        break
+                exif = img._getexif()
+                if exif is not None:
+                    orientation_value = exif.get(orientation)
+                    if orientation_value == 3:
+                        img = img.rotate(180, expand=True)
+                    elif orientation_value == 6:
+                        img = img.rotate(270, expand=True)
+                    elif orientation_value == 8:
+                        img = img.rotate(90, expand=True)
+            except (AttributeError, KeyError, IndexError):
+                # Caso a imagem não tenha metadados EXIF ou a tag não seja encontrada
+                pass
+
+            # Redimensiona a imagem se for maior que a largura máxima
             if img.width > max_width:
-                output = BytesIO()
-                # Redimensiona mantendo a proporção
                 img = img.resize((max_width, int(img.height * (max_width / img.width))), Image.LANCZOS)
-                img.save(output, format='JPEG', quality=85)  # Ajuste de qualidade
-                output.seek(0)
 
-                # Substitui a imagem original pela versão redimensionada
-                self.photo = InMemoryUploadedFile(
-                    output, 'ImageField', f"{self.photo.name.split('.')[0]}.jpg", 'image/jpeg',
-                    sys.getsizeof(output), None
-                )
+            # Salva a imagem processada no campo photo
+            output = BytesIO()
+            img.save(output, format='JPEG', quality=85)
+            output.seek(0)
+            self.photo = InMemoryUploadedFile(
+                output, 'ImageField', f"{self.photo.name.split('.')[0]}.jpg", 'image/jpeg',
+                sys.getsizeof(output), None
+            )
 
         super().save(*args, **kwargs)
-
-    ALLOWED_EMAIL_DOMAINS = ['@policiacientifica.sp.gov.br', '@policiacivil.sp.gov.br']
 
     def clean(self):
         super().clean()  # Mantém as validações padrão
