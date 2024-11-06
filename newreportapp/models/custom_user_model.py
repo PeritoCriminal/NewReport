@@ -4,19 +4,23 @@ from django.core.exceptions import ValidationError
 from stdimage import StdImageField
 from django.core.files.storage import default_storage
 from django.utils.translation import gettext_lazy as _
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
 
 class CustomUserModel(AbstractUser):
     # Níveis de acesso
     VIEWER = 'viewer'
     EDITOR = 'editor'
-    MODERATOR = 'moderador'
+    MODERATOR = 'moderator'
     ADMINISTRATOR = 'administrator'
 
     ACCESS_LEVEL_CHOICES = [
         (VIEWER, 'Viewer'),
         (EDITOR, 'Editor'),
-        (MODERATOR, 'moderador'),
-        (ADMINISTRATOR, 'Administrator'),
+        (MODERATOR, 'Moderador'),
+        (ADMINISTRATOR, 'Administrador'),
     ]
 
     access_level = models.CharField(
@@ -30,10 +34,6 @@ class CustomUserModel(AbstractUser):
 
     photo = StdImageField(
         upload_to='user_photos/',
-        variations={
-            'large': (300, 300),
-            'thumbnail': (100, 100, True),
-        },
         blank=True,
         null=True,
     )
@@ -51,6 +51,25 @@ class CustomUserModel(AbstractUser):
                 # Remove a imagem antiga do armazenamento
                 if default_storage.exists(old_instance.photo.name):
                     default_storage.delete(old_instance.photo.name)
+
+        # Redimensiona a imagem antes de salvá-la
+        if self.photo:
+            img = Image.open(self.photo)
+            max_width = 1200  # largura máxima para notebook
+
+            # Redimensiona a imagem se ela for maior que o tamanho máximo
+            if img.width > max_width:
+                output = BytesIO()
+                # Redimensiona mantendo a proporção
+                img = img.resize((max_width, int(img.height * (max_width / img.width))), Image.LANCZOS)
+                img.save(output, format='JPEG', quality=85)  # Ajuste de qualidade
+                output.seek(0)
+
+                # Substitui a imagem original pela versão redimensionada
+                self.photo = InMemoryUploadedFile(
+                    output, 'ImageField', f"{self.photo.name.split('.')[0]}.jpg", 'image/jpeg',
+                    sys.getsizeof(output), None
+                )
 
         super().save(*args, **kwargs)
 

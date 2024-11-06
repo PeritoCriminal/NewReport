@@ -42,31 +42,25 @@
                             <a href="#" class="icon-like-post" data-url="{% url 'like_post' post.id %}" data-post-id="{{ post.id }}" title="Curtir">
                                 <i class="fas fa-thumbs-up"></i>
                             </a>
-
                             <a href="#" class="icon-comment" data-post-id="{{ post.id }}" title="Comentar">
                                 <i class="fas fa-comment"></i>
                             </a>
-
                             {% if request.user == post.author %}
                                 {% if not post.comments.exists %}
                                     <a href="{% url 'create_post' post.id %}" title="Editar">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
-                                {% endif %}
-                            
+                                {% endif %}                            
                                 <a href="#" class="icon-delete delete-post" data-post-id="{{ post.id }}" title="Deletar">
                                     <i class="fas fa-trash"></i>
                                 </a>
-
                             {% endif %}
-                            {% if user.access_level == 'moderador' or user.access_level == 'administrador' %}
+                            {% if user.access_level == 'moderator' or user.access_level == 'administrator' %}
                                 <a href="{% url 'mark_post_inappropriate' post.id %}" title="Conteúdo Crítico" onclick="return confirm('Você tem certeza que deseja marcar este post como inapropriado?');">
                                     <i class="fas fa-exclamation-triangle"></i>
                                 </a>
-                            {% endif %}
-                        
+                            {% endif %}                        
                         </div>
-
                         <div class="comment-section" id="comment-section-{{ post.id }}" style="display: none;">
                             <textarea class="comment-input" placeholder="Digite seu comentário..." rows="3"></textarea>
                             <div class="comment-buttons">
@@ -74,37 +68,22 @@
                                 <button class="btn btn-secondary cancel-comment" data-post-id="{{ post.id }}">Cancelar</button>
                             </div>
                         </div>
-
                         <div class="comments-list" id="comments-list-{{ post.id }}">
                             {% for comment in post.comments.all|dictsortreversed:"created_at" %}
                                 <div class="comment" id="comment-{{ comment.id }}">
                                     <strong>{{ comment.user.username }}</strong> comentou em {{ comment.created_at }}:
-                                    <p class="comment-content">{{ comment.content|linebreaks }}</p>  
-                                    
-
-
-
-
-
-
-                                    <!--Trabalhando aqui -->
+                                    <p class="comment-content">{{ comment.content|linebreaks }}</p> 
                                     <div class="interaction-bar">
                                         <span id="comment-likes-count-{{ comment.id }}">{{ comment.likes.count }}</span>
                                         <a href="#" class="icon-like-comment" data-url="{% url 'like_comment' comment.id %}" data-comment-id="{{ comment.id }}">
                                             <i class="fas fa-thumbs-up"></i>
-                                        </a>
-
-                                        {% if comment.user == request.user %}
+                                        </a>                                    
+                                        {% if comment.user == request.user or post.author == request.user %}
                                             <a href="#" class="delete-comment" data-comment-id="{{ comment.id }}">
                                                 <i class="fas fa-trash"></i> Deletar
                                             </a>
                                         {% endif %}
                                     </div>
-
-
-
-
-
                                 </div>                                
                             {% empty %}
                                 <div class="no-comments">Essa postagem não possui comentários.</div>
@@ -113,18 +92,15 @@
                     </li>
                 {% endfor %}
             </ul>
-
             <div class="pagination">
                 <span class="step-links">
                     {% if page_obj.has_previous %}
                         <a href="?page=1">&laquo; primeira</a>
                         <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
                     {% endif %}
-
                     <span class="current">
                         Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
                     </span>
-
                     {% if page_obj.has_next %}
                         <a href="?page={{ page_obj.next_page_number }}">próxima</a>
                         <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
@@ -132,11 +108,12 @@
                 </span>
             </div>
         {% else %}
-            <p>Não há postagens para exibir.</p>
+            <h4 class="titulo-2">Não há postagens para exibir.</h4>
         {% endif %}
     {% endif %}
 </div>
 {% endblock content %}
+
 
 {% block scripts %}
 <script>

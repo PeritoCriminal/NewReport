@@ -142,19 +142,29 @@ li {
     margin-left: 20px; /* opcional, para afastar o texto da borda */
 }
 
-.interaction-bar {
+.interaction-bar, .big-interaction-bar {
     margin-top: 10px;
     display: flex;
-    gap: 15px;
+    gap: 25px;  /* Espaçamento uniforme entre os ícones */
     align-items: center;
 }
 
-.icon-like, .icon-comment, .icon-delete, .fas {
-    color: #555;           /* Cor padrão dos ícones */
-    text-decoration: none; /* Remove o sublinhado */
-    font-size: 16px;       /* Tamanho dos ícones */
+.icon-like, .icon-comment, .icon-delete, .fas, 
+.big-interaction-bar .icon-like, 
+.big-interaction-bar .icon-comment, 
+.big-interaction-bar .icon-delete, 
+.big-interaction-bar .fas,
+.big-interaction-bar .fa-pencil-alt,
+.big-interaction-bar .fa-trash,
+.big-interaction-bar .fa-exclamation-triangle {
+    color: #555;                /* Cor padrão dos ícones */
+    text-decoration: none;      /* Remove o sublinhado */
     display: flex;
-    align-items: center;
+    align-items: center;        /* Alinhamento vertical dos ícones */
+}
+
+.icon-like, .icon-comment, .icon-delete, .fas {
+    font-size: 16px;           /* Tamanho dos ícones padrão */
 }
 
 .big-interaction-bar .icon-like, 
@@ -164,21 +174,17 @@ li {
 .big-interaction-bar .fa-pencil-alt,
 .big-interaction-bar .fa-trash,
 .big-interaction-bar .fa-exclamation-triangle {
-    color: #555;           /* Cor padrão dos ícones */
-    text-decoration: none; /* Remove o sublinhado */
-    font-size: 20px;       /* Tamanho dos ícones */
-    display: flex;
-    margin-right: 30px;
-    align-items: justify;
+    font-size: 20px;           /* Tamanho dos ícones na big-interaction-bar */
 }
 
 .icon-like:hover, .icon-comment:hover, .icon-delete:hover, .fas:hover {
-    color: #007bff;        /* Cor de destaque ao passar o mouse */
+    color: #007bff;            /* Cor de destaque ao passar o mouse */
 }
 
 .icon-like i, .icon-comment i, .icon-delete i, .fas i {
-    margin-right: 0px;     /* Espaço entre o ícone e o texto */
+    margin-right: 10px;        /* Espaço entre o ícone e o texto */
 }
+
 
 .user-thumbnail {
     width: 50px;  /* Defina o tamanho desejado para o thumbnail */
@@ -327,11 +333,10 @@ li {
     margin-left: 10px; /* Espaçamento entre os botões */
 }
 
-/*
+
 .alert-error, .alert-danger {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
     border-radius: 4px;
 }
-*/

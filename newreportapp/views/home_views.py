@@ -14,7 +14,7 @@ def home_views(request):
         public_posts = PostModel.objects.filter(privacy='public', set_as_inappropriate=False)
 
         # Filtra postagens do usuário que não são inapropriadas
-        user_posts = PostModel.objects.filter(author=request.user, set_as_inappropriate=False)
+        user_posts = PostModel.objects.filter(author=request.user)
 
         # Une todas as postagens relevantes
         posts = public_posts.union(user_posts).order_by('-updated_at')
@@ -31,4 +31,5 @@ def home_views(request):
     return render(request, 'home.html', {
         'page_obj': page_obj,
         'is_authenticated': is_authenticated,
+        # 'user': user,
     })

@@ -37,13 +37,16 @@ def comment_post_view(request, post_id):
             
     return JsonResponse({'error': 'Método não permitido.'}, status=405)  # 405 Method Not Allowed
 
+
 @login_required
 def delete_comment_view(request, comment_id):
     comment = get_object_or_404(ComentPostModel, id=comment_id)
+    post = comment.post  # Supondo que `ComentPostModel` tenha um campo de relacionamento com o post, como `post = ForeignKey(PostModel, ...)`
 
-    # Verifique se o usuário logado é o autor do comentário
-    if comment.user != request.user:
+    # Verifique se o usuário logado é o autor do comentário ou o autor do post
+    if request.user != comment.user and request.user != post.author:
         return JsonResponse({'error': 'Você não tem permissão para deletar este comentário.'}, status=403)
     
+    # Deleta o comentário se a verificação de permissão passou
     comment.delete()
     return JsonResponse({'message': 'Comentário deletado com sucesso!'}, status=200)

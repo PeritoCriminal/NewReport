@@ -35,8 +35,13 @@ class CustomUserModelTest(TestCase):
     
     def test_default_access_level(self):
         """Verifica se o nível de acesso padrão é 'VIEWER'."""
-        user = CustomUserModel.objects.create_user(username='defaultuser', password='defaultpass123')
+        user = CustomUserModel.objects.create_user(
+            username='defaultuser',
+            email='thisdefaultuserisfakeonlyfortests@policiacientifica.sp.gov.br',
+            password='defaultpass123'
+        )
         self.assertEqual(user.access_level, CustomUserModel.VIEWER)
+
     
     def test_str_method(self):
         """Verifica se o método __str__ retorna o username corretamente."""

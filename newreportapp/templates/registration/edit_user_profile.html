@@ -13,7 +13,7 @@
 
         <!-- Exibir imagem de perfil -->
         <div class="form-group text-center">
-            <img id="profile-photo" src="{% if profile_form.instance.photo %}{{ profile_form.instance.photo.url }}{% else %}{% static 'default_photo.png' %}{% endif %}" alt="Foto de Perfil" class="user-photo mb-3" />
+            <img id="profile-photo" src="{% if profile_form.instance.photo %}{{ profile_form.instance.photo.url }}{% else %}{% static 'images/user_default_photo.png' %}{% endif %}" alt="Foto de Perfil" class="user-photo mb-3" />
             <input type="file" id="id_photo" name="photo" class="form-control-file d-none" accept="image/*" />
             <label for="id_photo" class="btn btn-secondary" id="change-photo-label">Alterar Foto</label>
         </div>
