@@ -5,7 +5,7 @@
     margin-top: 45px !important;
 }
 
-.titulo-post{
+.titulo-post {
     color: gray !important;
     margin-bottom: 20px !important;
     margin-top: 45px !important;
@@ -13,7 +13,7 @@
     margin-left: 20px;
 }
 
-.post-header{
+.post-header {
     margin-top: 40px;
 }
 
@@ -64,25 +64,40 @@ textarea::placeholder {
 }
 
 p.legenda {
-    text-align: center; /* Centraliza o texto */
-    font-family: Arial, sans-serif; /* Define a fonte como Arial */
-    font-size: 12px; /* Define o tamanho da fonte como 12px */
-    font-style: italic; /* Define o estilo como itÃ¡lico */
-    margin-top: 10px; /* Adiciona um espaÃ§o acima da legenda */
-    color: #be1616; /* Cor de texto para melhor visibilidade */
+    text-align: center;
+    /* Centraliza o texto */
+    font-family: Arial, sans-serif;
+    /* Define a fonte como Arial */
+    font-size: 12px;
+    /* Define o tamanho da fonte como 12px */
+    font-style: italic;
+    /* Define o estilo como itÃ¡lico */
+    margin-top: 10px;
+    /* Adiciona um espaÃ§o acima da legenda */
+    color: #be1616;
+    /* Cor de texto para melhor visibilidade */
 }
 
 /* Estilos para a imagem */
 .img-report {
-    display: block; /* Permite que a imagem seja tratada como um bloco */
-    max-width: 16cm; /* Define a largura mÃ¡xima de 16 cm */
-    width: 100%; /* Faz com que a imagem ocupe 100% da largura do contÃªiner pai */
-    height: auto; /* MantÃ©m a proporÃ§Ã£o da imagem */
-    border: 1px solid black; /* Adiciona uma borda de 1px preta */
-    padding: 0; /* Remove qualquer espaÃ§amento interno */
-    background-color: #fff; /* Fundo branco para destacar a imagem */
-    float: left; /* Faz com que a imagem flutue Ã  esquerda */
-    margin-right: 15px; /* Adiciona um espaÃ§o Ã  direita da imagem, se necessÃ¡rio */
+    display: block;
+    /* Permite que a imagem seja tratada como um bloco */
+    max-width: 16cm;
+    /* Define a largura mÃ¡xima de 16 cm */
+    width: 100%;
+    /* Faz com que a imagem ocupe 100% da largura do contÃªiner pai */
+    height: auto;
+    /* MantÃ©m a proporÃ§Ã£o da imagem */
+    border: 1px solid black;
+    /* Adiciona uma borda de 1px preta */
+    padding: 0;
+    /* Remove qualquer espaÃ§amento interno */
+    background-color: #fff;
+    /* Fundo branco para destacar a imagem */
+    float: left;
+    /* Faz com que a imagem flutue Ã  esquerda */
+    margin-right: 15px;
+    /* Adiciona um espaÃ§o Ã  direita da imagem, se necessÃ¡rio */
 }
 
 
@@ -96,11 +111,13 @@ textarea::placeholder {
 }
 
 .navbar-nav {
-    white-space: nowrap; /* Impede que os itens do menu quebrem linha */
+    white-space: nowrap;
+    /* Impede que os itens do menu quebrem linha */
 }
 
 .overflow-auto {
-    max-width: 100%; /* Garante que o contÃªiner nÃ£o ultrapasse a largura da tela */
+    max-width: 100%;
+    /* Garante que o contÃªiner nÃ£o ultrapasse a largura da tela */
 }
 
 
@@ -109,17 +126,20 @@ textarea::placeholder {
 
 
 .container {
-    max-width: 800px; /* Ajuste a largura máxima do contêiner do formulário */
+    max-width: 800px;
+    /* Ajuste a largura máxima do contêiner do formulário */
 }
 
 .form-responsive label,
 .form-responsive input {
-    font-size: 0.9rem; /* Reduz o tamanho da fonte */
+    font-size: 0.9rem;
+    /* Reduz o tamanho da fonte */
 }
 
 @media (min-width: 768px) {
     .form-responsive {
-        max-width: 400px; /* Largura máxima do formulário para telas maiores */
+        max-width: 400px;
+        /* Largura máxima do formulário para telas maiores */
     }
 }
 
@@ -133,127 +153,180 @@ hr {
     height: auto;
     display: block;
     margin: 0 auto;
-    border: 1px solid black; /* Correção: valores separados por espaços */
-    border-radius: 8px; /* Opcional: bordas arredondadas */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Opcional: sombra para destaque */
-}
-li {
-    list-style-type: none;
-    margin-left: 20px; /* opcional, para afastar o texto da borda */
+    border: 1px solid black;
+    /* Correção: valores separados por espaços */
+    border-radius: 8px;
+    /* Opcional: bordas arredondadas */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    /* Opcional: sombra para destaque */
 }
 
-.interaction-bar, .big-interaction-bar {
+li {
+    list-style-type: none;
+    margin-left: 20px;
+    /* opcional, para afastar o texto da borda */
+}
+
+.interaction-bar,
+.big-interaction-bar {
     margin-top: 10px;
     display: flex;
-    gap: 25px;  /* Espaçamento uniforme entre os ícones */
+    gap: 25px;
+    /* Espaçamento uniforme entre os ícones */
     align-items: center;
 }
 
-.icon-like, .icon-comment, .icon-delete, .fas, 
-.big-interaction-bar .icon-like, 
-.big-interaction-bar .icon-comment, 
-.big-interaction-bar .icon-delete, 
+.icon-like,
+.icon-comment,
+.icon-delete,
+.fas,
+.big-interaction-bar .icon-like,
+.big-interaction-bar .icon-comment,
+.big-interaction-bar .icon-delete,
 .big-interaction-bar .fas,
 .big-interaction-bar .fa-pencil-alt,
 .big-interaction-bar .fa-trash,
 .big-interaction-bar .fa-exclamation-triangle {
-    color: #555;                /* Cor padrão dos ícones */
-    text-decoration: none;      /* Remove o sublinhado */
+    color: #555;
+    /* Cor padrão dos ícones */
+    text-decoration: none;
+    /* Remove o sublinhado */
     display: flex;
-    align-items: center;        /* Alinhamento vertical dos ícones */
+    align-items: center;
+    /* Alinhamento vertical dos ícones */
 }
 
-.icon-like, .icon-comment, .icon-delete, .fas {
-    font-size: 16px;           /* Tamanho dos ícones padrão */
+.icon-like,
+.icon-comment,
+.icon-delete,
+.fas {
+    font-size: 16px;
+    /* Tamanho dos ícones padrão */
 }
 
-.big-interaction-bar .icon-like, 
-.big-interaction-bar .icon-comment, 
-.big-interaction-bar .icon-delete, 
+.big-interaction-bar .icon-like,
+.big-interaction-bar .icon-comment,
+.big-interaction-bar .icon-delete,
 .big-interaction-bar .fas,
 .big-interaction-bar .fa-pencil-alt,
 .big-interaction-bar .fa-trash,
 .big-interaction-bar .fa-exclamation-triangle {
-    font-size: 20px;           /* Tamanho dos ícones na big-interaction-bar */
+    font-size: 20px;
+    /* Tamanho dos ícones na big-interaction-bar */
 }
 
-.icon-like:hover, .icon-comment:hover, .icon-delete:hover, .fas:hover {
-    color: #007bff;            /* Cor de destaque ao passar o mouse */
+.icon-like:hover,
+.icon-comment:hover,
+.icon-delete:hover,
+.fas:hover {
+    color: #007bff;
+    /* Cor de destaque ao passar o mouse */
 }
 
-.icon-like i, .icon-comment i, .icon-delete i, .fas i {
-    margin-right: 10px;        /* Espaço entre o ícone e o texto */
+.icon-like i,
+.icon-comment i,
+.icon-delete i,
+.fas i {
+    margin-right: 10px;
+    /* Espaço entre o ícone e o texto */
 }
 
 
 .user-thumbnail {
-    width: 50px;  /* Defina o tamanho desejado para o thumbnail */
+    width: 50px;
+    /* Defina o tamanho desejado para o thumbnail */
     height: 50px;
-    border-radius: 50%;  /* Para deixar a imagem circular */
-    object-fit: cover;  /* Para centralizar e cortar a imagem se necessário */
+    border-radius: 50%;
+    /* Para deixar a imagem circular */
+    object-fit: cover;
+    /* Para centralizar e cortar a imagem se necessário */
     border: 1px solid gray;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .user-large-thumbnail {
-    width: 200px;  /* Defina o tamanho desejado para o thumbnail */
+    width: 200px;
+    /* Defina o tamanho desejado para o thumbnail */
     height: 200px;
     margin-left: 20px;
     margin-top: 20px;
-    border-radius: 50%;  /* Para deixar a imagem circular */
-    object-fit: cover;  /* Para centralizar e cortar a imagem se necessário */
+    border-radius: 50%;
+    /* Para deixar a imagem circular */
+    object-fit: cover;
+    /* Para centralizar e cortar a imagem se necessário */
     border: 1px solid gray;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.user-photo{
-    width: 300px;  /* Defina o tamanho desejado para o thumbnail */    
-    border-radius: 8px;  /* Para deixar a imagem circular */
-    object-fit: cover;  /* Para centralizar e cortar a imagem se necessário */
+.user-photo {
+    width: 300px;
+    /* Defina o tamanho desejado para o thumbnail */
+    border-radius: 8px;
+    /* Para deixar a imagem circular */
+    object-fit: cover;
+    /* Para centralizar e cortar a imagem se necessário */
     border: 1px solid gray;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .pagination {
     display: flex;
-    justify-content: center; /* Centraliza os itens */
-    margin: 20px 0; /* Margem acima e abaixo da paginação */
+    justify-content: center;
+    /* Centraliza os itens */
+    margin: 20px 0;
+    /* Margem acima e abaixo da paginação */
 }
 
 .step-links {
     display: flex;
-    list-style: none; /* Remove os marcadores da lista */
+    list-style: none;
+    /* Remove os marcadores da lista */
 }
 
 .step-links a {
-    padding: 8px 12px; /* Espaçamento interno */
-    margin: 0 5px; /* Margem entre os links */
-    border: 1px solid #007bff; /* Borda azul */
-    border-radius: 4px; /* Cantos arredondados */
-    color: #007bff; /* Cor do texto */
-    text-decoration: none; /* Remove o sublinhado */
-    transition: background-color 0.3s, color 0.3s; /* Transições suaves */
+    padding: 8px 12px;
+    /* Espaçamento interno */
+    margin: 0 5px;
+    /* Margem entre os links */
+    border: 1px solid #007bff;
+    /* Borda azul */
+    border-radius: 4px;
+    /* Cantos arredondados */
+    color: #007bff;
+    /* Cor do texto */
+    text-decoration: none;
+    /* Remove o sublinhado */
+    transition: background-color 0.3s, color 0.3s;
+    /* Transições suaves */
 }
 
 .step-links a:hover {
-    background-color: #007bff; /* Cor de fundo ao passar o mouse */
-    color: #fff; /* Cor do texto ao passar o mouse */
+    background-color: #007bff;
+    /* Cor de fundo ao passar o mouse */
+    color: #fff;
+    /* Cor do texto ao passar o mouse */
 }
 
 .step-links .current {
-    padding: 8px 12px; /* Espaçamento interno */
-    margin: 0 5px; /* Margem entre os links */
-    background-color: #007bff; /* Cor de fundo para a página atual */
-    color: #fff; /* Cor do texto da página atual */
-    border-radius: 4px; /* Cantos arredondados */
+    padding: 8px 12px;
+    /* Espaçamento interno */
+    margin: 0 5px;
+    /* Margem entre os links */
+    background-color: #007bff;
+    /* Cor de fundo para a página atual */
+    color: #fff;
+    /* Cor do texto da página atual */
+    border-radius: 4px;
+    /* Cantos arredondados */
 }
 
-.ul-post{
+.ul-post {
     padding-left: 0px;
 }
 
 .alert {
-    margin-top: 60px;  /* Ajuste conforme necessário para o espaço entre o menu e a mensagem */
+    margin-top: 60px;
+    /* Ajuste conforme necessário para o espaço entre o menu e a mensagem */
 }
 
 /* Estilo geral da lista de comentários */
@@ -261,8 +334,10 @@ li {
     margin-top: 20px;
     padding: 10px;
     border-top: 1px solid #e0e0e0;
-    max-height: 300px; /* Define a altura máxima para a lista de comentários */
-    overflow-y: auto; /* Adiciona uma barra de rolagem vertical */
+    max-height: 300px;
+    /* Define a altura máxima para a lista de comentários */
+    overflow-y: auto;
+    /* Adiciona uma barra de rolagem vertical */
 }
 
 /* Estilo para cada comentário */
@@ -287,12 +362,14 @@ li {
 
 /* Destacando o último comentário (removendo a linha inferior) */
 .comment:last-child {
-    border-bottom: none; /* Remove a linha inferior do último comentário */
+    border-bottom: none;
+    /* Remove a linha inferior do último comentário */
 }
 
 /* Estilo para o nome do usuário no comentário */
 .comment strong {
-    color: #007bff; /* Cor azul para o nome do usuário */
+    color: #007bff;
+    /* Cor azul para o nome do usuário */
 }
 
 /* Estilo para o texto do comentário */
@@ -311,50 +388,77 @@ li {
 
 /* Estilo para a mensagem quando não há comentários */
 .no-comments {
-    color: #999; /* Cor mais clara para indicar que não há comentários */
-    font-style: italic; /* Estilo itálico para a mensagem */
-    text-align: center; /* Centraliza a mensagem */
+    color: #999;
+    /* Cor mais clara para indicar que não há comentários */
+    font-style: italic;
+    /* Estilo itálico para a mensagem */
+    text-align: center;
+    /* Centraliza a mensagem */
 }
 
 /* Hover sobre o comentário (opcional) */
 .comment:hover {
-    background-color: #f0f0f0; /* Fundo levemente diferente ao passar o mouse */
-    transition: background-color 0.3s; /* Transição suave */
+    background-color: #f0f0f0;
+    /* Fundo levemente diferente ao passar o mouse */
+    transition: background-color 0.3s;
+    /* Transição suave */
 }
 
 /*--------*/
 
 .comment-section {
-    margin-top: 10px; /* Espaço acima da seção de comentários */
-    padding: 10px; /* Espaço interno */
-    background-color: #f8f9fa; /* Cor de fundo suave */
+    margin-top: 10px;
+    /* Espaço acima da seção de comentários */
+    padding: 10px;
+    /* Espaço interno */
+    background-color: #f8f9fa;
+    /* Cor de fundo suave */
     /*border: 1px solid #ced4da; /* Borda leve */
     /*border-radius: 5px; /* Cantos arredondados */
 }
 
 .comment-input {
-    width: 100%; /* Faz com que a textarea ocupe toda a largura disponível */
-    padding: 10px; /* Espaçamento interno */
-    border: 1px solid #ced4da; /* Borda leve */
-    border-radius: 5px; /* Cantos arredondados */
-    resize: none; /* Impede que o usuário redimensione a textarea */
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interna sutil */
-    margin-bottom: 10px; /* Espaço abaixo da textarea */
+    width: 100%;
+    /* Faz com que a textarea ocupe toda a largura disponível */
+    padding: 10px;
+    /* Espaçamento interno */
+    border: 1px solid #ced4da;
+    /* Borda leve */
+    border-radius: 5px;
+    /* Cantos arredondados */
+    resize: none;
+    /* Impede que o usuário redimensione a textarea */
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Sombra interna sutil */
+    margin-bottom: 10px;
+    /* Espaço abaixo da textarea */
 }
 
 .comment-buttons {
-    display: flex; /* Exibe os botões lado a lado */
-    justify-content: flex-end; /* Alinha os botões à direita */
+    display: flex;
+    /* Exibe os botões lado a lado */
+    justify-content: flex-end;
+    /* Alinha os botões à direita */
 }
 
 .comment-buttons .btn {
-    margin-left: 10px; /* Espaçamento entre os botões */
+    margin-left: 10px;
+    /* Espaçamento entre os botões */
 }
 
 
-.alert-error, .alert-danger {
+.alert-error,
+.alert-danger {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
     border-radius: 4px;
+}
+
+.msg_error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    padding: 15px;
 }

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
 from newreportapp.models import PostModel
+from django.contrib import messages
 
 def home_views(request):
     # Inicializa a queryset de postagens vazia
@@ -13,7 +14,7 @@ def home_views(request):
         # Filtra postagens públicas que não são inapropriadas
         public_posts = PostModel.objects.filter(privacy='public', set_as_inappropriate=False)
 
-        # Filtra postagens do usuário que não são inapropriadas
+        # Filtra postagens do usuário.
         user_posts = PostModel.objects.filter(author=request.user)
 
         # Une todas as postagens relevantes
@@ -27,6 +28,9 @@ def home_views(request):
     # Adiciona a contagem de likes a cada post
     for post in page_obj:
         post.likes_count = post.likes.count()  # Adiciona um atributo likes_count a cada post
+        # if post.set_as_inappropriate:
+        #    messages.error(request, "Um dos moderadores ou administrador removeu a publicidade dessa postagem. Ela não será mais exibida publicamente. Você pode fazer uma nova postagem, mas lembre-se de que as postagens devem estar de acordo com as regras.")
+
 
     return render(request, 'home.html', {
         'page_obj': page_obj,

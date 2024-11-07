@@ -23,6 +23,12 @@
                                 <span class="titulo-post">{{ post.caption }}</span>
                             {% endif %}
                         </div>
+                        {% if post.set_as_inappropriate %}
+                            <div class="msg_error">
+                                <p><strong>Atenção!</strong></p>
+                                <p>Um moderador ou administrador removeu a visibilidade pública desta postagem. Ela não será mais exibida para outros usuários.</p>
+                            </div>
+                        {% endif %}
                         <p>{{ post.content|linebreaks }}</p>
                         {% if post.image %}
                             <div class="post-image-container mb-3">
@@ -233,7 +239,7 @@
                     $(`#comment-section-${postId} .comment-input`).val('');
                     $(`#comment-section-${postId}`).hide();
 
-                    // Adiciona o comentário recém-criado à lista
+                    // Adiciona o comentário recém-criado à lista inapropriado
                     const newComment = `
                         <div id="comment-${response.comment_id}" class="comment">
                             <strong>${response.username}</strong> - comentou:
@@ -274,6 +280,25 @@
             $(selector).fadeOut();
         }, timeout);
     }
+
+    // Evento para marcar post como inapropriado
+    $('.mark-inappropriate').on('click', function(event) {
+        event.preventDefault();
+
+        const url = $(this).data('url');
+        const postId = $(this).data('post-id');
+
+        if (confirm('Você tem certeza que deseja marcar este post como inapropriado?')) {
+            enviarRequisicao(url, 'POST').then(response => {
+                if (response) {
+                    alert(response.message); // Exibe a resposta do servidor
+                } else {
+                    console.error(`Erro ao fazer a requisição para ${url}`);
+                }
+            });
+        }
+    });
+
 
     hideMsg('.alert', 8000);
 
