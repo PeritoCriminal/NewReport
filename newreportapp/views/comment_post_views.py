@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone  # Importar timezone para obter a data e hora atuais
-from newreportapp.models.post_model import PostModel
-from newreportapp.models.comment_post_model import ComentPostModel
+from newreportapp.models.interaction.post_model import PostModel
+from newreportapp.models.interaction.comment_post_model import ComentPostModel
 from newreportapp.forms import CommentForm
 
 @login_required

@@ -22,7 +22,7 @@ class CommentPostModelAdmin(admin.ModelAdmin):
     list_filter = ('user', 'post', 'content')  # Filtros disponíveis
 
 from django.contrib import admin
-from .models.user_likes_posts_and_comments_model import LikePost, LikeComment  # Certifique-se de que o caminho está correto
+from .models.interaction.user_likes_posts_and_comments_model import LikePost, LikeComment  # Certifique-se de que o caminho está correto
 
 @admin.register(LikePost)
 class LikePostModelAdmin(admin.ModelAdmin):
