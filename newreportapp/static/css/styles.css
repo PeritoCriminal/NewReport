@@ -261,16 +261,11 @@ li {
     margin-top: 20px;
     padding: 10px;
     border-top: 1px solid #e0e0e0;
-    max-height: 2000px; /* Define a altura máxima para a lista de comentários */
+    max-height: 300px; /* Define a altura máxima para a lista de comentários */
     overflow-y: auto; /* Adiciona uma barra de rolagem vertical */
 }
 
 /* Estilo para cada comentário */
-.comment {
-    padding: 10px;
-    border-bottom: 1px solid #e0e0e0;
-    margin-bottom: 15px;
-}
 
 .comment-header {
     font-size: 0.9em;
@@ -308,7 +303,7 @@ li {
 }
 
 .comment-content {
-    font-size: 1.1em;
+    font-size: 1.2em;
     color: #444;
     line-height: 1.5em;
     margin-top: 5px;

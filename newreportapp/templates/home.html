@@ -276,5 +276,14 @@
     }
 
     hideMsg('.alert', 8000);
+
+    window.onload = function() {
+        const scrvertcbar = document.querySelectorAll(".comments-list");
+    
+        // Aplica a rolagem ao final de cada elemento
+        scrvertcbar.forEach(bar => {
+            bar.scrollTop = bar.scrollHeight;
+        });
+    };
 </script>
 {% endblock scripts %}
