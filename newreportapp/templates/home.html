@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <div class="comments-list" id="comments-list-{{ post.id }}">
-                            {% for comment in post.comments.all|dictsortreversed:"created_at" %}
+                            {% for comment in post.comments.all|dictsort:"created_at" %}
                                 <div class="comment" id="comment-{{ comment.id }}">
                                     <div class="comment-header">
                                         <strong class="comment-username">{{ comment.user.username }}</strong> 
@@ -79,12 +79,12 @@
 
                                     <div class="interaction-bar">
                                         <span id="comment-likes-count-{{ comment.id }}">{{ comment.likes.count }}</span>
-                                        <a href="#" class="icon-like-comment" data-url="{% url 'like_comment' comment.id %}" data-comment-id="{{ comment.id }}">
+                                        <a href="#" class="icon-like-comment" data-url="{% url 'like_comment' comment.id %}" data-comment-id="{{ comment.id }}" title="Curtir">
                                             <i class="fas fa-thumbs-up"></i>
                                         </a>                                    
                                         {% if comment.user == request.user or post.author == request.user %}
-                                            <a href="#" class="delete-comment" data-comment-id="{{ comment.id }}">
-                                                <i class="fas fa-trash"></i> Deletar
+                                            <a href="#" class="delete-comment" data-comment-id="{{ comment.id }}" title="Deletar">
+                                                <i class="fas fa-trash"></i>
                                             </a>
                                         {% endif %}
                                     </div>
@@ -121,7 +121,7 @@
 
 
 {% block scripts %}
-<script>  //submit-comment
+<script>
     $(document).ready(function() {
         // Token CSRF para requisições AJAX
         const csrftoken = '{{ csrf_token }}';
@@ -196,7 +196,7 @@
             }
         });
 
-        // Mostrar seção de comentários ao cliacar no balão
+        // Mostrar seção de comentários ao clicar no balão
         $('.icon-comment').on('click', function(event) {
             event.preventDefault();
 
@@ -242,7 +242,11 @@
                                 <button data-comment-id="${response.comment_id}" class="delete-comment">Deletar</button>
                             {% endif %}
                         </div>`;
-                    $(`#comments-list-${postId}`).prepend(newComment);
+                    $(`#comments-list-${postId}`).append(newComment);
+
+                    // Rola automaticamente para o último comentário
+                    const commentsList = document.querySelector(`#comments-list-${postId}`);
+                    commentsList.scrollTop = commentsList.scrollHeight;
                 }
             });
         });
@@ -261,6 +265,7 @@
                 });
             }
         });
+
     });
 
     // Função para ocultar mensagens de alerta após um tempo
