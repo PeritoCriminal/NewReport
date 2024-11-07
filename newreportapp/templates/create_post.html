@@ -33,9 +33,9 @@
     <!-- Div que exibirá a imagem após a seleção -->
     <div id="image-container" class="mt-3">
         {% if post and post.image %}
-            <div class="current-image mb-3">
+            <div class="current-image mb-3" id="current-image-container">
                 <p><strong>Imagem Atual:</strong></p>
-                <img src="{{ post.image.url }}" alt="Imagem da postagem atual" class="img-fluid rounded shadow-sm" style="max-width: 100%; height: auto;">
+                <img id="current-image" src="{{ post.image.url }}" alt="Imagem da postagem atual" class="img-fluid rounded shadow-sm" style="max-width: 100%; height: auto;">
             </div>
         {% endif %}
         <!-- Pré-visualização da nova imagem selecionada -->
@@ -62,6 +62,14 @@
 
         reader.onload = function() {
             const imagePreview = document.getElementById('image-preview');
+            const currentImageContainer = document.getElementById('current-image-container');
+
+            // Esconde a imagem antiga, se ela existir
+            if (currentImageContainer) {
+                currentImageContainer.style.display = 'none'; 
+            }
+
+            // Exibe a nova imagem selecionada
             imagePreview.src = reader.result;
             imagePreview.style.display = 'block'; // Torna a imagem visível
         }

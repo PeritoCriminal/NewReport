@@ -258,21 +258,35 @@ li {
 
 /* Estilo geral da lista de comentários */
 .comments-list {
-    margin-top: 15px; /* Espaço acima da lista */
-    padding: 15px; /* Espaçamento interno */
-    /*border: 1px solid #ddd; /* Borda leve ao redor da lista */
-    /*border-radius: 8px; /* Bordas arredondadas */
-    /*background-color: #f7f7f7; /* Fundo suave */
-    max-height: 300px; /* Altura máxima para controle */
-    overflow-y: auto; /* Rolagem vertical se necessário */
+    margin-top: 20px;
+    padding: 10px;
+    border-top: 1px solid #e0e0e0;
 }
 
 /* Estilo para cada comentário */
 .comment {
-    margin-bottom: 10px; /* Espaço entre os comentários */
-    padding: 10px; /* Espaçamento interno do comentário */
-    border-bottom: 1px solid #eaeaea; /* Linha separadora entre os comentários */
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 15px;
 }
+
+.comment-header {
+    font-size: 0.9em;
+    color: #555;
+}
+
+.comment-username {
+    font-weight: bold;
+    font-size: 1em;
+    color: #333;
+}
+
+.comment-date {
+    font-size: 0.85em;
+    color: #777;
+    margin-left: 5px;
+}
+
 
 /* Destacando o último comentário (removendo a linha inferior) */
 .comment:last-child {
@@ -289,6 +303,13 @@ li {
     margin: 5px 0 0; /* Margem para o parágrafo do comentário */
     color: #333; /* Cor do texto do comentário */
     font-size: 14px; /* Tamanho da fonte do comentário */
+}
+
+.comment-content {
+    font-size: 1.1em;
+    color: #444;
+    line-height: 1.5em;
+    margin-top: 5px;
 }
 
 /* Estilo para a mensagem quando não há comentários */

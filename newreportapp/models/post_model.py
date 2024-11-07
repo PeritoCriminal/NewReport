@@ -25,6 +25,21 @@ class PostModel(models.Model):
     set_as_inappropriate = models.BooleanField('Marcado como inapropriado', default=False)
 
     def save(self, *args, **kwargs):
+        # Se o post já existe (não é novo), verifica se a imagem foi alterada
+        if self.pk:  
+            original_post = PostModel.objects.get(pk=self.pk)
+            # Comparar usando hash ou verificando se a imagem foi alterada
+            if original_post.image and self.image and original_post.image != self.image:
+                # A imagem foi alterada, processar a imagem
+                self._process_image()
+
+        # Se a imagem foi alterada ou não, processa a imagem
+        elif self.image:
+            self._process_image()
+
+        super().save(*args, **kwargs)
+
+    def _process_image(self):
         # Ajusta a orientação da imagem antes de salvá-la, se necessário
         if self.image:
             img = Image.open(self.image)
@@ -55,13 +70,12 @@ class PostModel(models.Model):
             # Salva a imagem rotacionada no objeto `image`
             output = BytesIO()
             img.save(output, format='JPEG', quality=85)
+            print('\n____________\nImagem salva.\n____________\n')
             output.seek(0)
             self.image = InMemoryUploadedFile(
                 output, 'ImageField', f"{self.image.name.split('.')[0]}.jpg", 'image/jpeg',
                 sys.getsizeof(output), None
             )
-
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Post by {self.author.username} at {self.created_at}"

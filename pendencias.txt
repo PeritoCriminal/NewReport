@@ -21,6 +21,8 @@ Limpar comentários desnecessários, enxugar o código.
 =========================================================
 O que já foi feito.
 ---------------------------------------------------------
+Ajustes nos tamanhos das imagens do usuário e das postágens.
+Ajustes na orientação das imagens.
 Estilizar msg de erro no base.html
 Implementar lógica para editar postagem somente se não houver comentários.
 implementar lógica do btn cancelar de comentários. Não está funcionando
