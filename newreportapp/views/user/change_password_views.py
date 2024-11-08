@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from newreportapp.forms.custom_password_change_form import CustomPasswordChangeForm
+from newreportapp.forms import CustomPasswordChangeForm
 
 @login_required
 def change_password_view(request):
