@@ -1,7 +1,7 @@
 # newreportapp/forms/post_form.py
 
 from django import forms
-from newreportapp.models.interaction.post_model import PostModel
+from newreportapp.models import PostModel
 
 class PostForm(forms.ModelForm):
     class Meta:

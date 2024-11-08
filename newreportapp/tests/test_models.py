@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
-from newreportapp.models.custom_user_model import CustomUserModel
+from newreportapp.models import CustomUserModel
 import os
 import tempfile
 from django.conf import settings

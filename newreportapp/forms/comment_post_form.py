@@ -1,7 +1,7 @@
 # myreportapp.forms.comment_post_form.py
 
 from django import forms
-from newreportapp.models.interaction.comment_post_model import ComentPostModel
+from newreportapp.models import ComentPostModel
 
 class CommentForm(forms.ModelForm):
     class Meta:
