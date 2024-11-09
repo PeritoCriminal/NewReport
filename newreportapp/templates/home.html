@@ -23,10 +23,19 @@
                                 <span class="titulo-post">{{ post.caption }}</span>
                             {% endif %}
                         </div>
-                        {% if post.set_as_inappropriate %}
+                        {% if post.set_as_inappropriate and not post.set_as_prohibited %}
+                        <div class="msg_error">
+                            <p><strong>Atenção!</strong></p>
+                            <p>Um moderador ou administrador removeu a visibilidade pública desta postagem. Verifique novamente sua postagem para decidir se deve ou não restaurá-la.</p>
+                            <p>Se entende que a postagem não viola as regras, você pode <a href="{% url 'restore_post' post.id %}">restaurá-la</a>.</p>
+                            <p>Se preferir, você pode <a href="{% url 'post_delete' post.id %}" class="delete-post" data-post-id="{{ post.id }}">excluí-la definitivamente</a>.</p>                        </div>
+                        {% endif %}
+
+                        {% if post.set_as_prohibited %}
                             <div class="msg_error">
                                 <p><strong>Atenção!</strong></p>
-                                <p>Um moderador ou administrador removeu a visibilidade pública desta postagem. Ela não será mais exibida para outros usuários.</p>
+                                <p>Um administrador removeu a visibilidade pública desta postagem. Ela não será mais exibida para outros usuários.</p>
+                                <p>Clique aqui para <a href="{% url 'post_delete' post.id %}" class="delete-post" data-post-id="{{ post.id }}">excluí-la definitivamente</a>.</p>                       
                             </div>
                         {% endif %}
                         <p>{{ post.content|linebreaks }}</p>
@@ -61,11 +70,23 @@
                                     <i class="fas fa-trash"></i>
                                 </a>
                             {% endif %}
-                            {% if user.access_level == 'moderator' or user.access_level == 'administrator' %}
-                                <a href="{% url 'mark_post_inappropriate' post.id %}" title="Conteúdo Crítico" onclick="return confirm('Você tem certeza que deseja marcar este post como inapropriado?');">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                </a>
-                            {% endif %}                        
+
+
+                            {% if request.user != post.author %}
+                                {% if user.access_level == 'moderator' or user.access_level == 'administrator' %}
+                                    <a href="{% url 'mark_post_inappropriate' post.id %}" title="Marcar como inapropriado." onclick="return confirm('Você tem certeza que deseja marcar este post como inapropriado?');">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </a>
+                                {% endif %}
+                                {% if user.access_level == 'administrator' %}
+                                    <a href="{% url 'mark_post_prohibited' post.id %}" title="Marcar como proibido." onclick="return confirm('Você tem certeza que deseja marcar este post como proibido?');">
+                                        <i class="fas fa-ban"></i>
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                            
+                            
+
                         </div>
                         <div class="comment-section" id="comment-section-{{ post.id }}" style="display: none;">
                             <textarea class="comment-input" placeholder="Digite seu comentário..." rows="3"></textarea>

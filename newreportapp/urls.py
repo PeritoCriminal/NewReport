@@ -7,7 +7,9 @@ from .views import (change_password_view,
                     user_login_view, home_views, 
                     create_post_view, comment_post_view, 
                     delete_comment_view,
-                    mark_post_inappropriate, 
+                    mark_post_inappropriate,
+                    mark_post_prohibited,
+                    restore_post,
                     verify_email)
 
 urlpatterns = [
@@ -37,6 +39,9 @@ urlpatterns = [
     
     # path('post/<int:post_id>/like/', post_and_comments_likes_views.post_like, name='post_like'),
     path('post/<int:post_id>/delete/', post_delete_views, name='post_delete'),  # Rota para deletar
+    path('post/<int:post_id>/restore/', restore_post, name='restore_post'),
+
+    
     path('comment/<int:comment_id>/delete/', delete_comment_view, name='delete_comment'),
 
     # path('post/<int:post_id>/like/', like_post, name='like_post'),
@@ -50,6 +55,7 @@ urlpatterns = [
     path('create_post/<int:post_id>/', create_post_view, name='create_post'),
     path('post/<int:post_id>/comment/', comment_post_view, name='comment_post_view'),
     path('post/<int:post_id>/mark_inappropriate/', mark_post_inappropriate, name='mark_post_inappropriate'),
+    path('post/<int:post_id>/mark_prohibited/', mark_post_prohibited, name='mark_post_prohibited'),
 
 
 

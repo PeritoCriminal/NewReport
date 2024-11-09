@@ -23,6 +23,8 @@ class PostModel(models.Model):
     )
     shared_post = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name="shares")
     set_as_inappropriate = models.BooleanField('Marcado como inapropriado', default=False)
+    set_as_prohibited = models.BooleanField('Marcado como proibido', default=False)
+
 
     def save(self, *args, **kwargs):
         # Se o post já existe (não é novo), verifica se a imagem foi alterada
