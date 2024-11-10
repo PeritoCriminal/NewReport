@@ -43,6 +43,8 @@ class CustomUserModel(AbstractUser):
     # Adicionando unique=True para o campo email
     email = models.EmailField(unique=True)
 
+    is_active = models.BooleanField(default=True)
+
     ALLOWED_EMAIL_DOMAINS = ['@policiacientifica.sp.gov.br', '@policiacivil.sp.gov.br']
 
     def save(self, *args, **kwargs):
