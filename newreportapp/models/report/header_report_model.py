@@ -2,8 +2,6 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from datetime import date
-# import locale
-# locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
 
 class HeaderReportModel(models.Model):
     """ A classe HeaderReportModel tem atributos e métdodos comuns dos relatórios em geral """
@@ -34,7 +32,6 @@ class HeaderReportModel(models.Model):
         null=True, 
         verbose_name='Perito Relator'
     )    
-    # photographer = models.CharField('Fotógrafo', max_length=200, blank=True, null=True, default='')
     considerations = models.TextField('Considerações', blank=True, default='')
     conclusion = models.TextField('Conclusão', blank=True, default='')
 

@@ -1,4 +1,5 @@
 
-from newreportapp.forms.user.user_registration_form import UserRegistrationForm
-from newreportapp.forms.user.user_profile_form import UserProfileForm, CustomPasswordChangeForm
-from newreportapp.forms.comment_post_form import CommentForm
+from .user.user_registration_form import UserRegistrationForm
+from .user.user_profile_form import UserProfileForm, CustomPasswordChangeForm
+from .posts.comment_post_form import CommentForm
+from .report.header_report_form import HeaderReportForm

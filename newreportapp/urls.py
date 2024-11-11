@@ -10,6 +10,7 @@ from .views import (change_password_view,
                     mark_post_inappropriate,
                     mark_post_prohibited,
                     restore_post,
+                    header_report_view,
                     verify_email)
 
 urlpatterns = [
@@ -57,6 +58,12 @@ urlpatterns = [
     path('post/<int:post_id>/mark_inappropriate/', mark_post_inappropriate, name='mark_post_inappropriate'),
     path('post/<int:post_id>/mark_prohibited/', mark_post_prohibited, name='mark_post_prohibited'),
 
+    # REPORTS
+    path('report/header-report/', header_report_view, name='create_header_report'),
 
+    # Rota para editar um relatório existente (com `report_id`)
+    path('report/header-report/<int:report_id>/', header_report_view, name='edit_header_report'),
+    
+    # Outras rotas do aplicativo podem ser listadas aqui
 
 ]

@@ -12,3 +12,4 @@ from newreportapp.views.user.change_password_views import change_password_view
 from newreportapp.views.posts.comment_post_views import comment_post_view, delete_comment_view
 from newreportapp.views.posts.inapropriate_post_views import mark_post_inappropriate
 from newreportapp.views.posts.prohibited_post_views import mark_post_prohibited
+from .report.header_report_views import header_report_view

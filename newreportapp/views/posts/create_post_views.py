@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages  # Importa o sistema de mensagens
-from newreportapp.forms.post_form import PostForm
+from newreportapp.forms.posts.post_form import PostForm
 from newreportapp.models import PostModel  # Importando o modelo de postagens
 from newreportapp.models import ComentPostModel  # Importando o modelo de comentários
 from django.contrib.auth.decorators import login_required

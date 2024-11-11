@@ -32,7 +32,7 @@
 
                         {% if user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Relatórios</a>
+                                <a class="nav-link" href="{% url 'create_header_report' %}">Novo Relatórios</a>
                             </li>
                             
                             <!-- Dropdown do nome do usuário -->
