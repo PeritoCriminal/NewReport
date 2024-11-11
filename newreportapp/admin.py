@@ -7,6 +7,7 @@ from .models import (CustomUserModel,
                      LikeComment,
                      LikePost,
                      HeaderReportModel,
+                     UserAttributesToReportModel,
                      )
 
 @admin.register(CustomUserModel)  # Usando o decorador para registrar o modelo
@@ -53,3 +54,7 @@ class LikeCommentModelAdmin(admin.ModelAdmin):
 @admin.register(HeaderReportModel)
 class HeaderReportModelAdmin(admin.ModelAdmin):
     list_display = ('report_number', 'expert_display_name', 'designation_date')
+
+@admin.register(UserAttributesToReportModel)
+class UserAttributesToReportModelAdmin(admin.ModelAdmin):
+    list_display = ('user', 'state', 'city', 'unit', 'team')

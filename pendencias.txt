@@ -3,6 +3,7 @@ Código está crescendo.
 ====================================================
 O que falta implementar?
 ----------------------------------------------------
+Permições para usuários editores, moderadores e admin
 Instalar servidor apache?
 Estilizar comentário, data menorzinha e texto um pouquinho recuado a esquerda e maiorzinho.
 Home page do usuário

@@ -6,9 +6,15 @@ from newreportapp.models import UserAttributesToReportModel
 class UserAttributesToReportForm(forms.ModelForm):
     class Meta:
         model = UserAttributesToReportModel
-        fields = ['user', 'director', 'state', 'city', 'unit', 'team']
+        fields = ['director', 'state', 'city', 'unit', 'team']
+        labels = {
+            'director': 'Diretor',
+            'state': 'Estado',
+            'city': 'Cidade',
+            'unit': 'Núcleo',
+            'team': 'Equipe',
+        }
         widgets = {
-            'user': forms.Select(attrs={'class': 'form-control'}),
             'director': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150}),
             'state': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150}),
             'city': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150}),
@@ -20,3 +26,4 @@ class UserAttributesToReportForm(forms.ModelForm):
         super(UserAttributesToReportForm, self).__init__(*args, **kwargs)
         for field in self.fields.values():
             field.required = True
+
