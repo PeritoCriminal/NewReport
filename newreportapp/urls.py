@@ -11,6 +11,7 @@ from .views import (change_password_view,
                     mark_post_prohibited,
                     restore_post,
                     header_report_view,
+                    user_attributes_to_report_view,
                     verify_email)
 
 urlpatterns = [
@@ -52,6 +53,9 @@ urlpatterns = [
     # path('msg_to_newcomer')
 
     path('account/edit_user_profile/', edit_user_profile_view, name='edit_user_profile'),
+    path('user-attributes/new/', user_attributes_to_report_view, name='user_attributes_create'),
+    path('user-attributes/edit/<int:pk>/', user_attributes_to_report_view, name='user_attributes_edit'),
+
     path('create_post', create_post_view, name='create_post'),
     path('create_post/<int:post_id>/', create_post_view, name='create_post'),
     path('post/<int:post_id>/comment/', comment_post_view, name='comment_post_view'),
@@ -60,10 +64,5 @@ urlpatterns = [
 
     # REPORTS
     path('report/header-report/', header_report_view, name='create_header_report'),
-
-    # Rota para editar um relatório existente (com `report_id`)
     path('report/header-report/<int:report_id>/', header_report_view, name='edit_header_report'),
-    
-    # Outras rotas do aplicativo podem ser listadas aqui
-
 ]

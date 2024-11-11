@@ -13,3 +13,4 @@ from newreportapp.views.posts.comment_post_views import comment_post_view, delet
 from newreportapp.views.posts.inapropriate_post_views import mark_post_inappropriate
 from newreportapp.views.posts.prohibited_post_views import mark_post_prohibited
 from .report.header_report_views import header_report_view
+from .user.user_attributes_to_report_views import user_attributes_to_report_view

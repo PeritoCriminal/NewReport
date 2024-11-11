@@ -1,7 +1,13 @@
 #newreportapp.admin.py
 
 from django.contrib import admin
-from .models import CustomUserModel, PostModel, ComentPostModel, LikeComment, LikePost
+from .models import (CustomUserModel,
+                     PostModel,
+                     ComentPostModel,
+                     LikeComment,
+                     LikePost,
+                     HeaderReportModel,
+                     )
 
 @admin.register(CustomUserModel)  # Usando o decorador para registrar o modelo
 class CustomUserAdmin(admin.ModelAdmin):
@@ -43,3 +49,7 @@ class LikeCommentModelAdmin(admin.ModelAdmin):
         return LikeComment.objects.filter(comment=obj.comment).count()
     
     comment_likes_count.short_description = 'Total Likes on Comment'  # Título mais descritivo
+
+@admin.register(HeaderReportModel)
+class HeaderReportModelAdmin(admin.ModelAdmin):
+    list_display = ('report_number', 'expert_display_name', 'designation_date')

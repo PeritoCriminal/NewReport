@@ -11,6 +11,8 @@ def header_report_view(request, report_id=None):
         reportCaption = 'Edição de Relatório'
     else:
         header_report = HeaderReportModel()
+        header_report.expert_display_name = user.display_name
+        header_report.city = 'Araras'
         action = "Cadastrar Relatório"
         reportCaption = 'Novo Relatório'
 
@@ -27,6 +29,11 @@ def header_report_view(request, report_id=None):
             return redirect("home")
         else:
             messages.error(request, "Erro ao processar o formulário. Verifique os campos.")
+            for field_name, field_value in form.cleaned_data.items():
+                print(f"{field_name}: {field_value}")
+            print('====================')
+            for field, errors in form.errors.items():
+                print(f"{field}: {errors}")
     else:
         initial={
             'designation_date': designatedFormatedDate,
