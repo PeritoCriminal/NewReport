@@ -1,9 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from newreportapp.forms import HeaderReportForm
 from newreportapp.models import HeaderReportModel
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def header_report_view(request, report_id=None):
+    if not request.user.is_editor:
+        raise PermissionDenied("Você não tem permissão para acessar esta página.")
     user = request.user
     if report_id:
         header_report = get_object_or_404(HeaderReportModel, id=report_id)

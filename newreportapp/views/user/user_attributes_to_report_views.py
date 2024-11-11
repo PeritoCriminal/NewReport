@@ -1,14 +1,19 @@
 # newreportapp/views/user/user_attributes_to_report_view.py
 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from newreportapp.models import UserAttributesToReportModel
 from newreportapp.forms.user.user_attributes_to_report_form import UserAttributesToReportForm
 from django.contrib.auth.decorators import login_required
 
-@login_required
+@login_required  # Garante que o usuário esteja logado
 def user_attributes_to_report_view(request, pk=None):
-    # Verifica se já existe um registro para o usuário logado
+    # Verifica se o usuário logado possui permissão de editor
+    if not request.user.is_editor:
+        raise PermissionDenied("Você não tem permissão para acessar esta página.")
+
+    # Tenta recuperar o perfil associado ao usuário logado
     try:
         instance = UserAttributesToReportModel.objects.get(user=request.user)
         print(f'Editando perfil existente para o usuário: {request.user}')
@@ -16,6 +21,7 @@ def user_attributes_to_report_view(request, pk=None):
         instance = None
         print('Nenhum perfil existente, criando novo para o usuário logado.')
 
+    # Processa o formulário, seja para criar ou atualizar o perfil
     if request.method == 'POST':
         form = UserAttributesToReportForm(request.POST, instance=instance)
         

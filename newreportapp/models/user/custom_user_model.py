@@ -12,13 +12,13 @@ import sys
 class CustomUserModel(AbstractUser):
     # Níveis de acesso
     VIEWER = 'viewer'
-    EDITOR = 'editor'
+    # EDITOR = 'editor'
     MODERATOR = 'moderator'
     ADMINISTRATOR = 'administrator'
 
     ACCESS_LEVEL_CHOICES = [
         (VIEWER, 'Viewer'),
-        (EDITOR, 'Editor'),
+        # (EDITOR, 'Editor'),
         (MODERATOR, 'Moderador'),
         (ADMINISTRATOR, 'Administrador'),
     ]
@@ -31,6 +31,8 @@ class CustomUserModel(AbstractUser):
 
     display_name = models.CharField(max_length=100, blank=True, null=True)  # Nome para exibição
     gender = models.CharField(max_length=1, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], blank=True, null=True)  # Sexo
+
+    is_editor = models.BooleanField(default=False)
 
     photo = StdImageField(
         upload_to='user_photos/',

@@ -6,15 +6,12 @@
 
 {% block content %}
 
-    <h2 class="titulo-2">Perfil do Editor</h1>
-
-
-            <form method="post">
+            <form class="mt-4 border p-4 bg-light shadow-sm rounded" method="post">
                 {% csrf_token %}
+                <h4 class="titulo-2">Dados Gerais</h4>
                 {{ form.as_p }}
                 <button type="submit" class="btn btn-primary">Salvar</button>
                 <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'home' %}'">Cancelar</button>
             </form>
-
 
 {% endblock content %}
