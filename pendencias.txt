@@ -3,6 +3,8 @@ Código está crescendo.
 ====================================================
 O que falta implementar?
 ----------------------------------------------------
+ajustar cadastro de usuário para portugues, genero, labels
+remover '>' ao final do cadastro de usuário.
 fotos de usuário precisam ser deletadas ou trocadas
 Criar logs
 Permições para usuários editores, moderadores e admin

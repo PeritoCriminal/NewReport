@@ -14,6 +14,11 @@ class HeaderReportForm(forms.ModelForm):
         widgets = {
             'report_number':forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150,'placeholder': 'Ex: 23423 ou 23423/1998'}),
             'protocol_number': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150,'placeholder': 'Ex: L1234 ou L1234/1998'}),
+            'police_report_number': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150,'placeholder': 'Ex: AB1234 ou AB1234/1998'}),
+            'police_station': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150,'placeholder': 'Ex: Del. Sec. Limeira Plantão'}),
+            'requesting_authority': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150,'placeholder': 'Ex: Dra. Maria Aparecida'}),
+            'examination_objective': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150,'placeholder': 'Ex: Efetuar Exame Inicial'}),
+            'incident_nature': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150,'placeholder': 'Ex: Constatação de Danos.'}),
             'designation_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'occurrence_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'call_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),

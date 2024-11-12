@@ -7,7 +7,8 @@
 {% block content %}
     <form class="mt-4 border p-4 bg-light shadow-sm rounded" method="post">
         {% csrf_token %}
-        <h4 class="titulo-2">Dados Gerais</h4>
+        <h5 class="titulo-2">Dados Preambulares - Para elaboração de Laudos</h5>
+        <p class="titulo-2"><strong>{{ msg }}</strong></p>
 
         {% for field in form %}
             <div class="mb-3">

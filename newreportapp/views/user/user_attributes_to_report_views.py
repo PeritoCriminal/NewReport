@@ -17,9 +17,11 @@ def user_attributes_to_report_view(request, pk=None):
     try:
         instance = UserAttributesToReportModel.objects.get(user=request.user)
         print(f'Editando perfil existente para o usuário: {request.user}')
+        msg = f'Perfil de {request.user.display_name}'
     except UserAttributesToReportModel.DoesNotExist:
         instance = None
         print('Nenhum perfil existente, criando novo para o usuário logado.')
+        msg = f'{request.user.display_name}, preencha os campos abaixo antes de editar seu primeiro laudo.'
 
     # Processa o formulário, seja para criar ou atualizar o perfil
     if request.method == 'POST':
@@ -39,4 +41,4 @@ def user_attributes_to_report_view(request, pk=None):
     else:
         form = UserAttributesToReportForm(instance=instance)
 
-    return render(request, 'registration/user_attributes_to_report.html', {'form': form})
+    return render(request, 'registration/user_attributes_to_report.html', {'form': form, 'msg': msg})

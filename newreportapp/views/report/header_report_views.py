@@ -22,13 +22,13 @@ def header_report_view(request, report_id=None):
     if report_id:
         header_report = get_object_or_404(HeaderReportModel, id=report_id)
         action = "Editar Relatório"
-        reportCaption = 'Edição de Relatório'
+        reportCaption = 'Laudo atualizado'
     else:
         header_report = HeaderReportModel()
         header_report.expert_display_name = user.display_name
         header_report.city = 'Araras'
-        action = "Cadastrar Relatório"
-        reportCaption = 'Novo Relatório'
+        action = "Novo Laudo"
+        reportCaption = 'Novo Laudo'
 
     # Obtém a data de designação formatada para o formulário
     designatedDate = header_report.designation_date
@@ -44,15 +44,15 @@ def header_report_view(request, report_id=None):
             header_report.forensic_team_base = user_attributes.team
 
             form.save()
-            messages.success(request, f"{action} realizado com sucesso!")
+            messages.success(request, f"{action} - Registro salvo com sucesso!")
             return redirect("home")
         else:
             messages.error(request, "Erro ao processar o formulário. Verifique os campos.")
-            for field_name, field_value in form.cleaned_data.items():
-                print(f"{field_name}: {field_value}")
-            print('====================')
-            for field, errors in form.errors.items():
-                print(f"{field}: {errors}")
+            # for field_name, field_value in form.cleaned_data.items():
+            #    print(f"{field_name}: {field_value}")
+            # print('====================')
+            # for field, errors in form.errors.items():
+            #    print(f"{field}: {errors}")
     else:
         initial = {
             'designation_date': designatedFormatedDate,

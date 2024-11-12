@@ -21,7 +21,8 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'home' %}">Home</a>
+                            <a class="nav-link" href="{% url 'home' %}">
+                                <i class="fas fa-home"></i>Home</a> <!--Vamos acrescentar um ícone para home-->
                         </li>
 
                         {% if not user.is_authenticated %}
@@ -36,12 +37,13 @@
                             <li class="nav-item dropdown">
 
 
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{ user.get_full_name|default:user.username }}">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {% if user.photo %}
                                         <img src="{{ user.photo.url }}" alt="Foto de {{ user.get_full_name|default:user.username }}" class="rounded-circle" width="30" height="30">
                                     {% else %}
                                         <img src="{% static 'images/user_default_photo.png' %}" alt="Foto de {{ user.get_full_name|default:user.username }}" class="rounded-circle" width="30" height="30">
                                     {% endif %}
+                                    {{ user.get_full_name|default:user.username }}
                                 </a>
 
 
