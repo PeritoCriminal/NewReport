@@ -15,12 +15,18 @@ class UserAttributesToReportForm(forms.ModelForm):
             'team': 'Equipe',
         }
         widgets = {
-            'director': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150}),
-            'state': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150}),
-            'city': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150}),
-            'unit': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150}),
-            'team': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150}),
+            'director': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150, 'placeholder':'Ex: Dr. José da Silva ou Dra. Maria Aparecida.'}, ),
+            'state': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150, 'placeholder': 'Ex: São Paulo'}),
+            'city': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150, 'placeholder': 'Ex: Limeira'}),
+            'unit': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150, 'placeholder': 'Ex: Núcleo de Perícias Criminalísticas de Americana'}),
+            'team': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150, 'placeholder': 'Ex: EPC - Limeira'}),
         }
+        help_texts = {
+            'director': 'Preencha este campo com o nome do Diretor do Instituto de Criminalística. O pronome de tratamento (Dr. ou Dra.) será utilizado para identificar o gênero e, assim, editar o preâmbulo do laudo.',
+            'unit': 'O nome do Núcleo de Periícias.',
+            'team': 'Sua equipe de atendimento.'
+        }
+
 
     def __init__(self, *args, **kwargs):
         super(UserAttributesToReportForm, self).__init__(*args, **kwargs)

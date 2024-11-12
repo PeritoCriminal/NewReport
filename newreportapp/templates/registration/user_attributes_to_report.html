@@ -5,13 +5,26 @@
 {% block title %}Index{% endblock title %}
 
 {% block content %}
+    <form class="mt-4 border p-4 bg-light shadow-sm rounded" method="post">
+        {% csrf_token %}
+        <h4 class="titulo-2">Dados Gerais</h4>
 
-            <form class="mt-4 border p-4 bg-light shadow-sm rounded" method="post">
-                {% csrf_token %}
-                <h4 class="titulo-2">Dados Gerais</h4>
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Salvar</button>
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'home' %}'">Cancelar</button>
-            </form>
+        {% for field in form %}
+            <div class="mb-3">
+                {{ field.label_tag }} <!-- Exibe o rótulo do campo -->
+                {{ field }} <!-- Renderiza o campo de entrada -->
+                
+                {% if field.help_text %} <!-- Exibe o help_text, caso exista -->
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
 
+                {% for error in field.errors %} <!-- Exibe as mensagens de erro, se houver -->
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'home' %}'">Cancelar</button>
+    </form>
 {% endblock content %}

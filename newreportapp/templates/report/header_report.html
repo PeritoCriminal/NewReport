@@ -1,53 +1,63 @@
+<!-- newreportapp/templates/report/header_report.html -->
+
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 
 {% block content %}
   <div class="container">
-
     <form method="post" class="border p-4 bg-light shadow-sm rounded" enctype="multipart/form-data">
       {% csrf_token %}
 
       <h4 class="titulo-2">{{ reportCaption }}</h4>
-      
-      <!-- Exibindo campos do formulário com widgets ajustados -->
+
+      <!-- Exibindo campos do formulário com widgets ajustados e help_texts -->
       <div class="form-group">
         <label for="report_number">Número do Laudo</label>
         {{ form.report_number|add_class:"form-control" }}
+        {% if form.report_number.help_text %}
+          <small class="form-text text-muted">{{ form.report_number.help_text }}</small>
+        {% endif %}
       </div>
       
       <div class="form-group">
         <label for="protocol_number">Protocolo de Atendimento / R.E.</label>
         {{ form.protocol_number|add_class:"form-control" }}
-      </div>
-      
-      <div class="form-group">
-          <label for="designation_date">Data da Designação</label>
-          {{ form.designation_date|add_class:"form-control" }}
-      </div>   
-    
-      <div class="form-group">
-          <label for="police_report_number">Boletim de Ocorrência</label>
-          {{ form.police_report_number|add_class:"form-control" }}
+        {% if form.protocol_number.help_text %}
+          <small class="form-text text-muted">{{ form.protocol_number.help_text }}</small>
+        {% endif %}
       </div>
 
       <div class="form-group">
-          <label for="police_station">Delegacia - Distrito Policial</label>
-          {{ form.police_station|add_class:"form-control" }}
+        <label for="designation_date">Data da Designação</label>
+        {{ form.designation_date|add_class:"form-control" }}
       </div>
 
       <div class="form-group">
-          <label for="requesting_authority">Autoridade Requisitante</label>
-          {{ form.requesting_authority|add_class:"form-control" }}
+        <label for="police_report_number">Boletim de Ocorrência</label>
+        {{ form.police_report_number|add_class:"form-control" }}
       </div>
 
       <div class="form-group">
-          <label for="occurrence_date">Data da Ocorrência</label>
-          {{ form.occurrence_date|add_class:"form-control" }}
+        <label for="police_station">Delegacia - Distrito Policial</label>
+        {{ form.police_station|add_class:"form-control" }}
       </div>
 
       <div class="form-group">
-          <label for="occurrence_time">Hora da Ocorrência</label>
-          {{ form.occurrence_time|add_class:"form-control" }}
+        <label for="requesting_authority">Autoridade Requisitante</label>
+        {{ form.requesting_authority|add_class:"form-control" }}
+        {% if form.requesting_authority.help_text %}
+          <small class="form-text text-muted">{{ form.requesting_authority.help_text }}</small>
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="occurrence_date">Data da Ocorrência</label>
+        {{ form.occurrence_date|add_class:"form-control" }}
+      </div>
+
+      <div class="form-group">
+        <label for="occurrence_time">Hora da Ocorrência</label>
+        {{ form.occurrence_time|add_class:"form-control" }}
       </div>
 
       <div class="form-group">
@@ -56,8 +66,8 @@
       </div>
 
       <div class="form-group">
-          <label for="call_time">Hora do Acionamento</label>
-          {{ form.call_time|add_class:"form-control" }}
+        <label for="call_time">Hora do Acionamento</label>
+        {{ form.call_time|add_class:"form-control" }}
       </div>
 
       <div class="form-group">
@@ -66,18 +76,24 @@
       </div>
 
       <div class="form-group">
-          <label for="service_time">Hora do Atendimento</label>
-          {{ form.service_time|add_class:"form-control" }}
+        <label for="service_time">Hora do Atendimento</label>
+        {{ form.service_time|add_class:"form-control" }}
       </div>
 
       <div class="form-group">
-          <label for="examination_objective">Objetivo</label>
-          {{ form.examination_objective|add_class:"form-control" }}
+        <label for="examination_objective">Objetivo</label>
+        {{ form.examination_objective|add_class:"form-control" }}
+        {% if form.examination_objective.help_text %}
+          <small class="form-text text-muted">{{ form.examination_objective.help_text }}</small>
+        {% endif %}
       </div>
 
       <div class="form-group">
-          <label for="incident_nature">Natureza</label>
-          {{ form.incident_nature|add_class:"form-control" }}
+        <label for="incident_nature">Natureza</label>
+        {{ form.incident_nature|add_class:"form-control" }}
+        {% if form.incident_nature.help_text %}
+          <small class="form-text text-muted">{{ form.incident_nature.help_text }}</small>
+        {% endif %}
       </div>
 
       <div class="form-group">

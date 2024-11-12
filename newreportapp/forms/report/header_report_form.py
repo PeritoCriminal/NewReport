@@ -1,3 +1,5 @@
+# newreportapp/forms/report/header_report_form.py
+
 from django import forms
 from newreportapp.models import HeaderReportModel
 
@@ -10,6 +12,8 @@ class HeaderReportForm(forms.ModelForm):
             'incident_nature', 'police_station', 'requesting_authority', 
             ]
         widgets = {
+            'report_number':forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150,'placeholder': 'Ex: 23423 ou 23423/1998'}),
+            'protocol_number': forms.TextInput(attrs={'class': 'form-control', 'maxlength': 150,'placeholder': 'Ex: L1234 ou L1234/1998'}),
             'designation_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'occurrence_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'call_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
@@ -17,18 +21,21 @@ class HeaderReportForm(forms.ModelForm):
             'occurrence_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'call_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
             'service_time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
-            #'considerations': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
-            #'conclusion': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
         }
+        help_texts = {
+            'report_number': 'Informe apenas o número do laudo. O ano da data de designação será acrescentado automaticamente.',
+            'protocol_number': 'Número do protocolo de atendimento ou registro de entrada. O ano da data de designação será acrescentado automaticamente.',
+            'police_report_number': 'Número do boletim de ocorrência. O ano da data do boletim será acrescentado automaticamente.',
+            'examination_objective': 'Objetivo do exame, conforme especificado na requisição.',
+            'incident_nature': 'Natureza da ocorrência, conforme especificado na requisição.',
+            'requesting_authority': 'Informe o pronome de tratamento adequado (ex.: Dr. ou Dra.), seguido do nome completo do delegado ou requisitante.'
+        }
+
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)  # Pega o usuário logado
         super().__init__(*args, **kwargs)
         if user:
             pass
-            # self.fields['expert_display_name'].initial = user.username  # Define o nome do perito como nome de usuário
-            # self.fields['reporting_expert'].initial = user  # Preenche com o usuário logado (se necessário)
-        
-        # Garantir que a data da designação esteja no formato correto, se não for preenchida
         if not self.instance.designation_date:
             self.fields['designation_date'].initial = '2024-11-10'  # Data de exemplo, ajustada conforme necessidade
