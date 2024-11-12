@@ -3,6 +3,7 @@ Código está crescendo.
 ====================================================
 O que falta implementar?
 ----------------------------------------------------
+fotos de usuário precisam ser deletadas ou trocadas
 Criar logs
 Permições para usuários editores, moderadores e admin
 Instalar servidor apache?
