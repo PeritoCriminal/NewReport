@@ -29,8 +29,8 @@ class CustomUserModel(AbstractUser):
         default=VIEWER,
     )
 
-    display_name = models.CharField(max_length=100, blank=True, null=True)  # Nome para exibição
-    gender = models.CharField(max_length=1, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], blank=True, null=True)  # Sexo
+    display_name = models.CharField('Nome para exibição', max_length=100, blank=True, null=True)  # Nome para exibição
+    gender = models.CharField('Gênero', max_length=1, choices=[('M', 'Masculino'), ('F', 'Feminino'), ('O', 'Não informar')], blank=True, null=True)  # Sexo
 
     is_editor = models.BooleanField(default=False)
 

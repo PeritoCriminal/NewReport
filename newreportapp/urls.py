@@ -1,4 +1,6 @@
-from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from .views import (change_password_view, 
                     edit_user_profile_view, 
@@ -13,6 +15,7 @@ from .views import (change_password_view,
                     header_report_view,
                     user_attributes_to_report_view,
                     section_report_view,
+                    list_reports,
                     verify_email)
 
 urlpatterns = [
@@ -66,6 +69,7 @@ urlpatterns = [
     # REPORTS
     path('report/header-report/', header_report_view, name='create_header_report'),
     path('report/header-report/<int:report_id>/', header_report_view, name='edit_header_report'),
+    path('report/list_report/', list_reports, name='list_reports'),
 
     # SECTIONS
     # Rota para exibir o formulário em diferentes templates
@@ -76,3 +80,4 @@ urlpatterns = [
     path('section-report/<int:id>/template2/', section_report_view, {'template_name': 'report/template2.html'}, name='edit_section_report_template2'),
 
 ]
+

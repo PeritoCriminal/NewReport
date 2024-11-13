@@ -15,3 +15,4 @@ from newreportapp.views.posts.prohibited_post_views import mark_post_prohibited
 from .report.header_report_views import header_report_view
 from .user.user_attributes_to_report_views import user_attributes_to_report_view
 from .report.partial_section_report_views import section_report_view
+from .report.list_report_views import list_reports

@@ -26,7 +26,8 @@ def header_report_view(request, report_id=None):
     else:
         header_report = HeaderReportModel()
         header_report.expert_display_name = user.display_name
-        header_report.city = 'Araras'
+        header_report.city = user_attributes.city
+        header_report.reporting_expert = user_attributes.user
         action = "Novo Laudo"
         reportCaption = 'Novo Laudo'
 

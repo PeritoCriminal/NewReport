@@ -60,8 +60,6 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                                     <a class="dropdown-item" href="{% url 'create_post' %}">Incluir uma postagem</a>
                                 
-                                    <!-- Verifica se o nível de acesso do usuário é Editor -->
-                                
                                     <a class="dropdown-item" href="{% url 'edit_user_profile' %}">Alterar Dados do Perfil</a>
                                     <a class="dropdown-item" href="{% url 'password_change' %}">Alterar Senha</a> <!-- Link para alteração de senha -->
                             
@@ -69,7 +67,7 @@
                                     {% if user.is_editor %}
                                         <div class="dropdown-divider"></div>                
                                         <a class="dropdown-item" href="{% url 'create_header_report' %}">Novo Laudo</a>
-                                        <a class="dropdown-item" href="#">Lista de Laudos</a>                                
+                                        <a class="dropdown-item" href="{% url 'list_reports' %}">Lista de Laudos</a>                                
                                         <a class="dropdown-item" href="{% url 'user_attributes_create' %}">Dados Gerais</a>
                                     {% endif %}
 

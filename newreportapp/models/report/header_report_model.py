@@ -1,3 +1,5 @@
+#newreportapp/models/report/header_report_model.py
+
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
@@ -38,8 +40,8 @@ class HeaderReportModel(models.Model):
     def save(self, *args, **kwargs):
         """Sobrescreve o método save para copiar o full_name do usuário"""
         if self.reporting_expert:
-            print(f'Nome completo do usuário: {self.reporting_expert.full_name}')
-            self.expert_display_name = self.reporting_expert.full_name
+            print(f'Nome completo do usuário: {self.expert_display_name}')
+            self.expert_display_name = self.expert_display_name
         else:
             print(f'Não tem o usuário.')
         super().save(*args, **kwargs)
