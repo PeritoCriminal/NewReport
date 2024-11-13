@@ -101,7 +101,6 @@ p.legenda {
     /* Adiciona um espaÃ§o Ã  direita da imagem, se necessÃ¡rio */
 }
 
-
 .file-image {
     border: none;
     box-shadow: none;
@@ -462,4 +461,40 @@ li {
     border: 1px solid #f5c6cb;
     border-radius: 4px;
     padding: 15px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.img-logo img {
+    height: 80px; /* ajuste conforme o necessário */
+    width: auto;
+}
+
+.central-content {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.central-content p {
+    margin: 2px 0;
+}
+
+.justify-content{
+    text-align: justify;
+}
+
+.justify-content p{
+    margin: 4px 0;
+}
+
+.justify-content h1, h2, h3, h4{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16pt;
+    margin-top: 32px;
+    margin-bottom: 16px;
 }

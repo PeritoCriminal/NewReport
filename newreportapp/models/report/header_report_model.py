@@ -124,9 +124,9 @@ class HeaderReportModel(models.Model):
         return f'pelo(a) Diretor(a) deste Instituto de Criminalística, o(a) Perito(a) Criminal {self.institute_director}'
 
     def get_expert(self):
-        if self.expert_display_name.startswith('Dra.'):
+        if self.reporting_expert.gender == 'F':
             return f'designada a perita criminal {self.expert_display_name}'
-        elif self.expert_display_name.startswith('Dr.'):
+        elif self.reporting_expert.gender == 'M':
             return f'designado o perito criminal {self.expert_display_name}'
         return f'designado(a) o(a) perito(a) criminal {self.expert_display_name}'
 

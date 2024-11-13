@@ -1,9 +1,36 @@
 {% extends 'base.html' %}
 
-{% block title %}Index{% endblock title %}
+{% load static %}
+
+{% block title %}newreport{% endblock title %}
 
 {% block content %}
 
-    <h2 class="titulo-2">Show Report</h1>
+    <div class="mt-4 border p-4 bg-light shadow-sm rounded">
+        <div class="header">
+
+            <div class="img-logo">
+                <img src="{% static 'images/logos/sptc.png' %}" alt="SPTC Logo">
+            </div>
+            
+            <div class="central-content">
+                <p><strong>SECRETARIA DE SEGURANÇA PÚBLICA</strong></p>
+                <p><strong>SUPERINTENDÊNCIA DA POLÍCIA TECNICO-CIENTÍFICA</strong></p>
+                <p>INSTITUTO DE CRIMINALÍSTICA</p>
+                <p><small>PERITO CRIMINAL DR. OCTÁVIO EDUARDO DE BRITO ALVARENGA</small></p>
+                <p>{{ institute_unit }} | {{ forensic_team_base }}</p>
+            </div>
+        
+            <div class="img-logo">
+                <img src="{% static 'images/logos/sp.png' %}" alt="SP Logo">
+            </div>
+            
+        </div> <!-- Final do Cabeçalho -->
+        <div class="justify-content">
+            <h1 class="title-report">Laudo Técncio Pericial {{report.report_number}} </h1>
+            <p>{{ report.makePreamble }}</p>
+        </div>
+    </div> <!-- Final da Página Central -->
+    
 
 {% endblock content %}
