@@ -12,6 +12,7 @@ from .views import (change_password_view,
                     restore_post,
                     header_report_view,
                     user_attributes_to_report_view,
+                    section_report_view,
                     verify_email)
 
 urlpatterns = [
@@ -65,4 +66,13 @@ urlpatterns = [
     # REPORTS
     path('report/header-report/', header_report_view, name='create_header_report'),
     path('report/header-report/<int:report_id>/', header_report_view, name='edit_header_report'),
+
+    # SECTIONS
+    # Rota para exibir o formulário em diferentes templates
+    path('section-report/template1/', section_report_view, {'template_name': 'report/template1.html'}, name='section_report_template1'),
+    path('section-report/template2/', section_report_view, {'template_name': 'report/template2.html'}, name='section_report_template2'),
+    # Rota para exibir um registro específico
+    path('section-report/<int:id>/template1/', section_report_view, {'template_name': 'report/template1.html'}, name='edit_section_report_template1'),
+    path('section-report/<int:id>/template2/', section_report_view, {'template_name': 'report/template2.html'}, name='edit_section_report_template2'),
+
 ]

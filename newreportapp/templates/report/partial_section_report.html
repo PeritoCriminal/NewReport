@@ -1,0 +1,7 @@
+<!-- newreport/templates/report/partial_section_report_form.html -->
+
+<form method="POST" action="{% url 'section_report_view' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar</button>
+</form>
