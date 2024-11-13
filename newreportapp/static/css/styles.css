@@ -471,7 +471,7 @@ li {
 }
 
 .img-logo img {
-    height: 80px; /* ajuste conforme o necessário */
+    height: 90px; /* ajuste conforme o necessário */
     width: auto;
 }
 
@@ -482,6 +482,7 @@ li {
 
 .central-content p {
     margin: 2px 0;
+    line-height: 15px;
 }
 
 .justify-content{
@@ -493,7 +494,8 @@ li {
 }
 
 .justify-content h1, h2, h3, h4{
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
     font-size: 16pt;
     margin-top: 32px;
     margin-bottom: 16px;

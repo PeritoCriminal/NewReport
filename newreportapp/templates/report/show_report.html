@@ -7,6 +7,7 @@
 {% block content %}
 
     <div class="mt-4 border p-4 bg-light shadow-sm rounded">
+        <p class="titulo-2"></p>
         <div class="header">
 
             <div class="img-logo">
@@ -27,8 +28,16 @@
             
         </div> <!-- Final do Cabeçalho -->
         <div class="justify-content">
-            <h1 class="title-report">Laudo Técncio Pericial {{report.report_number}} </h1>
+            <div class="central-content">
+                <h1 class="title-report">Laudo Técncio Pericial {{ num_report }} </h1>
+            </div>
             <p>{{ report.makePreamble }}</p>
+           <h3 class="title_report">Dados da Requisição de Exame</h3>
+           <p><strong>Objetivo:</strong> {{ report.examination_objective }}</p>
+           <p><strong>Natureza:</strong> {{ report.incident_nature }}</p>
+           <p><strong>Autoridade Requisitante:</strong> {{ report.requesting_authority }}</p>
+           <p><strong>Boletim:</strong> {{ num_occurrency }} - {{ report.police_station }}</p>
+           <p><strong>Data e Hora da Ocorrência:</strong> {{ report.occurrence_date }} às {{ report.occurrence_time }}</p>
         </div>
     </div> <!-- Final da Página Central -->
     
