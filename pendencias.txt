@@ -4,7 +4,6 @@ Código está crescendo.
 O que falta implementar?
 ----------------------------------------------------
 ajustar os btn Enviar e Cancelar padronizados para toda as telas.
-ajustar cadastro de usuário para portugues, genero, labels
 remover '>' ao final do cadastro de usuário.
 fotos de usuário precisam ser deletadas ou trocadas
 Criar logs
@@ -18,8 +17,6 @@ implementar segurança para postagens e comentários indesejados. dedoduro e exc
 Implemenar possibilidade de compartilhar com pessoas especígficas
 Tabela de Chavões
 Implementar Relatório
- - Model head
- - Model section
 Acervo para idendificação veicular
 Acervo para digitais
 Limpar comentários desnecessários, enxugar o código.
@@ -27,6 +24,10 @@ Limpar comentários desnecessários, enxugar o código.
 =========================================================
 O que já foi feito.
 ---------------------------------------------------------
+Implementar Relatório
+ - Model head
+ - Model section
+ajustar cadastro de usuário para portugues, genero, labels
 Ajustes nos tamanhos das imagens do usuário e das postágens.
 Ajustes na orientação das imagens.
 Estilizar msg de erro no base.html

@@ -22,12 +22,14 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home' %}">
-                                <i class="fas fa-home"></i>Home</a> <!--Vamos acrescentar um ícone para home-->
+                                <i class="fas fa-home"></i>Home</a>
                         </li>
 
                         {% if not user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'register' %}">Registre-se</a>
+                                <a class="nav-link" href="{% url 'register' %}">
+                                    <i class="fas fa-user-plus"></i> Registre-se
+                                </a>
                             </li>
                         {% endif %}
 
@@ -45,15 +47,6 @@
                                     {% endif %}
                                     {{ user.get_full_name|default:user.username }}
                                 </a>
-
-
-
-
-                            <!--  
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ user.get_full_name|default:user.username }}
-                                </a>
-                            --> 
 
 
 
@@ -80,10 +73,10 @@
                                 </div>
                             </li>
                         {% else %}
-                            {% if request.path != '/registration/login/' %}  <!-- Não mostra o link de login se já estiver na página de login -->
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'login' %}">Login</a>
-                                </li>
+                            {% if request.path != '/registration/login/' %}
+                                <a class="nav-link" href="{% url 'login' %}">
+                                    <i class="fas fa-sign-in-alt"></i> Login
+                                </a>
                             {% endif %}
                         {% endif %}
                     </ul>

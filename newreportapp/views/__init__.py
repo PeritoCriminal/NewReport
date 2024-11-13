@@ -1,4 +1,5 @@
 # newreportapp.views.__init__.py
+
 from newreportapp.views.home_views import home_views
 from newreportapp.views.user.user_register_views import register_user, verify_email, send_verification_email
 from newreportapp.views.index_views import index
@@ -16,3 +17,5 @@ from .report.header_report_views import header_report_view
 from .user.user_attributes_to_report_views import user_attributes_to_report_view
 from .report.partial_section_report_views import section_report_view
 from .report.list_report_views import list_reports
+from .report.delete_report_views import delete_report
+from .report.show_report_views import show_report

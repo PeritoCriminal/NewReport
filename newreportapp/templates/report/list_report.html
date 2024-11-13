@@ -2,12 +2,12 @@
 
 {% extends 'base.html' %}
 
-{% block title %}Index{% endblock title %}
+{% block title %}Meus Laudos{% endblock %}
 
 {% block content %}
 <div class="mt-4 border p-4 bg-light shadow-sm rounded">
     <h4 class="titulo-2">Meus Laudos</h4>
-    
+
     <!-- Tabela de relatórios -->
     <table class="table table-hover mt-3">
         <thead class="thead-light">
@@ -28,10 +28,10 @@
                 <td>{{ report.incident_nature }}</td>
                 <td>
                     <!-- Ícones para editar e excluir -->
-                    <a href="#" title="Editar">
-                        <i class="fas fa-edit"></i>
+                    <a href="{% url 'show_report' report.id %}" title="Editar">
+                        <i class="fas fa-search"></i>
                     </a>
-                    <a href="#" title="Excluir" class="text-danger ml-2">
+                    <a href="{% url 'delete_report' report.id %}" title="Excluir" class="text-danger ml-2" data-confirm="Você tem certeza de que deseja excluir este laudo? Todos os dados serão perdidos definitivamente.">
                         <i class="fas fa-trash-alt"></i>
                     </a>
                 </td>
@@ -39,5 +39,23 @@
             {% endfor %}
         </tbody>
     </table>
+
+    {% if not reports %}
+        <p class="titulo-2">Não há laudos registrados para exibição.</p>
+    {% endif %}
+
 </div>
 {% endblock content %}
+
+{% block scripts %}
+<script>
+    document.querySelectorAll('a[data-confirm]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            const message = link.getAttribute('data-confirm');
+            if (!confirm(message)) {
+                e.preventDefault();  // Cancela a ação de exclusão se o usuário não confirmar
+            }
+        });
+    });
+</script>
+{% endblock scripts %}
