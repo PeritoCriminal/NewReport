@@ -22,7 +22,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'home' %}">
-                                <i class="fas fa-home"></i>Home</a>
+                            <i class="fas fa-home"></i>Home</a>
                         </li>
 
                         {% if not user.is_authenticated %}
@@ -34,6 +34,30 @@
                         {% endif %}
 
                         {% if user.is_authenticated %}
+
+                        {% if request.resolver_match.url_name == 'show_report' %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-file-alt"></i> Edição do Laudo
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="reportDropdown">
+                                    <a class="dropdown-item" href="{% url 'edit_header_report' report.id %}">Dados Gerais</a>
+                                    <a class="dropdown-item" href="#">Declarações</a>
+                                    <a class="dropdown-item" href="#">Preservação de Local</a>
+                                    <a class="dropdown-item" href="#">Via Pública</a>
+                                    <a class="dropdown-item" href="#">Imóvel</a>
+                                    <a class="dropdown-item" href="#">Veículo</a>
+                                    <a class="dropdown-item" href="#">Peça</a>
+                                    <a class="dropdown-item" href="#">Coletado</a>
+                                    <a class="dropdown-item" href="#">Cadáver</a>
+                                    <a class="dropdown-item" href="#">Para RA</a>
+                                    <a class="dropdown-item" href="#">Para Autoridade</a>
+                                    <a class="dropdown-item" href="#">Considerações</a>
+                                    <a class="dropdown-item" href="#">Conclusão</a>
+                                </div>
+                            </li>
+                        {% endif %}
+                    
                             
                             <!-- Dropdown do nome do usuário -->
                             <li class="nav-item dropdown">
@@ -63,7 +87,6 @@
                                         <a class="dropdown-item" href="{% url 'list_reports' %}">Lista de Laudos</a>                                
                                         <a class="dropdown-item" href="{% url 'user_attributes_create' %}">Dados Gerais</a>
                                     {% endif %}
-
                         
                                     <div class="dropdown-divider"></div>
                                     <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: inline;">
@@ -123,19 +146,9 @@
 
 {% block scripts %}
 
-<script>
-    /* Espera o DOM ser completamente carregado
-    document.addEventListener('DOMContentLoaded', function() {
-        // Espera 5 segundos e então esconde as mensagens
-        setTimeout(function() {
-            // Seleciona todas as mensagens de alerta e as fecha
-            var alerts = document.querySelectorAll('.alert');
-            alerts.forEach(function(alert) {
-                alert.style.display = 'none';  // Esconde a mensagem
-            });
-        }, 5000);  // 5000 milissegundos = 5 segundos
-    });*/
-</script>
+    <script>
+        // Algum código comum. 
+    </script>
 
 {% endblock %}
 

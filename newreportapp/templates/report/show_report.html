@@ -32,12 +32,16 @@
                 <h1 class="title-report">Laudo Técncio Pericial {{ num_report }} </h1>
             </div>
             <p>{{ report.makePreamble }}</p>
-           <h3 class="title_report">Dados da Requisição de Exame</h3>
-           <p><strong>Objetivo:</strong> {{ report.examination_objective }}</p>
-           <p><strong>Natureza:</strong> {{ report.incident_nature }}</p>
-           <p><strong>Autoridade Requisitante:</strong> {{ report.requesting_authority }}</p>
-           <p><strong>Boletim:</strong> {{ num_occurrency }} - {{ report.police_station }}</p>
-           <p><strong>Data e Hora da Ocorrência:</strong> {{ report.occurrence_date }} às {{ report.occurrence_time }}</p>
+            <h3 class="title_report">Dados da Requisição de Exame</h3>
+            <p><strong>Objetivo:</strong> {{ report.examination_objective }}</p>
+            <p><strong>Natureza:</strong> {{ report.incident_nature }}</p>
+            <p><strong>Autoridade Requisitante:</strong> {{ report.requesting_authority }}</p>
+            <p><strong>Boletim:</strong> {{ num_occurrency }} - {{ report.police_station }}</p>
+            <p><strong>Data e Hora da Ocorrência:</strong> {{ report.occurrence_date }} às {{ report.occurrence_time }}</p>
+            <h3 class="title-report">Dados do Atendimento</h3>
+            <p><strong>Protocolo / Registro de entrada:</strong> {{ num_protocol }}</p>
+            <p><strong>Recebimento da Requisição:</strong> {{ report.call_date }} às {{ report.call_time }}</p>
+            <p><strong>Data e Hora do Atendimento:</strong> {{ report.service_date }} às {{ report.service_time }}</p>
         </div>
     </div> <!-- Final da Página Central -->
     

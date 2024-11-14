@@ -72,7 +72,7 @@ urlpatterns = [
     path('report/header-report/', header_report_view, name='create_header_report'),
     path('report/header-report/<int:report_id>/', header_report_view, name='edit_header_report'),
     path('report/list_report/', list_reports, name='list_reports'),
-    path('relatorio/<int:pk>/', show_report, name='show_report'),
+    path('report/show_report/<int:pk>/', show_report, name='show_report'),
     path('delete-report/<int:report_id>/', delete_report, name='delete_report'),
 
     # SECTIONS
