@@ -20,20 +20,8 @@ class SectionReportModel(models.Model):
     )
     date = models.DateField(auto_now_add=True, verbose_name="Data do Registro")
     
-    SUBJECT_CHOICES = [
-        ('local', 'Local'),
-        ('veiculo', 'Veículo'),
-        ('peça', 'Peça'),
-        ('cadáver', 'Cadáver'),
-        ('impressao_digital', 'Impressão Digital'),
-        ('sangue', 'Sangue'),
-        ('remessa_ra', 'Remessa para RA'),
-        ('remessa_autoridade', 'Remessa para Autoridade'),
-        ('outro', 'Outro'),
-    ]
-    subject = models.CharField(max_length=20, choices=SUBJECT_CHOICES, verbose_name="Assunto")
-    
-    order = models.PositiveIntegerField(verbose_name="Ordem")
+    order = models.PositiveIntegerField(verbose_name="Ordem")  # Preenchido automaticamente
+    subject = models.CharField(max_length=50, verbose_name="Assunto")
     title = models.CharField(max_length=100, verbose_name="Título")
     description = models.TextField(verbose_name="Descrição")
     
@@ -44,4 +32,13 @@ class SectionReportModel(models.Model):
         verbose_name_plural = "Seções do Relatório"
 
     def __str__(self):
-        return f"{self.title} - {self.get_subject_display()}"
+        return f"{self.title} - Ordem {self.order}"
+
+    def save(self, *args, **kwargs):
+        # Atribuir automaticamente o próximo valor de `order` se não estiver definido
+        if self.order is None:
+            last_order = SectionReportModel.objects.filter(header_report=self.header_report).aggregate(
+                models.Max('order')
+            )['order__max']
+            self.order = (last_order or 0) + 1
+        super().save(*args, **kwargs)

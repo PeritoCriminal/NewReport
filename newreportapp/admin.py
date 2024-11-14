@@ -7,6 +7,7 @@ from .models import (CustomUserModel,
                      LikeComment,
                      LikePost,
                      HeaderReportModel,
+                     SectionReportModel,
                      UserAttributesToReportModel,
                      )
 
@@ -54,6 +55,10 @@ class LikeCommentModelAdmin(admin.ModelAdmin):
 @admin.register(HeaderReportModel)
 class HeaderReportModelAdmin(admin.ModelAdmin):
     list_display = ('report_number', 'expert_display_name', 'designation_date')
+
+@admin.register(SectionReportModel)
+class SectionReportModelAdmin(admin.ModelAdmin):
+    list_display = ('header_report', 'subject', 'order', 'title', 'description')
 
 @admin.register(UserAttributesToReportModel)
 class UserAttributesToReportModelAdmin(admin.ModelAdmin):

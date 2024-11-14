@@ -99,7 +99,7 @@
 
       <div class="form-group">
         <button type="submit" class="btn btn-primary">Salvar</button>
-        <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a>
       </div>
     </form>
   </div>

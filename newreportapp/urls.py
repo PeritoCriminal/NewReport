@@ -18,6 +18,7 @@ from .views import (change_password_view,
                     list_reports,
                     delete_report,
                     show_report,
+                    local_preservation_report_view,
                     verify_email)
 
 urlpatterns = [
@@ -75,13 +76,22 @@ urlpatterns = [
     path('report/show_report/<int:pk>/', show_report, name='show_report'),
     path('delete-report/<int:report_id>/', delete_report, name='delete_report'),
 
+    # Rota para criar um novo relatório de preservação de local
+    path('report/preservation_report/<int:header_report_id>/', local_preservation_report_view, name='create_preservation_report'),
+    
+    # Rota para editar um relatório de preservação de local
+    path('report/preservation_report/<int:id>/<int:header_report_id>/', local_preservation_report_view, name='edit_preservation_report'),
+    
     # SECTIONS
-    # Rota para exibir o formulário em diferentes templates
-    path('section-report/template1/', section_report_view, {'template_name': 'report/template1.html'}, name='section_report_template1'),
-    path('section-report/template2/', section_report_view, {'template_name': 'report/template2.html'}, name='section_report_template2'),
-    # Rota para exibir um registro específico
-    path('section-report/<int:id>/template1/', section_report_view, {'template_name': 'report/template1.html'}, name='edit_section_report_template1'),
-    path('section-report/<int:id>/template2/', section_report_view, {'template_name': 'report/template2.html'}, name='edit_section_report_template2'),
+    # Rota para exibir o formulário da seção em diferentes templates
+    path('section-report/<int:header_report_id>/template1/', section_report_view, {'template_name': 'report/template1.html'}, name='section_report_template1'),
+    path('section-report/<int:header_report_id>/template2/', section_report_view, {'template_name': 'report/template2.html'}, name='section_report_template2'),
+    
+    # Rota para editar uma seção específica em template1
+    path('section-report/<int:id>/<int:header_report_id>/template1/', section_report_view, {'template_name': 'report/template1.html'}, name='edit_section_report_template1'),
+    
+    # Rota para editar uma seção específica em template2
+    path('section-report/<int:id>/<int:header_report_id>/template2/', section_report_view, {'template_name': 'report/template2.html'}, name='edit_section_report_template2'),
 
 ]
 

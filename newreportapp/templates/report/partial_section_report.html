@@ -1,7 +1,34 @@
 <!-- newreport/templates/report/partial_section_report_form.html -->
 
-<form method="POST" action="{% url 'section_report_view' %}">
+<form method="POST" action="{{ action_url }}">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Enviar</button>
+    
+    <!-- Exibe o campo de formulário -->
+    <div class="form-group">
+        {{ form.title.label }}
+        {{ form.title }}
+        {% if form.title.help_text %}
+            <small class="form-text text-muted">{{ form.title.help_text }}</small>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        {{ form.description.label }}
+        {{ form.description }}
+        {% if form.description.help_text %}
+            <small class="form-text text-muted">{{ form.description.help_text }}</small>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        {{ form.header_report_model.label }}
+        {{ form.header_report_model }}
+        {% if form.header_report_model.help_text %}
+            <small class="form-text text-muted">{{ form.header_report_model.help_text }}</small>
+        {% endif %}
+    </div>
+
+    <!-- Botões -->
+    <button type="submit" class="btn btn-primary">Enviar</button>
+    <a href="{% url 'home' %}" class="btn btn-secondary ml-2">Cancelar</a> <!-- Botão de Cancelar -->
 </form>

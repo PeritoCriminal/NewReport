@@ -3,6 +3,7 @@ Código está crescendo.
 ====================================================
 O que falta implementar?
 ----------------------------------------------------
+ajustar admin para dados do section_report
 ajustar os btn Enviar e Cancelar padronizados para toda as telas.
 remover '>' ao final do cadastro de usuário.
 fotos de usuário precisam ser deletadas ou trocadas

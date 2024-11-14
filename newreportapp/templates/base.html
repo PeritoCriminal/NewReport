@@ -43,7 +43,7 @@
                                 <div class="dropdown-menu" aria-labelledby="reportDropdown">
                                     <a class="dropdown-item" href="{% url 'edit_header_report' report.id %}">Dados Gerais</a>
                                     <a class="dropdown-item" href="#">Declarações</a>
-                                    <a class="dropdown-item" href="#">Preservação de Local</a>
+                                    <a class="dropdown-item" href="{% url 'create_preservation_report' report.id %}">Preservação de Local</a>
                                     <a class="dropdown-item" href="#">Via Pública</a>
                                     <a class="dropdown-item" href="#">Imóvel</a>
                                     <a class="dropdown-item" href="#">Veículo</a>
