@@ -30,5 +30,4 @@
 
     <!-- Botões -->
     <button type="submit" class="btn btn-primary">Enviar</button>
-    <a href="{% url 'home' %}" class="btn btn-secondary ml-2">Cancelar</a> <!-- Botão de Cancelar -->
-</form>
+    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a></form>

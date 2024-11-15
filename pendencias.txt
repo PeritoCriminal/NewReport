@@ -3,9 +3,9 @@ Código está crescendo.
 ====================================================
 O que falta implementar?
 ----------------------------------------------------
+inserir imagem e legenda nos formulários de locais
 ajustar admin para dados do section_report
 ajustar os btn Enviar e Cancelar padronizados para toda as telas.
-remover '>' ao final do cadastro de usuário.
 fotos de usuário precisam ser deletadas ou trocadas
 Criar logs
 Permições para usuários editores, moderadores e admin
@@ -25,6 +25,7 @@ Limpar comentários desnecessários, enxugar o código.
 =========================================================
 O que já foi feito.
 ---------------------------------------------------------
+remover '>' ao final do cadastro de usuário.
 Implementar Relatório
  - Model head
  - Model section

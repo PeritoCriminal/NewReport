@@ -42,6 +42,13 @@
             <p><strong>Protocolo / Registro de entrada:</strong> {{ num_protocol }}</p>
             <p><strong>Recebimento da Requisição:</strong> {{ report.call_date }} às {{ report.call_time }}</p>
             <p><strong>Data e Hora do Atendimento:</strong> {{ report.service_date }} às {{ report.service_time }}</p>
+            {% if section_local %}
+                <h3 class="title-report">Descrição e Exame de Local</h3>
+                {% for section in section_local %}
+                    <h5 class="title-report">{{ section.title }}</h5>
+                    <p>{{ section.description }}</p>
+                {%  endfor %}
+            {% endif %}
         </div>
     </div> <!-- Final da Página Central -->
     

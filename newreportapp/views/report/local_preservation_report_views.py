@@ -33,7 +33,7 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
             section_report.save()
             
             messages.success(request, f"{action} do relatório realizada com sucesso!")
-            return redirect('home')
+            return redirect('show_report', pk=header_report.id)  # Aqui preciso passar o id desse relatório, 
         else:
             print(f'Formulário inválido - Erros: {form.errors}')
 
