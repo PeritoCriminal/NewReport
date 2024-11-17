@@ -13,6 +13,7 @@ class SectionReportForm(forms.ModelForm):
             'title': forms.TextInput(attrs={
                 'class': 'form-control mb-3',  # Adicionando margens e a classe form-control
                 'placeholder': 'Ex: Descrição e Exame de Local',
+                'default': '# como passar o valor da variável title que está na view? ou faço de outra forma?',
                 'aria-label': 'Título da Seção'  # Para melhorar a acessibilidade
             }),
             'description': forms.Textarea(attrs={

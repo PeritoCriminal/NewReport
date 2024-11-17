@@ -21,6 +21,7 @@ class SectionReportModel(models.Model):
     date = models.DateField(auto_now_add=True, verbose_name="Data do Registro")
     
     order = models.PositiveIntegerField(verbose_name="Ordem")  # Preenchido automaticamente
+    rota = models.CharField('url',max_length=50, blank=True, default='' )
     subject = models.CharField(max_length=50, verbose_name="Assunto")
     title = models.CharField(max_length=100, verbose_name="Título")
     description = models.TextField(verbose_name="Descrição")

@@ -46,8 +46,9 @@ def header_report_view(request, report_id=None):
 
             form.save()
             messages.success(request, f"{action} - Registro salvo com sucesso!")
-            previous_url = request.META.get('HTTP_REFERER', 'home')
-            return redirect(previous_url)
+            #previous_url = request.META.get('HTTP_REFERER', 'show_report')
+            #return redirect(previous_url)
+            return redirect('show_report', header_report.id)
         else:
             messages.error(request, "Erro ao processar o formulário. Verifique os campos.")
             # for field_name, field_value in form.cleaned_data.items():

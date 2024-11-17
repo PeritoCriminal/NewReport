@@ -80,8 +80,7 @@ urlpatterns = [
     path('report/preservation_report/<int:header_report_id>/', local_preservation_report_view, name='create_preservation_report'),
     
     # Rota para editar um relatório de preservação de local
-    path('report/preservation_report/<int:id>/<int:header_report_id>/', local_preservation_report_view, name='edit_preservation_report'),
-    
+    path('report/preservation_report/<int:header_report_id>/<int:id>/', local_preservation_report_view, name='edit_preservation_report'),
     # SECTIONS
     # Rota para exibir o formulário da seção em diferentes templates
     path('section-report/<int:header_report_id>/template1/', section_report_view, {'template_name': 'report/template1.html'}, name='section_report_template1'),

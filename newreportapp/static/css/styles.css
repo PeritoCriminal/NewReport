@@ -500,3 +500,45 @@ li {
     margin-top: 32px;
     margin-bottom: 16px;
 }
+
+
+    .d-flex {
+        display: flex;
+        gap: 20px; /* Espaço entre a barra lateral e o conteúdo principal */
+    }
+
+    .fixed-sidebar {
+        position: sticky; /* Mantém fixo enquanto rola a página */
+        top: 80px; /* Espaço superior */
+        max-width: 300px; /* Largura da barra lateral */
+        min-width: 300px;
+        margin-left: -200px;
+        background: #f8f9fa; /* Cor de fundo */
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 5px;
+        height: fit-content; /* Ajusta à altura do conteúdo */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .main-content {
+        flex-grow: 1; /* Faz com que o conteúdo principal preencha o espaço restante */
+    }
+
+    .fixed-sidebar ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .fixed-sidebar li {
+        margin: 5px 0;
+    }
+
+    .fixed-sidebar a {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .fixed-sidebar a:hover {
+        text-decoration: underline;
+    }

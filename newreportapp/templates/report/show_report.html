@@ -6,27 +6,43 @@
 
 {% block content %}
 
-    <div class="mt-4 border p-4 bg-light shadow-sm rounded">
-        <p class="titulo-2"></p>
-        <div class="header">
+<div class="d-flex">
+    <!-- Barra lateral fixa -->
+    <div class="fixed-sidebar">
+        <p><strong>Seções:</strong></p>
+        <ul>
+            {% if section_local %}
+                {% for section in section_local %}
+                    <li>
+                        <a href="{% url section.rota section.header_report_id section.id %}">
+                            {{ section.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li>Nenhuma seção disponível.</li>
+            {% endif %}
+        </ul>
+    </div>
 
+    <!-- Conteúdo principal -->
+    <div class="main-content mt-4 border p-4 bg-light shadow-sm rounded">
+        <div class="header">
             <div class="img-logo">
                 <img src="{% static 'images/logos/sptc.png' %}" alt="SPTC Logo">
-            </div>
-            
+            </div>            
             <div class="central-content">
                 <p><strong>SECRETARIA DE SEGURANÇA PÚBLICA</strong></p>
                 <p><strong>SUPERINTENDÊNCIA DA POLÍCIA TECNICO-CIENTÍFICA</strong></p>
                 <p>INSTITUTO DE CRIMINALÍSTICA</p>
                 <p><small>PERITO CRIMINAL DR. OCTÁVIO EDUARDO DE BRITO ALVARENGA</small></p>
                 <p>{{ institute_unit }} | {{ forensic_team_base }}</p>
-            </div>
-        
+            </div>        
             <div class="img-logo">
                 <img src="{% static 'images/logos/sp.png' %}" alt="SP Logo">
-            </div>
-            
-        </div> <!-- Final do Cabeçalho -->
+            </div>            
+        </div>
+
         <div class="justify-content">
             <div class="central-content">
                 <h1 class="title-report">Laudo Técncio Pericial {{ num_report }} </h1>
@@ -46,11 +62,19 @@
                 <h3 class="title-report">Descrição e Exame de Local</h3>
                 {% for section in section_local %}
                     <h5 class="title-report">{{ section.title }}</h5>
-                    <p>{{ section.description }}</p>
+                    <p>{{ section.description |linebreaks }}</p>
                 {%  endfor %}
             {% endif %}
         </div>
-    </div> <!-- Final da Página Central -->
+    </div>
+</div>
+
     
 
 {% endblock content %}
+
+{% block scripts %}
+    <script>
+        hideMsg('.alert', 8000);
+    </script>
+{% endblock scripts %}

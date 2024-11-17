@@ -1,3 +1,5 @@
+<!-- newreportapp/templates/repot/local_preservation_report.html -->
+
 {% extends 'base.html' %}
 
 {% block title %}preservação de local{% endblock title %}
@@ -6,9 +8,143 @@
 
     <div class="mt-4 border p-4 bg-light shadow-sm rounded">
         
-        <h4 class="titulo-2">Preservação do Local</h4>
+        <h4 class="titulo-2">Seção: Local</h4>
+
+        <div class="form-group">
+            <label for="preservation-team">Equipe</label>
+            <select name="preservation-team" id="preservation-team" class="form-control"></select>
+        </div>
+        <div class="form-group">
+            <label for="supervisor">Encarregado</label>
+            <input type="text" id="supervisor" name="supervisor" class="form-control" required placeholder="Exemplo: Cabo PM Marcos de Oliveira">
+        </div>
+        <div class="form-group">
+            <label for="vtr-veicle">Viatura</label>
+            <input type="text" id="vtr-veicle" name="vtr-veicle" class="form-control" required placeholder="Exemplo: i-36,123">
+        </div> 
+        <div class="form-group">
+            <label for="preservation-conditions">Condições do Local</label>
+            <select name="preservation-conditions" id="preservation-conditions" class="form-control"></select>
+        </div>
+        <div class="form-group">
+            <input type="checkbox" name="checkAuthority" id="checkAuthority">
+            <label for="checkAuthority" class="form-check-label">Autoridade Requisitante no Local</label>
+        </div>  
+        <div class="form-group">
+            <input type="checkbox" name="checkTeamInvestigation" id="checkTeamInvestigation">
+            <label for="checkTeamInvestigation" class="form-check-label">Equipe de Investigação no Local</label>
+        </div>       
 
         {% include 'report/partial_section_report.html' with action_url=request.path %}
 
+        
+
     </div>
 {% endblock content %}
+
+{% block scripts %}
+    <script>
+        let team_preservation = 'teste';
+        let encharge_preservation = 'teste';
+        let vtr_preservation = 'teste';
+        let condition_preservation = 'teste';
+        let authority_at_place = 'teste';
+        let investigation_team_at_place = 'teste';
+        
+        const preservationTeam = {
+            'Selecione': '',
+            'Sem equipe': 'No local não havia equipe de preservação.',
+            'PM': 'Local preservado por equipe da Polícia Militar',
+            'PMR': 'Local preservado por equipe da Polícia Militar Rodoviária',
+            'GCM': 'Local preservado por equipe da Guarda Civil Municipal',
+            'PC': 'Local preservado por equipe da Polícia Civil',
+            'PRF': 'Local preservado por equipe da Polícia Rodoviária Federal',
+            'CBM': 'Local preservado por equipe do Corpo de Bombeiros Militar',
+            'PF': 'Local preservado por equipe da Polícia Federal',
+            'Forças Armadas': 'Local preservado por equipe das Forças Armadas',
+            'Agentes de Trânsito': 'Local preservado por agentes de trânsito'
+        };
+
+        const preservationConditions = {
+            'Selecione': '',
+            'Preservado': 'Local adequadamente preservado.',
+            'Parcialmente Preservado': 'Local parcialmente preservado.',
+            'Inidôneo': 'Local prejudicado',
+            'Não Preservado': 'Local não preservado',
+        };
+
+        const deltaAndTeam = [
+        '',
+        'Autoridade Requisitante esteve no local e acompanhou ou trabalho da perícia.',
+        'Autoridade Requisitante juntamente com equipe de investigação da Polícia Civil esteve no local e acompanhou o trabalho da perícia.',
+        'Equipe de investigação da Polícia Civil esteve no local e acompanhou o trabalho da perícia.'
+        ];
+
+        const selectElementTeam = document.querySelector('#preservation-team');
+        const teamSupervisor = document.querySelector('#supervisor');
+        const vtrVeicle = document.querySelector('#vtr-veicle');
+        const selectElementConditions = document.querySelector('#preservation-conditions');
+        const preservationGeneralContext = document.querySelector('#preservationContext');
+        const deltaInPlace = document.querySelector('#checkAuthority');
+        const pcTeamInPlace = document.querySelector('#checkTeamInvestigation');
+
+        for (const [key, value] of Object.entries(preservationTeam)) {
+            const option = document.createElement('option');
+            option.value = value;  
+            option.textContent = key;
+            selectElementTeam.appendChild(option);
+        }
+
+        for (const [key, value] of Object.entries(preservationConditions)) {
+            const option = document.createElement('option');
+            option.value = value;  
+            option.textContent = key;
+            selectElementConditions.appendChild(option);
+        }
+
+        function describePreservationContext() {            
+            const descriptionField = document.querySelector('#id_description');
+            descriptionField.value = `${team_preservation}\n${encharge_preservation}\n${vtr_preservation}\n${condition_preservation}\n${authority_at_place}\n${investigation_team_at_place}`
+        }
+
+        selectElementTeam.addEventListener('change', (event)=>{
+            team_preservation = `${selectElementTeam.value}`;
+            describePreservationContext();
+        });
+
+        teamSupervisor.addEventListener('change', (event)=>{
+            encharge_preservation = `Encarregado: ${teamSupervisor.value}`;
+            describePreservationContext();
+        });
+
+        vtrVeicle.addEventListener('change', (event)=>{
+            vtr_preservation = `Viatura: ${vtrVeicle.value}`;
+            describePreservationContext();
+        });
+
+        selectElementConditions.addEventListener('change', (event)=>{
+            condition_preservation = `${selectElementConditions.value}`;
+            describePreservationContext();
+        });
+
+        deltaInPlace.addEventListener('change', (event)=>{
+            if(deltaInPlace.checked){
+                authority_at_place = 'Autoridade Requisitante presente no local: Sim';
+            }else{
+                authority_at_place = 'Autoridade Requisitante presente no local: Não';
+            } 
+            describePreservationContext();           
+        });
+
+        pcTeamInPlace.addEventListener('change', (event)=>{
+            if(pcTeamInPlace.checked){
+                investigation_team_at_place = 'Equipe de Investigação no local: Sim';
+            }else{
+                investigation_team_at_place = 'Equipe de Investigação no local: Não';
+            } 
+            describePreservationContext();           
+        });
+        
+    </script>
+
+{% endblock scripts %}
