@@ -1,0 +1,97 @@
+<!-- newreportapp/templates/modal_image.html - Manter essa linha ao copiar o arquivo -->
+
+<!-- Botão para abrir o explorador, escolher uma imagem e abrir a janela de edição -->
+<button type="button" class="btn btn-outline-primary" id="openImageModal">
+    <i class="fas fa-image"></i> Adicionar Imagem
+</button>
+
+<!-- Janela modal para edição de imagens -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imageModalLabel">Adicionar e Editar Imagem</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Ferramentas -->
+                <div class="mb-3 text-right">
+                    <a href="#" id="saveImageButton" title="Salvar" class="nav-link d-inline-block">
+                        <i class="fas fa-save text-success"></i>
+                    </a>
+                    <a href="#" data-dismiss="modal" title="Cancelar" class="nav-link d-inline-block">
+                        <i class="fas fa-times text-danger"></i>
+                    </a>
+                </div>
+                
+                
+
+                <!-- Campo de descrição -->
+                <div class="form-group">
+                    <textarea id="imageDescription" class="form-control" rows="2" placeholder="Descrição da imagem, não obrigatório."></textarea>
+                </div>
+
+                <!-- Campo de upload de imagem -->
+                <div class="form-group d-none">
+                    <input type="file" id="imageInput" accept="image/*">
+                </div>
+
+                <!-- Visualização da imagem -->
+                <div class="form-group">
+                    <canvas id="imageCanvas" class="border w-100"></canvas>
+                </div>
+
+                <!-- Campo de legenda -->
+                <div class="form-group">
+                    <input type="text" class="form-control" id="imageCaption" placeholder="Legenda da imagem.">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Abrir o explorador de arquivos ao clicar no botão
+    document.querySelector('#openImageModal').addEventListener('click', function () {
+        document.querySelector('#imageInput').click();
+    });
+
+    // Carregar a imagem no canvas e abrir o modal
+    document.querySelector('#imageInput').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const canvas = document.querySelector('#imageCanvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.onload = function () {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    // Abrir o modal após carregar a imagem
+                    $('#imageModal').modal('show');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Capturar dados ao salvar a imagem
+    document.querySelector('#saveImageButton').addEventListener('click', function () {
+        const canvas = document.querySelector('#imageCanvas');
+        const description = document.querySelector('#imageDescription').value;
+        const caption = document.querySelector('#imageCaption').value;
+
+        // Captura os dados da imagem, descrição e legenda
+        const imageData = canvas.toDataURL();
+
+        console.log({ imageData, description, caption });
+
+        // Fechar o modal
+        $('#imageModal').modal('hide');
+    });
+</script>

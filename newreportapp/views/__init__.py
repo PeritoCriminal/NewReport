@@ -20,3 +20,4 @@ from .report.list_report_views import list_reports
 from .report.delete_report_views import delete_report
 from .report.show_report_views import show_report
 from .report.local_preservation_report_views import local_preservation_report_view
+from .report.image_report_views import image_report_view

@@ -3,6 +3,7 @@ Código está crescendo.
 ====================================================
 O que falta implementar?
 ----------------------------------------------------
+ajustar formulário de imagem
 inserir imagem e legenda nos formulários de locais
 ajustar admin para dados do section_report
 ajustar os btn Enviar e Cancelar padronizados para toda as telas.

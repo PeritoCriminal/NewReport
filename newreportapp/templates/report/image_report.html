@@ -1,0 +1,15 @@
+<!-- newreportapp/templates/report/image_report.html - Mantenha essa linha ao copiar o arquivo -->
+
+{% extends 'base.html' %}
+{% block title %}{{ instance|default:"Nova Imagem" }}{% endblock %}
+{% block content %}
+    <div class="container mt-5">
+        <h2>{{ instance|default:"Adicionar Nova Imagem" }}</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">{{ instance|default:"Adicionar" }}</button>
+            <a href="{% url 'add_image_report' section.pk %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+{% endblock %}

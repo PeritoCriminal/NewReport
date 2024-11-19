@@ -1,4 +1,4 @@
-# newreportapp/forms/report/section_report_form.py
+# newreportapp/forms/report/section_report_form.py - mantenha essa linha ao copiar o arquivo
 
 from django import forms
 from newreportapp.models import SectionReportModel
@@ -8,7 +8,6 @@ class SectionReportForm(forms.ModelForm):
         model = SectionReportModel
         fields = ['title', 'description']
 
-        # Customizações de widgets
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control mb-3',  # Adicionando margens e a classe form-control

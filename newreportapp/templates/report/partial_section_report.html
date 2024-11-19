@@ -1,33 +1,46 @@
-<!-- newreport/templates/report/partial_section_report_form.html -->
+<!-- newreport/templates/report/partial_section_report_form.html - mantenha essa linha quando copiar o arquivo -->
 
-<form method="POST" action="{{ action_url }}">
+<form method="POST" action="{{ action_url }}" enctype="multipart/form-data">
     {% csrf_token %}
-    
-    <!-- Exibe o campo de formulário -->
+
+    <!-- Campo para título -->
     <div class="form-group">
-        {{ form.title.label }}
+        {{ form.title.label_tag }}
         {{ form.title }}
         {% if form.title.help_text %}
             <small class="form-text text-muted">{{ form.title.help_text }}</small>
         {% endif %}
     </div>
 
+    <!-- Campo para descrição -->
     <div class="form-group">
-        {{ form.description.label }}
+        {{ form.description.label_tag }}
         {{ form.description }}
         {% if form.description.help_text %}
             <small class="form-text text-muted">{{ form.description.help_text }}</small>
         {% endif %}
     </div>
 
-    <div class="form-group">
-        {{ form.header_report_model.label }}
-        {{ form.header_report_model }}
-        {% if form.header_report_model.help_text %}
-            <small class="form-text text-muted">{{ form.header_report_model.help_text }}</small>
-        {% endif %}
-    </div>
+    <!-- Campo para Header Report (se aplicável) -->
+    {% if header_report_instance %}
+        <div class="form-group">
+            <label class="form-label">Relatório de Cabeçalho</label>
+            <input type="text" class="form-control" value="{{ header_report_instance }}" disabled>
+        </div>
+    {% else %}
+        <div class="form-group">
+            {{ form.header_report_model.label_tag }}
+            {{ form.header_report_model }}
+            {% if form.header_report_model.help_text %}
+                <small class="form-text text-muted">{{ form.header_report_model.help_text }}</small>
+            {% endif %}
+        </div>
+    {% endif %}
 
-    <!-- Botões -->
-    <button type="submit" class="btn btn-primary">Enviar</button>
-    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a></form>
+    {% include "modal_image.html" %}
+
+    <div class="form-group d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</form>

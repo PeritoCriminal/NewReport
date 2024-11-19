@@ -19,6 +19,7 @@ from .views import (change_password_view,
                     delete_report,
                     show_report,
                     local_preservation_report_view,
+                    image_report_view,
                     verify_email)
 
 urlpatterns = [
@@ -75,6 +76,10 @@ urlpatterns = [
     path('report/list_report/', list_reports, name='list_reports'),
     path('report/show_report/<int:pk>/', show_report, name='show_report'),
     path('delete-report/<int:report_id>/', delete_report, name='delete_report'),
+
+    path('report/image_report/<int:section_pk>', image_report_view, name='add_image_report'),
+    path('report/<int:section_pk>/image/<int:pk>/edit/', image_report_view, name='edit_image_report'),
+
 
     # Rota para criar um novo relatório de preservação de local
     path('report/preservation_report/<int:header_report_id>/', local_preservation_report_view, name='create_preservation_report'),
