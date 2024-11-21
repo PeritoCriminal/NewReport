@@ -45,6 +45,40 @@
     </div>
 </form>
 
+{% if images %}
+    <h3>Imagens Associadas</h3>
+    {% for image_instance in images %}
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; border-bottom: 1px solid #ccc; padding: 10px;">
+            <div style="display: flex; align-items: center;">
+                <!-- Imagem -->
+                <img src="{{ image_instance.img.url }}" alt="{{ image_instance.caption }}" style="max-width: 200px; margin-right: 20px;">
+                
+                <!-- Descrição -->
+                <p style="margin: 0;">{{ image_instance.description | linebreaks }}</p>
+            </div>
+
+            <!-- Ícones de ações -->
+            <div>
+                <a href="#" title="Editar">
+                    <i class="fas fa-edit" style="color: #007bff; margin-right: 10px;"></i>
+                </a>
+                <form action="{% url 'delete_image' image_instance.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" title="Excluir" onclick="return confirm('Tem certeza de que deseja excluir esta imagem?');" style="background: none; border: none; cursor: pointer;">
+                        <i class="fas fa-trash-alt" style="color: #dc3545;"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Legenda -->
+        <p style="margin: 5px 0;">{{ image_instance.caption }}</p>
+    {% endfor %}
+{% else %}
+    <p>Nenhuma imagem associada.</p>
+{% endif %}
+
+
 {% if report_section.id %}
         {% include "modal_image.html" %}
 {% else %}

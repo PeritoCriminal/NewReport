@@ -2,7 +2,7 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from newreportapp.forms.report.section_report_form import SectionReportForm
-from newreportapp.models import SectionReportModel, HeaderReportModel
+from newreportapp.models import SectionReportModel, HeaderReportModel, ImageReportModel
 from django.contrib import messages
 
 def section_report_view(request, id=None, header_report_id=None, template_name='report/partial_section_report_form.html'):
@@ -23,6 +23,10 @@ def section_report_view(request, id=None, header_report_id=None, template_name='
         section_report_instance = get_object_or_404(SectionReportModel, id=id)
         action = "Edição"
 
+    # Obtém a instância de ImageReportModel relacionada, se aplicável.
+    image_report_instance = None
+    if section_report_instance:
+        image_report_instance = ImageReportModel.objects.filter(report_section=section_report_instance) if section_report_instance else []
     # Inicializa o formulário com os dados do POST ou da instância existente.
     form = SectionReportForm(request.POST or None, instance=section_report_instance)
 
@@ -41,8 +45,9 @@ def section_report_view(request, id=None, header_report_id=None, template_name='
     context = {
         'form': form,
         'action': action,
-        'header_report_instance': header_report_instance, 
+        'header_report_instance': header_report_instance,
         'section_report_instance': section_report_instance,
+        'image_report_instance': image_report_instance,
     }
 
     return render(request, template_name, context)

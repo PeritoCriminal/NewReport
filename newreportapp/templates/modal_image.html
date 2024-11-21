@@ -28,9 +28,17 @@
                 
                     <!-- Barra de ferramentas -->
                     <div class="mb-3 text-right">
-                        <a href="#" id="saveImageButton" type="submit" title="Salvar" class="nav-link d-inline-block">
+                        <!-- Botão de Zoom -->
+                        <a href="#" id="zoom" title="Zoom" class="nav-link d-inline-block">
+                            <i class="fas fa-search-plus text-primary"></i> <!-- Ícone de zoom -->
+                        </a>
+                    
+                        <!-- Botão de Salvar -->
+                        <a href="#" id="saveImageButton" title="Salvar" class="nav-link d-inline-block">
                             <i class="fas fa-save text-success"></i>
                         </a>
+                    
+                        <!-- Botão de Cancelar -->
                         <a href="#" data-dismiss="modal" title="Cancelar" class="nav-link d-inline-block">
                             <i class="fas fa-times text-danger"></i>
                         </a>
@@ -171,5 +179,8 @@ document.querySelector('#saveImageButton').addEventListener('click', function (e
         console.error("Erro ao salvar a imagem:", error);
     });
 });
+
+
+
 </script>
 {% endblock scripts %}

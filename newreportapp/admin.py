@@ -63,7 +63,7 @@ class SectionReportModelAdmin(admin.ModelAdmin):
 
 @admin.register(ImageReportModel)
 class ImageReportModelAdmin(admin.ModelAdmin):
-    list_display = ('id', 'description', 'caption')
+    list_display = ('id', 'report_section', 'description', 'caption')
 
 @admin.register(UserAttributesToReportModel)
 class UserAttributesToReportModelAdmin(admin.ModelAdmin):

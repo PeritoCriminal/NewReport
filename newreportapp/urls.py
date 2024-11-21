@@ -20,6 +20,7 @@ from .views import (change_password_view,
                     show_report,
                     local_preservation_report_view,
                     save_image_report,
+                    delete_image_view,
                     verify_email)
 
 urlpatterns = [
@@ -77,6 +78,7 @@ urlpatterns = [
     path('report/show_report/<int:pk>/', show_report, name='show_report'),
     path('delete-report/<int:report_id>/', delete_report, name='delete_report'),
     path('save_image_report/', save_image_report, name='save_image_report'),
+    path('delete-image/<int:pk>/', delete_image_view, name='delete_image'),
 
     # path('report/image_report/<int:section_pk>', image_report_view, name='add_image_report'),
     # path('report/<int:section_pk>/image/<int:pk>/edit/', image_report_view, name='edit_image_report'),

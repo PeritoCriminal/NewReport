@@ -30,6 +30,9 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
     # Obtem o `HeaderReportModel` correspondente, se aplicável
     header_report = get_object_or_404(HeaderReportModel, id=header_report_id) if header_report_id else None
 
+    # Obtém as imagens associadas ao report_section
+    images = report_section.images.all() if existing_report else []
+
     # Cria o formulário
     form = SectionReportForm(
         request.POST or None,
@@ -68,6 +71,7 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
         'subject': subject,
         'title': title,
         'rota': rota,
+        'images': images,
     })
 
 

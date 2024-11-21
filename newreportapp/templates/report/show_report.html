@@ -65,6 +65,11 @@
                 {% for section in section_local %}
                     <h5 class="title-report">{{ section.title }}</h5>
                     <p>{{ section.description |linebreaks }}</p>
+                    {% for img in images %}
+                        <p>{{  img.description |linebreaks }}</p>
+                        <img src="{{ img.img.url }}" alt="{{ img.caption }}" style="max-width: 600px;">
+                        <p>{{ img.caption }}</p>
+                    {% endfor %}
                 {%  endfor %}
             {% endif %}
         </div>
