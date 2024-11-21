@@ -15,9 +15,9 @@ from newreportapp.views.posts.inapropriate_post_views import mark_post_inappropr
 from newreportapp.views.posts.prohibited_post_views import mark_post_prohibited
 from .report.header_report_views import header_report_view
 from .user.user_attributes_to_report_views import user_attributes_to_report_view
-from .report.partial_section_report_views import section_report_view
+# from .report.partial_section_report_views import section_report_view
 from .report.list_report_views import list_reports
 from .report.delete_report_views import delete_report
 from .report.show_report_views import show_report
 from .report.local_preservation_report_views import local_preservation_report_view
-from .report.image_report_views import image_report_view
+from .report.image_report_views import save_image_report

@@ -10,30 +10,34 @@
         
         <h4 class="titulo-2">Local - Preservação</h4>
 
-        <div class="form-group">
-            <label for="preservation-team">Equipe</label>
-            <select name="preservation-team" id="preservation-team" class="form-control"></select>
-        </div>
-        <div class="form-group">
-            <label for="supervisor">Encarregado</label>
-            <input type="text" id="supervisor" name="supervisor" class="form-control" required placeholder="Exemplo: Cabo PM Marcos de Oliveira">
-        </div>
-        <div class="form-group">
-            <label for="vtr-veicle">Viatura</label>
-            <input type="text" id="vtr-veicle" name="vtr-veicle" class="form-control" required placeholder="Exemplo: i-36,123">
-        </div> 
-        <div class="form-group">
-            <label for="preservation-conditions">Condições do Local</label>
-            <select name="preservation-conditions" id="preservation-conditions" class="form-control"></select>
-        </div>
-        <div class="form-group">
-            <input type="checkbox" name="checkAuthority" id="checkAuthority">
-            <label for="checkAuthority" class="form-check-label">Autoridade Requisitante no Local</label>
-        </div>  
-        <div class="form-group">
-            <input type="checkbox" name="checkTeamInvestigation" id="checkTeamInvestigation">
-            <label for="checkTeamInvestigation" class="form-check-label">Equipe de Investigação no Local</label>
-        </div>       
+        {% if not report_section.id %}  <!-- Essa condição permite a ocrrência de erros no js abaixo, visto que alguns elementos serão invocados sem terem sido criados. -->
+
+            <div class="form-group">
+                <label for="preservation-team">Equipe</label>
+                <select name="preservation-team" id="preservation-team" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label for="supervisor">Encarregado</label>
+                <input type="text" id="supervisor" name="supervisor" class="form-control" required placeholder="Exemplo: Cabo PM Marcos de Oliveira">
+            </div>
+            <div class="form-group">
+                <label for="vtr-veicle">Viatura</label>
+                <input type="text" id="vtr-veicle" name="vtr-veicle" class="form-control" required placeholder="Exemplo: i-36,123">
+            </div> 
+            <div class="form-group">
+                <label for="preservation-conditions">Condições do Local</label>
+                <select name="preservation-conditions" id="preservation-conditions" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" name="checkAuthority" id="checkAuthority">
+                <label for="checkAuthority" class="form-check-label">Autoridade Requisitante no Local</label>
+            </div>  
+            <div class="form-group">
+                <input type="checkbox" name="checkTeamInvestigation" id="checkTeamInvestigation">
+                <label for="checkTeamInvestigation" class="form-check-label">Equipe de Investigação no Local</label>
+            </div>    
+        
+        {% endif %}
 
         {% include 'report/partial_section_report.html' with action_url=request.path %}
 
@@ -42,12 +46,12 @@
 
 {% block scripts %}
     <script>
-        let team_preservation = 'teste';
-        let encharge_preservation = 'teste';
-        let vtr_preservation = 'teste';
-        let condition_preservation = 'teste';
-        let authority_at_place = 'teste';
-        let investigation_team_at_place = 'teste';
+        let team_preservation = '';
+        let encharge_preservation = '';
+        let vtr_preservation = '';
+        let condition_preservation = '';
+        let authority_at_place = '';
+        let investigation_team_at_place = '';
         
         const preservationTeam = {
             'Selecione': '',

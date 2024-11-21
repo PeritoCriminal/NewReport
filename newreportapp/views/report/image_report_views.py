@@ -1,41 +1,80 @@
-# newreportapp/views/report/image_report_views.py - Preserve essa linha ao copiar o arquivo.
-
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from newreportapp.models.report.image_report_model import ImageReportModel, SectionReportModel
-from newreportapp.forms.report.image_report_form import ImageReportForm
-from django.contrib import messages
+from django.core.files.base import ContentFile
+import base64
+import os
 
-def image_report_view(request, section_pk, pk=None):
+def save_image_report(request):
     """
-    View para criar ou editar registros de ImageReportModel.
+    View para salvar ou editar registros de ImageReportModel, salvando imagens em arquivos no diretório de mídia.
     """
-    # Obtém a seção do relatório
-    section = get_object_or_404(SectionReportModel, pk=section_pk)
-
-    # Verifica se é edição ou criação
-    if pk:
-        instance = get_object_or_404(ImageReportModel, pk=pk, report_section=section)
-        action = "Edição"
-    else:
-        instance = None
-        action = "Criação"
-
     if request.method == "POST":
-        form = ImageReportForm(request.POST, request.FILES, instance=instance)
-        if form.is_valid():
-            image = form.save(commit=False)
-            image.report_section = section  # Relaciona a imagem à seção
-            if not instance:  # Define a ordem apenas para novos registros
-                image.order = section.images.count() + 1
-            image.save()
-            messages.success(request, f"{action} da imagem realizada com sucesso!")
-            return redirect('section_report_detail', pk=section.pk)  # Redireciona após salvar
+        # Dados recebidos do formulário
+        section_id = request.POST.get('section_id')
+        description = request.POST.get('description', '')
+        caption = request.POST.get('caption', '')
+        image_data = request.POST.get('image_data', '')  # Base64
+        image_id = request.POST.get('image_id')  # Para edição, se existir um ID
+
+        # Valida se o section_id foi enviado
+        if not section_id:
+            return JsonResponse({
+                "success": False,
+                "message": "ID da seção é obrigatório."
+            }, status=400)
+
+        # Obtém a seção relacionada
+        section = get_object_or_404(SectionReportModel, pk=section_id)
+
+        # Decodifica e salva a imagem, se enviada
+        decoded_image = None
+        if image_data:
+            try:
+                # Decodificar Base64 e salvar como arquivo
+                format, imgstr = image_data.split(';base64,')
+                ext = format.split('/')[-1]
+                file_name = f"image_{section_id}_{image_id or 'new'}.{ext}"
+                decoded_image = ContentFile(base64.b64decode(imgstr), name=file_name)
+            except Exception as e:
+                return JsonResponse({
+                    "success": False,
+                    "message": f"Erro ao processar a imagem: {str(e)}"
+                }, status=400)
+
+        # Verifica se é edição ou criação
+        if image_id:
+            image_instance = get_object_or_404(ImageReportModel, pk=image_id, report_section=section)
+            action = "Edição"
+            # Remove a imagem anterior ao atualizar (opcional)
+            if decoded_image and image_instance.img:
+                if os.path.isfile(image_instance.img.path):
+                    os.remove(image_instance.img.path)
         else:
-            messages.error(request, "O formulário contém erros. Verifique os campos e tente novamente.")
-    else:
-        form = ImageReportForm(instance=instance)
+            image_instance = ImageReportModel(report_section=section)
+            action = "Criação"
+            # Define a ordem para novos registros
+            image_instance.order = section.images.count() + 1
 
-    # Acho que não preciso desse context, porque o template é carregado pela view local_preservation_report
-    
+        # Atualiza os campos do modelo
+        image_instance.description = description
+        image_instance.caption = caption
+        if decoded_image:
+            image_instance.img = decoded_image
 
-    return render(request, 'report/image_report.html')
+        # Salva o modelo
+        image_instance.save()
+
+        # Retorna uma resposta JSON para atualizar a página
+        return JsonResponse({
+            "success": True,
+            "message": f"{action} da imagem realizada com sucesso!",
+            "image_id": image_instance.pk,
+            "image_url": image_instance.img.url,
+        })
+
+    # Caso não seja POST, retorna erro
+    return JsonResponse({
+        "success": False,
+        "message": "Método inválido para esta operação."
+    }, status=400)

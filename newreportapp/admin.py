@@ -9,6 +9,7 @@ from .models import (CustomUserModel,
                      HeaderReportModel,
                      SectionReportModel,
                      UserAttributesToReportModel,
+                     ImageReportModel,
                      )
 
 @admin.register(CustomUserModel)  # Usando o decorador para registrar o modelo
@@ -59,6 +60,10 @@ class HeaderReportModelAdmin(admin.ModelAdmin):
 @admin.register(SectionReportModel)
 class SectionReportModelAdmin(admin.ModelAdmin):
     list_display = ('id', 'header_report', 'subject', 'order', 'title', 'description')
+
+@admin.register(ImageReportModel)
+class ImageReportModelAdmin(admin.ModelAdmin):
+    list_display = ('id', 'description', 'caption')
 
 @admin.register(UserAttributesToReportModel)
 class UserAttributesToReportModelAdmin(admin.ModelAdmin):

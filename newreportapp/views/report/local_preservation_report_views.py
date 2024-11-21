@@ -1,5 +1,7 @@
+#newreportapp/views/report/local_preservation_report_views.py - mantenha essa linha quando copiar o arquivo.
+
 from django.shortcuts import render, get_object_or_404, redirect
-from newreportapp.models import SectionReportModel, HeaderReportModel
+from newreportapp.models import SectionReportModel, HeaderReportModel, ImageReportModel
 from newreportapp.forms import SectionReportForm
 from django.contrib import messages
 
@@ -18,11 +20,11 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
 
     # Decide entre abrir para edição ou criar novo registro
     if existing_report:
-        report = existing_report
-        title = report.title
+        report_section = existing_report
+        title = report_section.title
         action = "Edição"
     else:
-        report = SectionReportModel()
+        report_section = SectionReportModel()
         action = "Criação"
 
     # Obtem o `HeaderReportModel` correspondente, se aplicável
@@ -31,7 +33,7 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
     # Cria o formulário
     form = SectionReportForm(
         request.POST or None,
-        instance=report,
+        instance=report_section,
         initial={
             'title': title,
             'rota': rota,
@@ -41,10 +43,10 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
     if request.method == "POST":
         # Preenche os campos fixos
         if header_report:
-            report.header_report = header_report
-            report.subject = subject
-            report.title = title
-            report.rota = rota
+            report_section.header_report = header_report
+            report_section.subject = subject
+            report_section.title = title
+            report_section.rota = rota
         
         if form.is_valid():
             section_report = form.save(commit=False)
@@ -58,7 +60,8 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
             print(f'Formulário inválido - Erros: {form.errors}')
 
     return render(request, 'report/local_preservation_report.html', {
-        'report': report,
+        'report_section': report_section,
+        'report_section_id':report_section.id,
         'form': form,
         'action': action,
         'header_report_id': header_report_id,
@@ -66,3 +69,11 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
         'title': title,
         'rota': rota,
     })
+
+
+"""
+Veja que acrescentei o ImageReportModel. Os valores são dos inputs e do canvas da janela modal que tem os seguintes elementos:
+então preciso incluir uma view para novos registros e exibição de registros antigos no template abaixo:
+"""
+
+

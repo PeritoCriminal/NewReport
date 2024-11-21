@@ -37,10 +37,16 @@
         </div>
     {% endif %}
 
-    {% include "modal_image.html" %}
+
 
     <div class="form-group d-flex justify-content-between">
         <button type="submit" class="btn btn-primary">Salvar</button>
         <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a>
     </div>
 </form>
+
+{% if report_section.id %}
+        {% include "modal_image.html" %}
+{% else %}
+    <p>Após salvar este formulário, você poderá adicionar imagens com seus respectivos comentários e legendas.</p>
+{% endif %}

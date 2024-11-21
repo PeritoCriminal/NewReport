@@ -1,6 +1,7 @@
 <!-- newreportapp/templates/modal_image.html - Manter essa linha ao copiar o arquivo -->
 
 <!-- Botão para abrir o explorador, escolher uma imagem e abrir a janela de edição -->
+
 <button type="button" class="btn btn-outline-primary" id="openImageModal">
     <i class="fas fa-image"></i> Adicionar Imagem
 </button>
@@ -10,88 +11,165 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="imageModalLabel">Adicionar e Editar Imagem</h5>
+                <h5 class="modal-title" id="imageModalLabel">Editar Imagem</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Ferramentas -->
-                <div class="mb-3 text-right">
-                    <a href="#" id="saveImageButton" title="Salvar" class="nav-link d-inline-block">
-                        <i class="fas fa-save text-success"></i>
-                    </a>
-                    <a href="#" data-dismiss="modal" title="Cancelar" class="nav-link d-inline-block">
-                        <i class="fas fa-times text-danger"></i>
-                    </a>
-                </div>
+                <form id="imageForm" method="POST" action="{% url 'save_image_report' %}">
+                    {% csrf_token %}
+                    
+                    <!-- Campo oculto para armazenar o ID da imagem (edição) -->
+                    <input type="hidden" id="image_id" name="image_id" value="">
+                    
+                    <!-- Campo oculto para armazenar o ID da seção do relatório -->
+                    <input type="hidden" id="section_id_for_image" name="section_id" value="{{ report_section_id }}">
                 
+                    <!-- Barra de ferramentas -->
+                    <div class="mb-3 text-right">
+                        <a href="#" id="saveImageButton" type="submit" title="Salvar" class="nav-link d-inline-block">
+                            <i class="fas fa-save text-success"></i>
+                        </a>
+                        <a href="#" data-dismiss="modal" title="Cancelar" class="nav-link d-inline-block">
+                            <i class="fas fa-times text-danger"></i>
+                        </a>
+                    </div>
                 
-
-                <!-- Campo de descrição -->
-                <div class="form-group">
-                    <textarea id="imageDescription" class="form-control" rows="2" placeholder="Descrição da imagem, não obrigatório."></textarea>
-                </div>
-
-                <!-- Campo de upload de imagem -->
-                <div class="form-group d-none">
-                    <input type="file" id="imageInput" accept="image/*">
-                </div>
-
-                <!-- Visualização da imagem -->
-                <div class="form-group">
-                    <canvas id="imageCanvas" class="border w-100"></canvas>
-                </div>
-
-                <!-- Campo de legenda -->
-                <div class="form-group">
-                    <input type="text" class="form-control" id="imageCaption" placeholder="Legenda da imagem.">
-                </div>
+                    <!-- Campo de descrição -->
+                    <div class="form-group">
+                        <textarea id="imageDescription" name="description" class="form-control" rows="2"
+                            placeholder="Descrição da imagem, não obrigatório."></textarea>
+                    </div>
+                
+                    <!-- Campo oculto para upload de imagem -->
+                    <div class="form-group d-none">
+                        <input type="file" id="imageInput" accept="image/*">
+                    </div>
+                
+                    <!-- Visualização da imagem no canvas -->
+                    <div class="form-group">
+                        <canvas id="imageCanvas" class="border w-100"></canvas>
+                    </div>
+                
+                    <!-- Campo de legenda -->
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="imageCaption" name="caption"
+                            placeholder="Legenda da imagem.">
+                    </div>
+                </form>
+                
             </div>
         </div>
     </div>
 </div>
 
+
+{% block scripts %}
+
 <script>
+
+   
+
     // Abrir o explorador de arquivos ao clicar no botão
     document.querySelector('#openImageModal').addEventListener('click', function () {
         document.querySelector('#imageInput').click();
     });
 
     // Carregar a imagem no canvas e abrir o modal
-    document.querySelector('#imageInput').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const canvas = document.querySelector('#imageCanvas');
-                const ctx = canvas.getContext('2d');
-                const img = new Image();
-                img.onload = function () {
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
+   // Carregar a imagem no canvas
+   document.querySelector('#imageInput').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const canvas = document.querySelector('#imageCanvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+
+            img.onload = function () {
+                // Define o tamanho máximo
+                const maxWidth = 800; // Largura máxima
+                const maxHeight = 600; // Altura máxima
+                const ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
+
+                // Redimensiona a imagem
+                const newWidth = img.width * ratio;
+                const newHeight = img.height * ratio;
+
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+                // Gera o novo arquivo redimensionado
+                canvas.toBlob(function (blob) {
+                    // Converte o canvas para um arquivo Blob
+                    const reducedFile = new File([blob], file.name, {
+                        type: file.type,
+                        lastModified: Date.now(),
+                    });
+
+                    // Agora você pode usar `reducedFile` para fazer o upload
+                    console.log('Novo arquivo reduzido:', reducedFile);
+
                     // Abrir o modal após carregar a imagem
                     $('#imageModal').modal('show');
-                };
-                img.src = e.target.result;
+                }, file.type, 0.8); // Qualidade da imagem (0.8 = 80%)
             };
-            reader.readAsDataURL(file);
+
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+
+// Salvar a imagem convertendo o canvas em arquivo
+// Salvar imagem ao clicar no botão de salvar
+document.querySelector('#saveImageButton').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    // Captura o formulário
+    const form = document.querySelector('#imageForm');
+    if (!form) {
+        console.error("Formulário não encontrado!");
+        return;
+    }
+
+    // Serializa os dados do formulário
+    const formData = new FormData(form);
+
+    // Adiciona manualmente a imagem em Base64, caso necessário
+    const canvas = document.querySelector('#imageCanvas');
+    if (canvas) {
+        const imageBase64 = canvas.toDataURL('image/png'); // Gera a imagem como Base64
+        formData.append('image_data', imageBase64); // Adiciona ao FormData
+    } else {
+        console.error("Canvas não encontrado!");
+        return;
+    }
+
+    // Enviar via AJAX
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value // CSRF Token
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Erro na resposta: ${response.statusText}`);
         }
+        return response.json(); // Assume que o servidor retorna JSON
+    })
+    .then(data => {
+        console.log("Imagem salva com sucesso!", data);
+        $('#imageModal').modal('hide'); // Fecha o modal
+    })
+    .catch(error => {
+        console.error("Erro ao salvar a imagem:", error);
     });
-
-    // Capturar dados ao salvar a imagem
-    document.querySelector('#saveImageButton').addEventListener('click', function () {
-        const canvas = document.querySelector('#imageCanvas');
-        const description = document.querySelector('#imageDescription').value;
-        const caption = document.querySelector('#imageCaption').value;
-
-        // Captura os dados da imagem, descrição e legenda
-        const imageData = canvas.toDataURL();
-
-        console.log({ imageData, description, caption });
-
-        // Fechar o modal
-        $('#imageModal').modal('hide');
-    });
+});
 </script>
+{% endblock scripts %}
