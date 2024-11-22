@@ -28,6 +28,11 @@
                 
                     <!-- Barra de ferramentas -->
                     <div class="mb-3 text-right">
+                        <!-- Botão para trocar imagem do canvas.-->
+                        <a href="#" id="change_img" title="Alterar imagem" class="nav-link d-inline-block">
+                            <i class="fas fa-sync-alt text-primary"></i> <!-- Ícone de trocar imagem -->
+                        </a>
+
                         <!-- Botão de Zoom -->
                         <a href="#" id="zoom" title="Zoom" class="nav-link d-inline-block">
                             <i class="fas fa-search-plus text-primary"></i> <!-- Ícone de zoom -->
@@ -47,7 +52,7 @@
                     <!-- Campo de descrição -->
                     <div class="form-group">
                         <textarea id="imageDescription" name="description" class="form-control" rows="2"
-                            placeholder="Descrição da imagem, não obrigatório."></textarea>
+                            placeholder="Descrição da imagem, não obrigatório.">{{ image.description }}</textarea>
                     </div>
                 
                     <!-- Campo oculto para upload de imagem -->
@@ -65,8 +70,7 @@
                         <input type="text" class="form-control" id="imageCaption" name="caption"
                             placeholder="Legenda da imagem.">
                     </div>
-                </form>
-                
+                </form>                
             </div>
         </div>
     </div>
@@ -179,6 +183,43 @@ document.querySelector('#saveImageButton').addEventListener('click', function (e
     .catch(error => {
         console.error("Erro ao salvar a imagem:", error);
     });
+});
+
+// Seleciona todos os elementos com a classe 'fa-edit'
+document.querySelectorAll('.fa-edit').forEach((element) => {
+    element.addEventListener('click', (event) => {
+        event.preventDefault(); // Previne o comportamento padrão do link
+        
+        // Obtém os dados armazenados nos atributos data-*
+        const imageId = element.getAttribute('data-image-id');
+        const description = element.getAttribute('data-description');
+        const caption = element.getAttribute('data-caption');
+        const imageUrl = element.getAttribute('data-image-url');
+
+        // Preenche os elementos da janela modal
+        document.querySelector('#image_id').value = imageId;
+        document.querySelector('#imageDescription').value = description;
+        document.querySelector('#imageCaption').value = caption;
+
+        const canvas = document.querySelector('#imageCanvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+        };
+        img.src = imageUrl;
+
+        alert(document.querySelector('#image_id').value); // Teste: mostra o ID da imagem
+        $('#imageModal').modal('show'); // Abre a janela modal
+    });
+});
+
+
+document.querySelector('#change_img').addEventListener('click', (event) => {
+    event.preventDefault(); // Previne o comportamento padrão do link
+    document.querySelector('#imageInput').click(); // Simula o clique no input de arquivo
 });
 
 

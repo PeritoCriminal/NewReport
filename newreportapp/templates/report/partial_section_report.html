@@ -64,8 +64,16 @@
             <!-- Ícones de ações -->
         <div>
             <a href="#" title="Editar">
-                <i class="fas fa-edit" style="color: #007bff; margin-right: 10px;"></i>
+                <i 
+                    class="fas fa-edit" 
+                    data-image-id="{{ image_instance.id }}" 
+                    data-description="{{ image_instance.description }}" 
+                    data-caption="{{ image_instance.caption }}" 
+                    data-image-url="{{ image_instance.img.url }}" 
+                    style="color: #007bff; margin-right: 10px;">
+                </i>            
             </a>
+            
             <form action="{% url 'delete_image' image_instance.id %}" method="post" style="display: inline;">
                 {% csrf_token %}
                 <button type="submit" title="Excluir" onclick="return confirm('Tem certeza de que deseja excluir esta imagem?');" style="background: none; border: none; cursor: pointer;">

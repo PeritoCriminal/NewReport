@@ -1,8 +1,7 @@
-#newreportapp/views/report/local_preservation_report_views.py - mantenha essa linha quando copiar o arquivo.
-
 from django.shortcuts import render, get_object_or_404, redirect
 from newreportapp.models import SectionReportModel, HeaderReportModel, ImageReportModel
 from newreportapp.forms import SectionReportForm
+from django.http import JsonResponse
 from django.contrib import messages
 
 def local_preservation_report_view(request, id=None, header_report_id=None):
@@ -32,6 +31,9 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
 
     # Obtém as imagens associadas ao report_section
     images = report_section.images.all() if existing_report else []
+
+    # se tiver image_id
+    
 
     # Cria o formulário
     form = SectionReportForm(
@@ -64,7 +66,7 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
 
     return render(request, 'report/local_preservation_report.html', {
         'report_section': report_section,
-        'report_section_id':report_section.id,
+        'report_section_id': report_section.id,
         'form': form,
         'action': action,
         'header_report_id': header_report_id,
@@ -75,9 +77,16 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
     })
 
 
-"""
-Veja que acrescentei o ImageReportModel. Os valores são dos inputs e do canvas da janela modal que tem os seguintes elementos:
-então preciso incluir uma view para novos registros e exibição de registros antigos no template abaixo:
-"""
+def load_image_data(request):
+    """Carrega os dados de uma imagem para edição."""
+    if request.method == "GET" and 'image_id' in request.GET:
+        image_id = request.GET.get('image_id')
+        image = get_object_or_404(ImageReportModel, id=image_id)
 
-
+        data = {
+            'id': image.id,
+            'description': image.description,
+            'caption': image.caption,
+        }
+        return JsonResponse(data)
+    return JsonResponse({'error': 'Requisição inválida.'}, status=400)
