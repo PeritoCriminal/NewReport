@@ -41,7 +41,7 @@
 
     <div class="form-group d-flex justify-content-between">
         <button type="submit" class="btn btn-primary">Salvar</button>
-        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a>
+        <a href="{% url 'show_report' header_report_id %}" class="btn btn-secondary">Voltar</a>
     </div>
 </form>
 

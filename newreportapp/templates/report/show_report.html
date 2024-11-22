@@ -9,10 +9,11 @@
 <div class="d-flex">
     <!-- Barra lateral fixa -->
     <div class="fixed-sidebar">
-        <p><strong>Seções:</strong></p>
+        <p class="titulo-2"><strong>Laudo {{ num_report }}</strong></p>
+        <a href="{% url 'edit_header_report' report.id %}">
+            Dados Gerais
+        </a>
         <ul>
-            <p>{{ report.report_number }}  {{report.id}}</p>
-
             {% if section_local %}
                 {% for section in section_local %}
                     <li>
@@ -22,7 +23,7 @@
                     </li>
                 {% endfor %}
             {% else %}
-                <li>Nenhuma seção disponível.</li>
+                <li>As demais seções serão listadas aqui.</li>
             {% endif %}
         </ul>
     </div>
@@ -60,23 +61,28 @@
             <p><strong>Protocolo / Registro de entrada:</strong> {{ num_protocol }}</p>
             <p><strong>Recebimento da Requisição:</strong> {{ report.call_date }} às {{ report.call_time }}</p>
             <p><strong>Data e Hora do Atendimento:</strong> {{ report.service_date }} às {{ report.service_time }}</p>
+            <p><strong>Perito Examinador:</strong> {{ report.expert_display_name }}</p>
+            {% if report.photographer %}
+                <p><strong>Fotografias:</strong> {{ report.service_date }}</p>
+            {% endif %}
+            
             {% if section_local %}
                 <h3 class="title-report">Descrição e Exame de Local</h3>
                 {% for section in section_local %}
                     <h5 class="title-report">{{ section.title }}</h5>
-                    <p>{{ section.description |linebreaks }}</p>
+                    <p class="pharagraph_report">{{ section.description |linebreaks }}</p>
                     {% for img in images %}
-                        <p>{{  img.description |linebreaks }}</p>
-                        <img src="{{ img.img.url }}" alt="{{ img.caption }}" style="max-width: 600px;">
-                        <p>{{ img.caption }}</p>
+                        {% if img.report_section == section %}
+                            <p class="pharagraph_report">{{  img.description |linebreaks }}</p>
+                            <img src="{{ img.img.url }}" alt="{{ img.caption }}" style="max-width: 600px;">
+                            <p class="legend_report">{{ img.caption }}</p>
+                        {% endif %}
                     {% endfor %}
                 {%  endfor %}
             {% endif %}
         </div>
     </div>
 </div>
-
-    
 
 {% endblock content %}
 

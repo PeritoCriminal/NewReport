@@ -542,3 +542,15 @@ li {
     .fixed-sidebar a:hover {
         text-decoration: underline;
     }
+
+    .pharagraph_report {
+        text-align: justify;
+        margin-left: 3cm;
+        padding-top: 10px;
+        line-height: 30px;
+    }
+    
+    .legend_report {
+        text-align: center;
+        font-style: italic;
+    }

@@ -28,6 +28,7 @@ class HeaderReportModel(models.Model):
     institute_unit = models.CharField('Núcleo do Instituto', max_length=200, default='')
     forensic_team_base = models.CharField('Base da Equipe de Perícias', max_length=200, default='')
     expert_display_name = models.CharField('Perito', max_length=200, default='')
+    photographer = models.CharField('Fotografia', max_length=200, default='')
     reporting_expert = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         on_delete=models.SET_NULL, 
