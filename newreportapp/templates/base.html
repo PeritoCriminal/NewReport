@@ -38,15 +38,20 @@
                         {% if request.resolver_match.url_name == 'show_report' %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-file-alt"></i> Acrescentar ao Laudo
+                                    <i class="fas fa-file-alt"></i> Incluir no Laudo
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="reportDropdown">
                                     <!--<a class="dropdown-item" href="{% url 'edit_header_report' report.id %}">Dados Gerais</a>-->
                                     <a class="dropdown-item" href="#">Declarações</a>
+                                
+                                    <a class="dropdown-item" href="#">Dados de Localização</a>
+                                
                                     {% if not is_there_preservation %}
                                         <a class="dropdown-item" href="{% url 'create_preservation_report' report.id %}">Preservação de Local</a>
                                     {% endif %}
-                                    <a class="dropdown-item" href="{% url 'create_description_report' report.id %}">Descrição do Local</a>
+                                    {% if not is_there_description %}
+                                        <a class="dropdown-item" href="{% url 'create_description_report' report.id %}">Descrição do Local</a>
+                                    {% endif %}
                                     <a class="dropdown-item" href="#">Imóvel</a>
                                     <a class="dropdown-item" href="#">Veículo</a>
                                     <a class="dropdown-item" href="#">Peça</a>

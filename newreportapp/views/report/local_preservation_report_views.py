@@ -45,6 +45,13 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
         }
     )
 
+
+    # Atualiza o `placeholder` do campo `description`.
+    place_holder_for_description = """Esse campo recebe uma descrição sobre preservação de local.
+Esse campo não é obrigatório."""
+    form.fields['description'].widget.attrs.update({'placeholder': place_holder_for_description})
+
+
     if request.method == "POST":
         # Preenche os campos fixos
         if header_report:

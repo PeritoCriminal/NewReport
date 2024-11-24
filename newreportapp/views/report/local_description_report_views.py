@@ -4,13 +4,14 @@ from newreportapp.forms import SectionReportForm
 from django.http import JsonResponse
 from django.contrib import messages
 
+
 def local_description_report_view(request, id=None, header_report_id=None):
     subject = "local"
 
-    # alterar o vlaor do atributo abaixo para diferentes subsecções.
+    # Alterar o valor do atributo abaixo para diferentes subsecções.
     title = "Descrição do Local"
 
-    # alterar rota com o nome no arquivo URLS
+    # Alterar rota com o nome no arquivo URLS.
     rota = "edit_description_report"
 
     existing_report = None
@@ -20,7 +21,7 @@ def local_description_report_view(request, id=None, header_report_id=None):
             rota=rota
         ).first()
 
-    # Decide entre abrir para edição ou criar novo registro
+    # Decide entre abrir para edição ou criar novo registro.
     if existing_report:
         report_section = existing_report
         title = report_section.title
@@ -29,13 +30,13 @@ def local_description_report_view(request, id=None, header_report_id=None):
         report_section = SectionReportModel()
         action = "Criação"
 
-    # Obtem o `HeaderReportModel` correspondente, se aplicável
+    # Obtem o `HeaderReportModel` correspondente, se aplicável.
     header_report = get_object_or_404(HeaderReportModel, id=header_report_id) if header_report_id else None
 
-    # Obtém as imagens associadas ao report_section
+    # Obtém as imagens associadas ao report_section.
     images = report_section.images.all() if existing_report else []
 
-    # Cria o formulário
+    # Cria o formulário.
     form = SectionReportForm(
         request.POST or None,
         instance=report_section,
@@ -45,14 +46,20 @@ def local_description_report_view(request, id=None, header_report_id=None):
         }
     )
 
+    # Atualiza o `placeholder` do campo `description`.
+    place_holder_for_description = """Esse campo recebe uma descrição de local genérico.
+Para imóveis ou vias públicas temos outras opções.
+Esse campo não é obrigatório."""
+    form.fields['description'].widget.attrs.update({'placeholder': place_holder_for_description})
+
     if request.method == "POST":
-        # Preenche os campos fixos
+        # Preenche os campos fixos.
         if header_report:
             report_section.header_report = header_report
             report_section.subject = subject
             report_section.title = title
             report_section.rota = rota
-        
+
         if form.is_valid():
             section_report = form.save(commit=False)
             section_report.header_report = header_report
@@ -74,6 +81,7 @@ def local_description_report_view(request, id=None, header_report_id=None):
         'title': title,
         'rota': rota,
         'images': images,
+        'place_holder_for_description': place_holder_for_description,
     })
 
 
