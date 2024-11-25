@@ -1,7 +1,7 @@
+<!-- modal_image.html -->
 <!-- newreportapp/templates/modal_image.html - Manter essa linha ao copiar o arquivo -->
 
 <!-- Botão para abrir o explorador, escolher uma imagem e abrir a janela de edição -->
-
 <button type="button" class="btn btn-outline-primary" id="openImageModal">
     <i class="fas fa-image"></i> Adicionar Imagem
 </button>
@@ -20,7 +20,7 @@
                 <form id="imageForm" method="POST" action="{% url 'save_image_report' %}">
                     {% csrf_token %}
                     
-                    <!-- Campo oculto para armazenar o ID da imagem (edição) -->
+                    <!-- Campo oculto para armazenar o ID da imagem -->
                     <input type="hidden" id="image_id" name="image_id" value="">
                     
                     <!-- Campo oculto para armazenar o ID da seção do relatório -->
@@ -28,41 +28,48 @@
                 
                     <!-- Barra de ferramentas -->
                     <div class="mb-3 text-right">
-                        <!-- Botão para trocar imagem do canvas.-->
-                        <a href="#" id="change_img" title="Alterar imagem" class="nav-link d-inline-block">
-                            <i class="fas fa-sync-alt text-primary"></i> <!-- Ícone de trocar imagem -->
-                        </a>
-
-                        <!-- Botão de Zoom -->
-                        <a href="#" id="zoom" title="Zoom" class="nav-link d-inline-block">
-                            <i class="fas fa-search-plus text-primary"></i> <!-- Ícone de zoom -->
-                        </a>
-                    
-                        <!-- Botão de Salvar -->
-                        <a href="#" id="saveImageButton" title="Salvar" class="nav-link d-inline-block">
-                            <i class="fas fa-save text-success"></i>
-                        </a>
-                    
-                        <!-- Botão de Cancelar -->
-                        <a href="#" data-dismiss="modal" title="Cancelar" class="nav-link d-inline-block">
-                            <i class="fas fa-times text-danger"></i>
-                        </a>
+                        <button type="button" id="change_img" class="btn btn-sm btn-outline-primary" title="Alterar imagem">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button type="button" id="zoom" class="btn btn-sm btn-outline-primary" title="Zoom">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                        <button type="button" id="rotate_clockwise" class="btn btn-sm btn-outline-primary" title="Girar horário">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                        <button type="button" id="rotate_counterclockwise" class="btn btn-sm btn-outline-primary" title="Girar antihorário">
+                            <i class="fas fa-undo"></i>
+                        </button>
+                        <button type="button" id="crop" class="btn btn-sm btn-outline-primary" title="Cortar">
+                            <i class="fas fa-crop"></i>
+                        </button>
+                        <button type="button" id="blur" class="btn btn-sm btn-outline-primary" title="Desfocar">
+                            <i class="fas fa-tint-slash"></i>
+                        </button>
+                        <button type="button" id="add_text" class="btn btn-sm btn-outline-primary" title="Inserir texto">
+                            <i class="fas fa-font"></i>
+                        </button>
+                        <button type="button" id="add_description" class="btn btn-sm btn-outline-primary" title="Inserir descrição">
+                            <i class="fas fa-align-left"></i>
+                        </button>
+                        <button type="button" id="add_caption" class="btn btn-sm btn-outline-primary" title="Inserir legenda">
+                            <i class="fas fa-quote-right"></i>
+                        </button>
+                        <button type="button" id="add_numbered_marker" class="btn btn-sm btn-outline-primary" title="Inserir marcador numerado">
+                            <i class="fas fa-list-ol"></i>
+                        </button>
+                        <button type="submit" id="saveImageButton" class="btn btn-sm btn-outline-success" title="Salvar">
+                            <i class="fas fa-save"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-dismiss="modal" title="Cancelar">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
-                
+
                     <!-- Campo de descrição -->
                     <div class="form-group">
                         <textarea id="imageDescription" name="description" class="form-control" rows="2"
-                            placeholder="Descrição da imagem, não obrigatório.">{{ image.description }}</textarea>
-                    </div>
-                
-                    <!-- Campo oculto para upload de imagem -->
-                    <div class="form-group d-none">
-                        <input type="file" id="imageInput" accept="image/*">
-                    </div>
-                
-                    <!-- Visualização da imagem no canvas -->
-                    <div class="form-group">
-                        <canvas id="imageCanvas" class="border w-100"></canvas>
+                            placeholder="Descrição da imagem (opcional).">{{ image.description }}</textarea>
                     </div>
                 
                     <!-- Campo de legenda -->
@@ -70,159 +77,38 @@
                         <input type="text" class="form-control" id="imageCaption" name="caption"
                             placeholder="Legenda da imagem.">
                     </div>
+                
+                    <!-- Visualização da imagem no canvas -->
+                    <div class="form-group">
+                        <canvas id="imageCanvas" class="border w-100"></canvas>
+                    </div>
+                
+                    <!-- Campo oculto para upload de imagem -->
+                    <input type="file" id="imageInput" accept="image/*" class="d-none">
                 </form>                
             </div>
         </div>
     </div>
 </div>
 
-
 {% block scripts %}
 
+
 <script>
-
-   
-
-    // Abrir o explorador de arquivos ao clicar no botão
-    document.querySelector('#openImageModal').addEventListener('click', function () {
-        document.querySelector('#imageInput').click();
+    const zoom = document.querySelector("#zoom");
+    zoom.addEventListener('click', (event) => {
+        alert('clciou no zoom');
+        operationState.isZooming = !operationState.isZooming;
     });
 
-    // Carregar a imagem no canvas e abrir o modal
-   // Carregar a imagem no canvas
-   document.querySelector('#imageInput').addEventListener('change', function (event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const canvas = document.querySelector('#imageCanvas');
-            const ctx = canvas.getContext('2d');
-            const img = new Image();
-
-            img.onload = function () {
-                // Define o tamanho máximo
-                const maxWidth = 800; // Largura máxima
-                const maxHeight = 600; // Altura máxima
-                const ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
-
-                // Redimensiona a imagem
-                const newWidth = img.width * ratio;
-                const newHeight = img.height * ratio;
-
-                canvas.width = newWidth;
-                canvas.height = newHeight;
-                ctx.drawImage(img, 0, 0, newWidth, newHeight);
-
-                // Gera o novo arquivo redimensionado
-                canvas.toBlob(function (blob) {
-                    // Converte o canvas para um arquivo Blob
-                    const reducedFile = new File([blob], file.name, {
-                        type: file.type,
-                        lastModified: Date.now(),
-                    });
-
-                    // Agora você pode usar `reducedFile` para fazer o upload
-                    console.log('Novo arquivo reduzido:', reducedFile);
-
-                    // Abrir o modal após carregar a imagem
-                    $('#imageModal').modal('show');
-                }, file.type, 0.8); // Qualidade da imagem (0.8 = 80%)
-            };
-
-            img.src = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-
-// Salvar a imagem convertendo o canvas em arquivo
-// Salvar imagem ao clicar no botão de salvar
-document.querySelector('#saveImageButton').addEventListener('click', function (event) {
-    event.preventDefault();
-
-    // Captura o formulário
-    const form = document.querySelector('#imageForm');
-    if (!form) {
-        console.error("Formulário não encontrado!");
-        return;
-    }
-
-    // Serializa os dados do formulário
-    const formData = new FormData(form);
-
-    // Adiciona manualmente a imagem em Base64, caso necessário
     const canvas = document.querySelector('#imageCanvas');
-    if (canvas) {
-        const imageBase64 = canvas.toDataURL('image/png'); // Gera a imagem como Base64
-        formData.append('image_data', imageBase64); // Adiciona ao FormData
-    } else {
-        console.error("Canvas não encontrado!");
-        return;
-    }
 
-    // Enviar via AJAX
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value // CSRF Token
-        },
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Erro na resposta: ${response.statusText}`);
-        }
-        return response.json(); // Assume que o servidor retorna JSON
-    })
-    .then(data => {
-        console.log("Imagem salva com sucesso!", data);
-        $('#imageModal').modal('hide'); // Fecha o modal
-        window.location.reload();
-    })
-    .catch(error => {
-        console.error("Erro ao salvar a imagem:", error);
+    canvas.addEventListener('click', function(event){
+        //alert('clicou no canvas');  // Não funciona
+        const coords = getCord(canvas, event);
+        console.log(`Coordenadas: ${coords.x}, ${coords.y}; Zoon: ${operationState.isZooming}`);
     });
-});
-
-// Seleciona todos os elementos com a classe 'fa-edit'
-document.querySelectorAll('.fa-edit').forEach((element) => {
-    element.addEventListener('click', (event) => {
-        event.preventDefault(); // Previne o comportamento padrão do link
-        
-        // Obtém os dados armazenados nos atributos data-*
-        const imageId = element.getAttribute('data-image-id');
-        const description = element.getAttribute('data-description');
-        const caption = element.getAttribute('data-caption');
-        const imageUrl = element.getAttribute('data-image-url');
-
-        // Preenche os elementos da janela modal
-        document.querySelector('#image_id').value = imageId;
-        document.querySelector('#imageDescription').value = description;
-        document.querySelector('#imageCaption').value = caption;
-
-        const canvas = document.querySelector('#imageCanvas');
-        const ctx = canvas.getContext('2d');
-        const img = new Image();
-        img.onload = () => {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-        };
-        img.src = imageUrl;
-
-        alert(document.querySelector('#image_id').value); // Teste: mostra o ID da imagem
-        $('#imageModal').modal('show'); // Abre a janela modal
-    });
-});
-
-
-document.querySelector('#change_img').addEventListener('click', (event) => {
-    event.preventDefault(); // Previne o comportamento padrão do link
-    document.querySelector('#imageInput').click(); // Simula o clique no input de arquivo
-});
-
-
 
 </script>
+    
 {% endblock scripts %}

@@ -47,9 +47,9 @@ def local_description_report_view(request, id=None, header_report_id=None):
     )
 
     # Atualiza o `placeholder` do campo `description`.
-    place_holder_for_description = """Esse campo recebe uma descrição de local genérico.
-Para imóveis ou vias públicas temos outras opções.
-Esse campo não é obrigatório."""
+    place_holder_for_description = """Campo opcional.
+    Utilize para descrever o local do exame de forma geral e abrangente.
+    Caso insira imagens, poderá adicionar descrições detalhadas para cada elemento fotografado."""
     form.fields['description'].widget.attrs.update({'placeholder': place_holder_for_description})
 
     if request.method == "POST":

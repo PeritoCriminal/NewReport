@@ -47,8 +47,10 @@ def local_preservation_report_view(request, id=None, header_report_id=None):
 
 
     # Atualiza o `placeholder` do campo `description`.
-    place_holder_for_description = """Esse campo recebe uma descrição sobre preservação de local.
-Esse campo não é obrigatório."""
+    place_holder_for_description = """Use este campo para descrever as condições de preservação do local.
+Inclua informações sobre a equipe responsável, o encarregado, a viatura oficial utilizada, o estado do isolamento da área, a preservação ou perda de vestígios, e o controle de acesso. Informe também sobre a presença da autoridade requisitante ou da equipe de investigação no local.
+Em casos de acidentes de trânsito, este campo pode ser utilizado para registrar se os veículos envolvidos estavam em suas posições de imobilização ou não.
+"""    
     form.fields['description'].widget.attrs.update({'placeholder': place_holder_for_description})
 
 
