@@ -1,11 +1,13 @@
 // image_processor.js
 
 // Função para abrir o explorador de arquivos ao clicar no botão
+/*
 document.querySelector('#openImageModal').addEventListener('click', function () {
     document.querySelector('#imageInput').click();
 });
 
 // Carregar a imagem no canvas e abrir o modal
+/*
 document.querySelector('#imageInput').addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
@@ -49,7 +51,7 @@ document.querySelector('#imageInput').addEventListener('change', function (event
         };
         reader.readAsDataURL(file);
     }
-});
+});*/
 
 // Função para salvar a imagem após editar (salvando como Base64)
 document.querySelector('#saveImageButton').addEventListener('click', function (event) {
@@ -100,6 +102,7 @@ document.querySelector('#saveImageButton').addEventListener('click', function (e
 });
 
 // Função para editar a imagem (abertura do modal de edição)
+/*
 document.querySelectorAll('.fa-edit').forEach((element) => {
     element.addEventListener('click', (event) => {
         event.preventDefault(); // Previne o comportamento padrão do link
@@ -130,9 +133,10 @@ document.querySelectorAll('.fa-edit').forEach((element) => {
         $('#imageModal').modal('show');
     });
 });
+*/
 
 // Função para trocar a imagem carregada no canvas (simula clique no input de imagem)
-document.querySelector('#change_img').addEventListener('click', (event) => {
-    event.preventDefault(); // Previne o comportamento padrão do link
-    document.querySelector('#imageInput').click(); // Simula o clique no input de arquivo
-});
+//document.querySelector('#change_img').addEventListener('click', (event) => {
+//    event.preventDefault(); // Previne o comportamento padrão do link
+//    document.querySelector('#imageInput').click(); // Simula o clique no input de arquivo
+//});

@@ -95,19 +95,95 @@
 
 
 <script>
-    const zoom = document.querySelector("#zoom");
-    zoom.addEventListener('click', (event) => {
-        alert('clciou no zoom');
-        operationState.isZooming = !operationState.isZooming;
-    });
-
+    let selectedImg = ''// Aqui será a imagem escolhida pelo usuário
+    let canvasImg = ''// Aqui será a imagem manipulada no canvas
+    const openImageModal = document.querySelector('#openImageModal');
+    const change_img = document.querySelector('#change_img');
+    const zoom = document.querySelector('#zoom');
+    const rotate_clockwise = document.querySelector('#rotate_clockwise');
+    const rotate_counterclockwise = document.querySelector('#rotate_counterclockwise');
+    const crop = document.querySelector('#crop');
+    const blur = document.querySelector('#blur');
+    const add_text = document.querySelector('#add_text');
+    const add_description = document.querySelector('#add_description');
+    const add_caption = document.querySelector('#add_caption');
+    const add_numbered_marker = document.querySelector('#add_numbered_marker');
+    const saveImageButton = document.querySelector('#saveImageButton');
+    const imageInput = document.querySelector('#imageInput');
     const canvas = document.querySelector('#imageCanvas');
 
+    openImageModal.addEventListener('click', function(event){
+        event.preventDefault();
+        selectImgAndDraw();
+    });
+
+    change_img.addEventListener('click', function(event){
+        event.preventDefault();
+        selectImgAndDraw();
+    });
+
+    zoom.addEventListener('click', function(event){
+        console.log('Clicou no canvas');
+    });
+
     canvas.addEventListener('click', function(event){
-        //alert('clicou no canvas');  // Não funciona
         const coords = getCord(canvas, event);
         console.log(`Coordenadas: ${coords.x}, ${coords.y}; Zoon: ${operationState.isZooming}`);
     });
+
+    imageInput.addEventListener('change', function(event){
+        event.preventDefault();
+        selectImgAndDraw();
+    });
+
+    function selectImgAndDraw() {
+        // Verifica se o modal está aberto
+        const modal = $('#imageModal');
+        if (!modal.hasClass('show')) {
+            modal.modal('show');
+        }
+    
+        // Aciona o explorador de arquivos
+        imageInput.click();
+    
+        imageInput.onchange = function (event) {
+            const file = event.target.files[0]; // Obtém o arquivo selecionado
+            if (!file) {
+                // Retorna se o usuário cancelar a seleção
+                return;
+            }
+    
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+    
+                img.onload = function () {
+                    // Define as dimensões máximas para o canvas
+                    const maxWidth = 800;
+                    const maxHeight = 600;
+                    const ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
+    
+                    // Redimensiona a imagem mantendo a proporção
+                    const newWidth = img.width * ratio;
+                    const newHeight = img.height * ratio;
+    
+                    canvas.width = newWidth;
+                    canvas.height = newHeight;
+                    ctx.drawImage(img, 0, 0, newWidth, newHeight);
+    
+                    // Atualiza as variáveis globais
+                    selectedImg = file;
+                    canvasImg = canvas.toDataURL(); // Armazena a imagem no canvas como base64
+                };
+    
+                img.src = e.target.result;
+            };
+    
+            reader.readAsDataURL(file);
+        };
+    }
+    
 
 </script>
     

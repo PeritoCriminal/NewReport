@@ -95,3 +95,41 @@
 {% else %}
     <p>Após salvar este formulário, você poderá adicionar imagens com seus respectivos comentários e legendas.</p>
 {% endif %}
+
+{% block scripts %}
+    <script>
+        document.querySelectorAll('.fa-edit').forEach((element) => {
+            element.addEventListener('click', (event) => {
+                event.preventDefault(); // Previne o comportamento padrão do link
+
+                // Obtém os dados armazenados nos atributos data-*
+                const imageId = element.getAttribute('data-image-id');
+                const description = element.getAttribute('data-description');
+                const caption = element.getAttribute('data-caption');
+                const imageUrl = element.getAttribute('data-image-url');
+
+                // Preenche os elementos da janela modal com os dados da imagem
+                document.querySelector('#image_id').value = imageId;
+                document.querySelector('#imageDescription').value = description;
+                document.querySelector('#imageCaption').value = caption;
+
+                // Carrega a imagem no canvas
+                const canvas = document.querySelector('#imageCanvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.onload = () => {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                };
+                img.src = imageUrl;
+
+                // Abre o modal de edição
+                $('#imageModal').modal('show');
+            });
+        });
+
+    </script>
+{% endblock scripts %}
+
+
