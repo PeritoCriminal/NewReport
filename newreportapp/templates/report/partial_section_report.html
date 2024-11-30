@@ -97,39 +97,160 @@
 {% endif %}
 
 {% block scripts %}
-    <script>
-        document.querySelectorAll('.fa-edit').forEach((element) => {
-            element.addEventListener('click', (event) => {
-                event.preventDefault(); // Previne o comportamento padrão do link
+<script>
+    // Classe para manipulação da imagem
+    class ImageObject {
+        constructor(image, ctx, width, height) {
+            if (!image || !ctx) {
+                throw new Error("É necessário selecionar uma imagem.");
+            }
+            this.image = image;
+            this.ctx = ctx;
+            this.left = 0;
+            this.top = 0;
+            this.width = width; // Use as dimensões redimensionadas
+            this.height = height; // Use as dimensões redimensionadas
+            this.sizeProportion = this.height / this.width;
+            this.operation = {
+                isZooming: false,
+                isDragging: false,
+                startX: 0,
+                startY: 0,
+                presentX: 0,
+                presentY: 0,
+                initialWidth: 0,
+                initialHeight: 0,
+            };
+    
+            // Eventos do mouse
+            this.addMouseEvents();
+        }
 
-                // Obtém os dados armazenados nos atributos data-*
-                const imageId = element.getAttribute('data-image-id');
-                const description = element.getAttribute('data-description');
-                const caption = element.getAttribute('data-caption');
-                const imageUrl = element.getAttribute('data-image-url');
+        addMouseEvents() {
+            const canvas = this.ctx.canvas;
+            canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
+            canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
+            canvas.addEventListener('mouseup', () => this.onMouseUp());
+            canvas.addEventListener('mouseout', () => this.onMouseUp());
+        }
 
-                // Preenche os elementos da janela modal com os dados da imagem
-                document.querySelector('#image_id').value = imageId;
-                document.querySelector('#imageDescription').value = description;
-                document.querySelector('#imageCaption').value = caption;
+        draw() {
+            this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+            this.ctx.drawImage(this.image, this.left, this.top, this.width, this.height);
+        }
 
-                // Carrega a imagem no canvas
-                const canvas = document.querySelector('#imageCanvas');
-                const ctx = canvas.getContext('2d');
-                const img = new Image();
-                img.onload = () => {
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
-                };
-                img.src = imageUrl;
+        onMouseDown(event) {
+            this.operation.isDragging = true;
+            this.operation.startX = event.clientX;
+            this.operation.startY = event.clientY;
+            this.operation.presentX = event.clientX;
+            this.operation.presentY = event.clientY;
+            this.operation.initialWidth = this.width;
+            this.operation.initialHeight = this.height;
+        }
 
-                // Abre o modal de edição
-                $('#imageModal').modal('show');
-            });
-        });
+        onMouseMove(event) {
+            if (this.operation.isZooming && this.operation.isDragging) {
+                this.newZoom(event);
+            }
+        }
 
-    </script>
+        onMouseUp() {
+            this.operation.isDragging = false;
+            this.operation.isZooming = false;
+        }
+
+        updateZoom(event) {
+
+            const deltaY = event.clientY - this.operation.startY;
+            const zoomFactor = 1 + deltaY / 100;
+            const minZoom = 1;
+            const maxZoom = 10;
+
+            const newWidth = Math.min(Math.max(this.operation.initialWidth * zoomFactor, this.operation.initialWidth * minZoom), this.operation.initialWidth * maxZoom);
+            const newHeight = Math.min(Math.max(this.operation.initialHeight * zoomFactor, this.operation.initialHeight * minZoom), this.operation.initialHeight * maxZoom);
+
+            const mouseX = event.clientX - this.ctx.canvas.offsetLeft;
+            const mouseY = event.clientY - this.ctx.canvas.offsetTop;
+
+            const anchorX = (mouseX - this.left) / this.width;
+            const anchorY = (mouseY - this.top) / this.height;
+
+            const offsetX = (newWidth - this.width) * anchorX;
+            const offsetY = (newHeight - this.height) * anchorY;
+
+            this.width = newWidth;
+            this.height = newHeight;
+            this.left -= offsetX / 2;
+            this.top -= offsetY / 2;
+             
+            this.draw();  
+        }
+
+        newZoom(event){
+            let x = event.clientX;
+            let y = event.clientY;
+            let factor = 0;
+            if(y - this.operation.presentY < 1){
+                if (this.width > canvas.width){
+                    factor = -10; 
+                }
+            }else{
+                factor = 10;
+            };
+            this.operation.presentY = y;
+            this.width = this.width + factor;
+            this.height = this.width * this.sizeProportion;
+            this.draw();
+        } 
+    }
+
+
+
+    // Manipulação do modal de edição
+   document.querySelectorAll('.fa-edit').forEach((element) => {
+    element.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        const imageId = element.getAttribute('data-image-id');
+        const description = element.getAttribute('data-description');
+        const caption = element.getAttribute('data-caption');
+        const imageUrl = element.getAttribute('data-image-url');
+
+        document.querySelector('#image_id').value = imageId;
+        document.querySelector('#imageDescription').value = description;
+        document.querySelector('#imageCaption').value = caption;
+
+        const canvas = document.querySelector('#imageCanvas');
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+
+        img.onload = () => {
+            // Define o tamanho máximo para o canvas
+            const maxWidth = 800;
+            const maxHeight = 600;
+
+            // Calcula a escala proporcional
+            const ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
+            const newWidth = img.width * ratio;
+            const newHeight = img.height * ratio;
+
+            // Ajusta o tamanho do canvas
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+
+            // Desenha a imagem redimensionada no canvas
+            ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+            // Cria o objeto ImageObject com as dimensões redimensionadas
+            imageObject = new ImageObject(img, ctx, newWidth, newHeight);
+        };
+
+        img.src = imageUrl;
+
+        $('#imageModal').modal('show');
+    });
+});
+
+</script>
 {% endblock scripts %}
-
-

@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from newreportapp.models.report.image_report_model import ImageReportModel, SectionReportModel
 from django.core.files.base import ContentFile
+from django.contrib import messages
 import base64
 import os
 
@@ -64,6 +65,7 @@ def save_image_report(request):
 
         # Salva o modelo
         image_instance.save()
+        messages.success(request, f"{action} - Registro salvo com sucesso!")
 
         # Retorna uma resposta JSON para atualizar a página
         return JsonResponse({
@@ -74,6 +76,7 @@ def save_image_report(request):
         })
 
     # Caso não seja POST, retorna erro
+    messages.error(request, "Erro ao processar o formulário.")
     return JsonResponse({
         "success": False,
         "message": "Método inválido para esta operação."

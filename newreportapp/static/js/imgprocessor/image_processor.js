@@ -53,6 +53,7 @@ document.querySelector('#imageInput').addEventListener('change', function (event
     }
 });*/
 
+/*
 // Função para salvar a imagem após editar (salvando como Base64)
 document.querySelector('#saveImageButton').addEventListener('click', function (event) {
     event.preventDefault();
@@ -100,7 +101,7 @@ document.querySelector('#saveImageButton').addEventListener('click', function (e
         console.error("Erro ao salvar a imagem:", error);
     });
 });
-
+*/
 // Função para editar a imagem (abertura do modal de edição)
 /*
 document.querySelectorAll('.fa-edit').forEach((element) => {
