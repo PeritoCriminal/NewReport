@@ -113,6 +113,7 @@
             this.sizeProportion = this.height / this.width;
             this.operation = {
                 isZooming: false,
+                isPanning: false,
                 isDragging: false,
                 startX: 0,
                 startY: 0,
@@ -147,18 +148,34 @@
             this.operation.presentY = event.clientY;
             this.operation.initialWidth = this.width;
             this.operation.initialHeight = this.height;
+            this.yProportion = this.operation.startY / this.height;
         }
 
         onMouseMove(event) {
-            if (this.operation.isZooming && this.operation.isDragging) {
-                this.newZoom(event);
+            if (this.operation.isDragging){
+                if (this.operation.isZooming){
+                    if(this.operation.isDragging) {
+                        this.newZoom(event);
+                    }
+                }
+                if(this.operation.isPanning){
+                    this.drag(event);
+                }
             }
+            
         }
 
         onMouseUp() {
             this.operation.isDragging = false;
             this.operation.isZooming = false;
+            this.operation.isPanning = false;
+            document.body.style.cursor = "default";
         }
+
+
+        /*
+
+        A função abaixo, por ora foi substituída pela newZoom.
 
         updateZoom(event) {
 
@@ -186,23 +203,60 @@
              
             this.draw();  
         }
+        */
 
         newZoom(event){
+                        
+            // Essa função pode ser melhoada par setar o ponto de ancoragem 
+            // na posição inicial do ponteiro do mouse.            
+
             let x = event.clientX;
             let y = event.clientY;
-            let factor = 0;
+            let factorX = 0;
+            let factorY = 0;
             if(y - this.operation.presentY < 1){
                 if (this.width > canvas.width){
-                    factor = -10; 
+                    factorX = -10; 
                 }
             }else{
-                factor = 10;
+                factorX = 10;
             };
             this.operation.presentY = y;
-            this.width = this.width + factor;
+            this.width = this.width + factorX;
             this.height = this.width * this.sizeProportion;
             this.draw();
-        } 
+        }
+
+        drag(event) {
+            const deltaX = event.clientX - this.operation.presentX;
+            const deltaY = event.clientY - this.operation.presentY;
+    
+            let newLeft = this.left + deltaX;
+            let newTop = this.top + deltaY;
+        
+            const canvas = this.ctx.canvas;
+        
+            if (newLeft > 0) {
+                newLeft = 0;
+            } else if (newLeft + this.width < canvas.width) {
+                newLeft = canvas.width - this.width;
+            }
+
+            if (newTop > 0) {
+                newTop = 0; 
+            } else if (newTop + this.height < canvas.height) {
+                newTop = canvas.height - this.height;
+            }
+        
+            this.left = newLeft;
+            this.top = newTop;
+        
+            this.operation.presentX = event.clientX;
+            this.operation.presentY = event.clientY;
+        
+            this.draw();
+        }
+        
     }
 
 

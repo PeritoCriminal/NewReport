@@ -34,6 +34,9 @@
                         <button type="button" id="zoom" class="btn btn-sm btn-outline-primary" title="Zoom">
                             <i class="fas fa-search-plus"></i>
                         </button>
+                        <button type="button" id="pan" class="btn btn-sm btn-outline-primary" title="Mover (Pan)">
+                            <i class="fas fa-arrows-alt"></i>
+                        </button>
                         <button type="button" id="rotate_clockwise" class="btn btn-sm btn-outline-primary" title="Girar horário">
                             <i class="fas fa-redo"></i>
                         </button>
@@ -105,6 +108,7 @@
     const openImageModal = document.querySelector('#openImageModal');
     const change_img = document.querySelector('#change_img');
     const zoom = document.querySelector('#zoom');
+    const pan = document.querySelector('#pan');
     const rotate_clockwise = document.querySelector('#rotate_clockwise');
     const rotate_counterclockwise = document.querySelector('#rotate_counterclockwise');
     const crop = document.querySelector('#crop');
@@ -130,7 +134,14 @@
     zoom.addEventListener('click', function(event){
         console.log('Clicou no Zoom');
         console.log(`Instância: ${imageObject}`)
+        document.body.style.cursor = "zoom-in";
         imageObject.operation.isZooming = true;
+    });
+
+    pan.addEventListener('click', function(event){
+        console.log('Clicou no Pan');
+        document.body.style.cursor = "move";
+        imageObject.operation.isPanning = true;
     });
 
     canvas.addEventListener('click', function(event){
