@@ -127,6 +127,24 @@
             this.addMouseEvents();
         }
 
+        adjustPosition(newLeft, newTop) {
+            const canvas = this.ctx.canvas;
+        
+            if (newLeft > 0) {
+                newLeft = 0;
+            } else if (newLeft + this.width < canvas.width) {
+                newLeft = canvas.width - this.width;
+            }
+        
+            if (newTop > 0) {
+                newTop = 0;
+            } else if (newTop + this.height < canvas.height) {
+                newTop = canvas.height - this.height;
+            }
+        
+            return { adjustedLeft: newLeft, adjustedTop: newTop };
+        }
+
         addMouseEvents() {
             const canvas = this.ctx.canvas;
             canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
@@ -173,89 +191,44 @@
         }
 
 
-        /*
-
-        A função abaixo, por ora foi substituída pela newZoom.
-
-        updateZoom(event) {
-
-            const deltaY = event.clientY - this.operation.startY;
-            const zoomFactor = 1 + deltaY / 100;
-            const minZoom = 1;
-            const maxZoom = 10;
-
-            const newWidth = Math.min(Math.max(this.operation.initialWidth * zoomFactor, this.operation.initialWidth * minZoom), this.operation.initialWidth * maxZoom);
-            const newHeight = Math.min(Math.max(this.operation.initialHeight * zoomFactor, this.operation.initialHeight * minZoom), this.operation.initialHeight * maxZoom);
-
-            const mouseX = event.clientX - this.ctx.canvas.offsetLeft;
-            const mouseY = event.clientY - this.ctx.canvas.offsetTop;
-
-            const anchorX = (mouseX - this.left) / this.width;
-            const anchorY = (mouseY - this.top) / this.height;
-
-            const offsetX = (newWidth - this.width) * anchorX;
-            const offsetY = (newHeight - this.height) * anchorY;
-
+        newZoom(event) {
+            let factorX = 0;
+            if (event.clientY - this.operation.presentY < 1) {
+                if (this.width > this.ctx.canvas.width) {
+                    factorX = -10;
+                }
+            } else {
+                factorX = 10;
+            }
+            this.operation.presentY = event.clientY;
+            const newWidth = this.width + factorX;
+            const newHeight = newWidth * this.sizeProportion;        
+            const newLeft = this.left - factorX / 2;
+            const newTop = this.top - (factorX / 2) * this.sizeProportion;
+            const { adjustedLeft, adjustedTop } = this.adjustPosition(newLeft, newTop);
             this.width = newWidth;
             this.height = newHeight;
-            this.left -= offsetX / 2;
-            this.top -= offsetY / 2;
-             
-            this.draw();  
-        }
-        */
-
-        newZoom(event){
-                        
-            // Essa função pode ser melhoada par setar o ponto de ancoragem 
-            // na posição inicial do ponteiro do mouse.            
-
-            let x = event.clientX;
-            let y = event.clientY;
-            let factorX = 0;
-            let factorY = 0;
-            if(y - this.operation.presentY < 1){
-                if (this.width > canvas.width){
-                    factorX = -10; 
-                }
-            }else{
-                factorX = 10;
-            };
-            this.operation.presentY = y;
-            this.width = this.width + factorX;
-            this.height = this.width * this.sizeProportion;
+            this.left = adjustedLeft;
+            this.top = adjustedTop;
             this.draw();
         }
+        
 
         drag(event) {
             const deltaX = event.clientX - this.operation.presentX;
             const deltaY = event.clientY - this.operation.presentY;
-    
-            let newLeft = this.left + deltaX;
-            let newTop = this.top + deltaY;
         
-            const canvas = this.ctx.canvas;
+            const { adjustedLeft, adjustedTop } = this.adjustPosition(this.left + deltaX, this.top + deltaY);
         
-            if (newLeft > 0) {
-                newLeft = 0;
-            } else if (newLeft + this.width < canvas.width) {
-                newLeft = canvas.width - this.width;
-            }
-
-            if (newTop > 0) {
-                newTop = 0; 
-            } else if (newTop + this.height < canvas.height) {
-                newTop = canvas.height - this.height;
-            }
-        
-            this.left = newLeft;
-            this.top = newTop;
+            this.left = adjustedLeft;
+            this.top = adjustedTop;
         
             this.operation.presentX = event.clientX;
             this.operation.presentY = event.clientY;
         
             this.draw();
         }
+        
         
     }
 
