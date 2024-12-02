@@ -115,6 +115,7 @@
                 isZooming: false,
                 isPanning: false,
                 isDragging: false,
+                isCropping: false,
                 startX: 0,
                 startY: 0,
                 presentX: 0,
@@ -166,18 +167,18 @@
             this.operation.presentY = event.clientY;
             this.operation.initialWidth = this.width;
             this.operation.initialHeight = this.height;
-            this.yProportion = this.operation.startY / this.height;
         }
 
         onMouseMove(event) {
             if (this.operation.isDragging){
                 if (this.operation.isZooming){
-                    if(this.operation.isDragging) {
                         this.newZoom(event);
-                    }
                 }
                 if(this.operation.isPanning){
                     this.drag(event);
+                }
+                if(this.operation.isCropping){
+                    this.crop(event);
                 }
             }
             
@@ -187,6 +188,7 @@
             this.operation.isDragging = false;
             this.operation.isZooming = false;
             this.operation.isPanning = false;
+            this.operation.isCropping = false;
             document.body.style.cursor = "default";
         }
 
@@ -211,12 +213,11 @@
             this.left = adjustedLeft;
             this.top = adjustedTop;
             this.draw();
-        }
-        
+        }        
 
         drag(event) {
-            const deltaX = event.clientX - this.operation.presentX;
-            const deltaY = event.clientY - this.operation.presentY;
+            const deltaX = (event.clientX - this.operation.presentX)*2;
+            const deltaY = (event.clientY - this.operation.presentY)*2;
         
             const { adjustedLeft, adjustedTop } = this.adjustPosition(this.left + deltaX, this.top + deltaY);
         
@@ -228,8 +229,17 @@
         
             this.draw();
         }
+
+        rotate_clockwise() {
+            // Não desenvolver ainda.
+            alert('A função de rotacionar ainda não está desenvolvida.')
+        }
         
-        
+        crop(event){
+            console.log('cropping');
+            //Me ajude com essa função no passo a passo.
+            //desenhar um retângulo na tela, quando o usuário soltar, a área do retãngulo ocupará o canvas.
+        }
     }
 
 

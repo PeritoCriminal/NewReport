@@ -144,6 +144,18 @@
         imageObject.operation.isPanning = true;
     });
 
+    rotate_clockwise.addEventListener('click', function(event){
+        console.log('Clicou em rotacionar');
+        imageObject.rotate_clockwise();
+    });
+
+    crop.addEventListener('click', function(event){
+        console.log('clicou no crop.');
+        document.body.style.cursor = "crosshair";
+        alert('A função recortar ainda está será desenvolvida.')
+        imageObject.operation.isCropping = true;
+    });
+
     canvas.addEventListener('click', function(event){
         const coords = getCord(canvas, event);
         console.log(`Coordenadas: ${coords.x}, ${coords.y}; Zoon: ${operationState.isZooming}`);
