@@ -156,6 +156,12 @@
         imageObject.operation.isCropping = true;
     });
 
+    blur.addEventListener('click', function(event){
+        console.log('clicou no blur.');
+        document.body.style.cursor = "pointer"; // aqui é pra ser o blur
+        imageObject.operation.isBlurring = true;        
+    });
+
     canvas.addEventListener('click', function(event){
         const coords = getCord(canvas, event);
         console.log(`Coordenadas: ${coords.x}, ${coords.y}; Zoon: ${operationState.isZooming}`);
@@ -185,7 +191,7 @@
     
             const reader = new FileReader();
             reader.onload = function (e) {
-                const ctx = canvas.getContext('2d');
+                const ctx = canvas.getContext('2d', { willReadFrequently: true });
                 const img = new Image();
     
                 img.onload = function () {

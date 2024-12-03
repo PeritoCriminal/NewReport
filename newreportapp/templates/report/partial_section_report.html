@@ -116,6 +116,7 @@
                 isPanning: false,
                 isDragging: false,
                 isCropping: false,
+                isBlurring: false,
                 startX: 0,
                 startY: 0,
                 presentX: 0,
@@ -129,7 +130,7 @@
         }
 
         adjustPosition(newLeft, newTop) {
-            const canvas = this.ctx.canvas;
+            //const canvas = this.ctx.canvas;
         
             if (newLeft > 0) {
                 newLeft = 0;
@@ -147,7 +148,7 @@
         }
 
         addMouseEvents() {
-            const canvas = this.ctx.canvas;
+            //const canvas = this.ctx.canvas;
             canvas.addEventListener('mousedown', (e) => this.onMouseDown(e));
             canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
             canvas.addEventListener('mouseup', () => this.onMouseUp());
@@ -180,6 +181,9 @@
                 if(this.operation.isCropping){
                     this.crop(event);
                 }
+                if(this.operation.isBlurring){
+                    this.blur(event);
+                }
             }
             
         }
@@ -189,6 +193,7 @@
             this.operation.isZooming = false;
             this.operation.isPanning = false;
             this.operation.isCropping = false;
+            this.operation.isBlurring = false;
             document.body.style.cursor = "default";
         }
 
@@ -236,10 +241,92 @@
         }
         
         crop(event){
+            // Não desenvolver ainda.
             console.log('cropping');
-            //Me ajude com essa função no passo a passo.
-            //desenhar um retângulo na tela, quando o usuário soltar, a área do retãngulo ocupará o canvas.
         }
+        
+        blur(event) {
+            const rect = this.ctx.canvas.getBoundingClientRect();
+            const scaleX = this.ctx.canvas.width / rect.width; // Fator de escala horizontal
+            const scaleY = this.ctx.canvas.height / rect.height; // Fator de escala vertical
+        
+            const x = (event.clientX - rect.left) * scaleX; // Coordenada X ajustada
+            const y = (event.clientY - rect.top) * scaleY; // Coordenada Y ajustada
+        
+            const blurRadius = 5; // Ajuste do raio do blur
+            const kernel = this.generateGaussianKernel(blurRadius);
+            const kernelSize = kernel.length;
+        
+            const startX = Math.max(0, Math.floor(x - blurRadius));
+            const startY = Math.max(0, Math.floor(y - blurRadius));
+            const width = Math.min(this.ctx.canvas.width - startX, blurRadius * 2);
+            const height = Math.min(this.ctx.canvas.height - startY, blurRadius * 2);
+        
+            const imageData = this.ctx.getImageData(startX, startY, width, height);
+            const data = imageData.data;
+            const tempData = new Uint8ClampedArray(data);
+        
+            for (let py = 0; py < height; py++) {
+                for (let px = 0; px < width; px++) {
+                    const pixelIndex = (py * width + px) * 4;
+        
+                    let red = 0, green = 0, blue = 0, weightSum = 0;
+        
+                    for (let ky = 0; ky < kernelSize; ky++) {
+                        for (let kx = 0; kx < kernelSize; kx++) {
+                            const offsetX = px + kx - Math.floor(kernelSize / 2);
+                            const offsetY = py + ky - Math.floor(kernelSize / 2);
+        
+                            if (offsetX >= 0 && offsetX < width && offsetY >= 0 && offsetY < height) {
+                                const offsetIndex = (offsetY * width + offsetX) * 4;
+                                const weight = kernel[ky][kx];
+        
+                                red += tempData[offsetIndex] * weight;
+                                green += tempData[offsetIndex + 1] * weight;
+                                blue += tempData[offsetIndex + 2] * weight;
+                                weightSum += weight;
+                            }
+                        }
+                    }
+        
+                    data[pixelIndex] = red / weightSum;
+                    data[pixelIndex + 1] = green / weightSum;
+                    data[pixelIndex + 2] = blue / weightSum;
+                }
+            }
+        
+            this.ctx.putImageData(imageData, startX, startY);
+        }
+        
+        // Gera um kernel gaussiano baseado no tamanho do raio
+        generateGaussianKernel(radius) {
+            const size = radius * 2 + 1;
+            const kernel = [];
+            const sigma = radius / 2;
+            let sum = 0;
+        
+            for (let y = -radius; y <= radius; y++) {
+                const row = [];
+                for (let x = -radius; x <= radius; x++) {
+                    const value = Math.exp(-(x * x + y * y) / (2 * sigma * sigma)) / (2 * Math.PI * sigma * sigma);
+                    row.push(value);
+                    sum += value;
+                }
+                kernel.push(row);
+            }
+        
+            // Normaliza o kernel para garantir que a soma dos pesos seja 1
+            for (let y = 0; y < size; y++) {
+                for (let x = 0; x < size; x++) {
+                    kernel[y][x] /= sum;
+                }
+            }
+        
+            return kernel;
+        }
+        
+        
+        
     }
 
 
@@ -259,7 +346,7 @@
         document.querySelector('#imageCaption').value = caption;
 
         const canvas = document.querySelector('#imageCanvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
         const img = new Image();
 
         img.onload = () => {
