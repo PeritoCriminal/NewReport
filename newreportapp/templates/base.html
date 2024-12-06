@@ -52,6 +52,9 @@
                                     {% if not is_there_description %}
                                         <a class="dropdown-item" href="{% url 'create_description_report' report.id %}">Descrição do Local</a>
                                     {% endif %}
+                
+                                        <a class="dropdown-item" href="{% url 'create_clues_and_traces_report' report.id %}">Elementos Observados</a>
+
                                     <a class="dropdown-item" href="#">Imóvel</a>
                                     <a class="dropdown-item" href="#">Veículo</a>
                                     <a class="dropdown-item" href="#">Peça</a>

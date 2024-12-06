@@ -23,4 +23,5 @@ from .report.local_preservation_report_views import local_preservation_report_vi
 from .report.local_description_report_views import local_description_report_view
 from .report.image_report_views import save_image_report
 from .report.delete_image_views import delete_image_view
+from .report.clues_and_traces_views import clues_and_traces_view
 # from .report.load_image_data_views import load_image_data
