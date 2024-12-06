@@ -14,7 +14,7 @@ from .views import (change_password_view,
                     restore_post,
                     header_report_view,
                     user_attributes_to_report_view,
-                    # section_report_view,
+                    index,
                     list_reports,
                     delete_report,
                     show_report,
@@ -50,6 +50,7 @@ urlpatterns = [
     path('account/register/', register_user, name='register'),
     path('account/login/', user_login_view, name='login'),
     path('', home_views, name='home'),
+    path('index', index, name='index'),
     
     # path('post/<int:post_id>/like/', post_and_comments_likes_views.post_like, name='post_like'),
     path('post/<int:post_id>/delete/', post_delete_views, name='post_delete'),  # Rota para deletar

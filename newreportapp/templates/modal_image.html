@@ -28,6 +28,9 @@
                 
                     <!-- Barra de ferramentas -->
                     <div class="mb-3 text-right">
+                        <button type="button" id="add_border" class="btn btn-sm btn-outline-primary" title="Adicionar borda cinza">
+                            <i class="fas fa-border-all"></i>
+                        </button>
                         <button type="button" id="change_img" class="btn btn-sm btn-outline-primary" title="Alterar imagem">
                             <i class="fas fa-sync-alt"></i>
                         </button>
@@ -107,6 +110,7 @@
 
     const openImageModal = document.querySelector('#openImageModal');
     const change_img = document.querySelector('#change_img');
+    const add_border = document.querySelector('#add_border');
     const zoom = document.querySelector('#zoom');
     const pan = document.querySelector('#pan');
     const rotate_clockwise = document.querySelector('#rotate_clockwise');
@@ -129,6 +133,11 @@
     change_img.addEventListener('click', function(event){
         event.preventDefault();
         selectImgAndDraw();
+    });
+
+    add_border.addEventListener('click', function(event){
+        console.log('Adicionou borda.');
+        gray_border();
     });
 
     zoom.addEventListener('click', function(event){
@@ -216,6 +225,24 @@
     
             reader.readAsDataURL(file);
         };
+    }
+
+    function gray_border() {
+        if (!canvas) {
+            console.error("Canvas não encontrado!");
+            return;
+        }
+    
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.error("Contexto do canvas não encontrado!");
+            return;
+        }
+    
+        // Adiciona uma borda cinza escuro em volta do canvas
+        ctx.strokeStyle = 'darkgray'; // Cor da borda
+        ctx.lineWidth = 1; // Largura da borda
+        ctx.strokeRect(0, 0, canvas.width, canvas.height); // Desenha a borda
     }
 
 

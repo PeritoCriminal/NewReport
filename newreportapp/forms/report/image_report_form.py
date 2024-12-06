@@ -6,7 +6,7 @@ from newreportapp.models.report.image_report_model import ImageReportModel
 class ImageReportForm(forms.ModelForm):
     class Meta:
         model = ImageReportModel
-        fields = ['description', 'img', 'caption']  # Apenas os campos necessários
+        fields = ['description', 'img', 'caption']
         widgets = {
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'img': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
