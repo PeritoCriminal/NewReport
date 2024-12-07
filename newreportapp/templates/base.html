@@ -42,6 +42,7 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="reportDropdown">
                                     <!--<a class="dropdown-item" href="{% url 'edit_header_report' report.id %}">Dados Gerais</a>-->
+                                    
                                     <a class="dropdown-item" href="#">Declarações</a>
                                 
                                     <a class="dropdown-item" href="#">Dados de Localização</a>
@@ -49,20 +50,33 @@
                                     {% if not is_there_preservation %}
                                         <a class="dropdown-item" href="{% url 'create_preservation_report' report.id %}">Preservação de Local</a>
                                     {% endif %}
+
                                     {% if not is_there_description %}
                                         <a class="dropdown-item" href="{% url 'create_description_report' report.id %}">Descrição do Local</a>
                                     {% endif %}
-                
-                                        <a class="dropdown-item" href="{% url 'create_clues_and_traces_report' report.id %}">Elementos Observados</a>
 
-                                    <a class="dropdown-item" href="#">Imóvel</a>
-                                    <a class="dropdown-item" href="#">Veículo</a>
-                                    <a class="dropdown-item" href="#">Peça</a>
-                                    <a class="dropdown-item" href="#">Coletado</a>
-                                    <a class="dropdown-item" href="#">Cadáver</a>
-                                    <a class="dropdown-item" href="#">Para RA</a>
-                                    <a class="dropdown-item" href="#">Para Autoridade</a>
+                                    {% if not is_there_clue_and_trace %}
+                                        <a class="dropdown-item" href="{% url 'create_clues_and_traces_report' report.id %}">Elementos Observados</a>
+                                    {% endif %}
+
+                                    {% if not is_there_collected_items %}
+                                        <a class="dropdown-item" href="{% url 'create_collected_items_report' report.id %}">Peças Coletadas</a>
+                                    {% endif %}
+
+                                    <a class="dropdown-item" href="#">Veículos</a>
+
+                                    <a class="dropdown-item" href="#">Exames Perinecroscópicos</a>
+
+                                    <a class="dropdown-item" href="#">Impressões Datiloscópicas</a>
+
+                                    <a class="dropdown-item" href="#">Peças Enviadas Para Análise</a>
+
+                                    <a class="dropdown-item" href="#">Resultado das Análises</a>
+
+                                    <a class="dropdown-item" href="#">Peças Enviadas à Autoridade Requisitante</a>                                    
+                                    
                                     <a class="dropdown-item" href="#">Considerações</a>
+
                                     <a class="dropdown-item" href="#">Conclusão</a>
                                 </div>
                             </li>

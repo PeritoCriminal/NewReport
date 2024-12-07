@@ -21,6 +21,7 @@ from .views import (change_password_view,
                     local_preservation_report_view,
                     local_description_report_view,
                     clues_and_traces_view,
+                    collected_items_view,
                     save_image_report,
                     delete_image_view,
                     # load_image_data,
@@ -90,15 +91,18 @@ urlpatterns = [
     # path('report/<int:section_pk>/image/<int:pk>/edit/', image_report_view, name='edit_image_report'),
 
 
-    # Rota para criar um novo relatório de preservação de local
+    # Rotas novas para os relatórios
     path('report/preservation_report/<int:header_report_id>/', local_preservation_report_view, name='create_preservation_report'),
     path('report/description_report/<int:header_report_id>/', local_description_report_view, name='create_description_report'),
     path('report/clues_and_traces_report/<int:header_report_id>/', clues_and_traces_view, name='create_clues_and_traces_report'),
-    # Rota para editar um relatório de preservação de local
+    path('report/collected_items_report/<int:header_report_id>/', collected_items_view, name='create_collected_items_report'),
+
+    # Rotas para edição de relatórios
     path('report/preservation_report/<int:header_report_id>/<int:id>/', local_preservation_report_view, name='edit_preservation_report'),
     path('report/description_report/<int:header_report_id>/<int:id>/', local_description_report_view, name='edit_description_report'),
     path('report/edit_clues_and_traces_report/<int:header_report_id>/<int:id>/', clues_and_traces_view, name='edit_clues_and_traces_report'),
- 
+    path('report/edit_collected_items_report/<int:header_report_id>/<int:id>/', collected_items_view, name = 'edit_collected_items_report'),
+
     # SECTIONS
     # Rota para exibir o formulário da seção em diferentes templates
     # path('section-report/<int:header_report_id>/template1/', section_report_view, {'template_name': 'report/template1.html'}, name='section_report_template1'),

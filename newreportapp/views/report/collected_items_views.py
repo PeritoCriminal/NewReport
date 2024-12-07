@@ -5,14 +5,14 @@ from django.http import JsonResponse
 from django.contrib import messages
 
 
-def clues_and_traces_view(request, id=None, header_report_id=None):
+def collected_items_view(request, id=None, header_report_id=None):
     subject = "local"
 
     # Alterar o valor do atributo abaixo para diferentes subsecções.
-    title = "Elementos Observados"
+    title = "Elementos Coletados"
 
     # Alterar rota com o nome no arquivo URLS.
-    rota = "edit_clues_and_traces_report"
+    rota = "edit_collected_items_report"
 
     existing_report = None
     if header_report_id:
@@ -48,7 +48,7 @@ def clues_and_traces_view(request, id=None, header_report_id=None):
 
     # Atualiza o `placeholder` do campo `description`.
     place_holder_for_description = """Campo opcional.
-    Utilize para descrever de forma geral os elementos de maior interesse, como impressões papilares, pegadas, ou manchas de sangue.
+    Utilize para descrever e relacionar os objetos que foram coletados no local.
     Caso insira imagens, poderá adicionar descrições detalhadas para cada elemento fotografado."""
     form.fields['description'].widget.attrs.update({'placeholder': place_holder_for_description})
 
@@ -72,7 +72,7 @@ def clues_and_traces_view(request, id=None, header_report_id=None):
         else:
             print(f'Formulário inválido - Erros: {form.errors}')
 
-    return render(request, 'report/local_description_report.html', {
+    return render(request, 'report/collected_items_report.html', {
         'report_section': report_section,
         'report_section_id': report_section.id,
         'form': form,

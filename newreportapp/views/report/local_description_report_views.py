@@ -8,7 +8,7 @@ from django.contrib import messages
 def local_description_report_view(request, id=None, header_report_id=None):
     subject = "local"
 
-    # Alterar o valor do atributo abaixo para diferentes subsecções.
+    # Alterar o valor do atributo abaixo para diferentes subsecções. is_ther_description
     title = "Descrição do Local"
 
     # Alterar rota com o nome no arquivo URLS.
