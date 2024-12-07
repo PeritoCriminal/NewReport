@@ -14,11 +14,11 @@
             Dados Gerais
         </a>
         <ul>
-            {% if section_local %}
-                {% for section in section_local %}
+            {% if section %}
+                {% for title in section %}
                     <li>
-                        <a href="{% url section.rota section.header_report_id section.id %}">
-                            {{ section.title }}
+                        <a href="{% url title.rota title.header_report_id title.id %}">
+                            {{ title.title }}
                         </a>
                     </li>
                 {% endfor %}
@@ -66,13 +66,13 @@
                 <p><strong>Fotografia:</strong> {{ report.photographer }}</p>
             {% endif %}
             
-            {% if section_local %}
-                <h3 class="title-report">Descrição e Exame de Local</h3>
-                {% for section in section_local %}
-                    <h5 class="title-report">{{ section.title }}</h5>
-                    <p class="pharagraph_report">{{ section.description |linebreaks }}</p>
+            {% if section %}
+                <h3 class="title-report">{{ dection }}</h3>
+                {% for title in section %}
+                    <h5 class="title-report">{{ title.title }}</h5>
+                    <p class="pharagraph_report">{{ title.description |linebreaks }}</p>
                     {% for img in images %}
-                        {% if img.report_section == section %}
+                        {% if img.report_section == title %}
                             <p class="pharagraph_report">{{  img.description |linebreaks }}</p>
                             <img src="{{ img.img.url }}" alt="{{ img.caption }}" style="max-width: 600px;">
                             <p class="legend_report">{{ img.caption }}</p>

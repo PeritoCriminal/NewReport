@@ -22,6 +22,7 @@ from .views import (change_password_view,
                     local_description_report_view,
                     clues_and_traces_view,
                     collected_items_view,
+                    perinecroscopic_view,
                     save_image_report,
                     delete_image_view,
                     # load_image_data,
@@ -96,12 +97,14 @@ urlpatterns = [
     path('report/description_report/<int:header_report_id>/', local_description_report_view, name='create_description_report'),
     path('report/clues_and_traces_report/<int:header_report_id>/', clues_and_traces_view, name='create_clues_and_traces_report'),
     path('report/collected_items_report/<int:header_report_id>/', collected_items_view, name='create_collected_items_report'),
+    path('report/perinecroscopc_report/<int:header_report_id>/', perinecroscopic_view, name='create_perinecroscopic_report'),
 
     # Rotas para edição de relatórios
     path('report/preservation_report/<int:header_report_id>/<int:id>/', local_preservation_report_view, name='edit_preservation_report'),
     path('report/description_report/<int:header_report_id>/<int:id>/', local_description_report_view, name='edit_description_report'),
     path('report/edit_clues_and_traces_report/<int:header_report_id>/<int:id>/', clues_and_traces_view, name='edit_clues_and_traces_report'),
     path('report/edit_collected_items_report/<int:header_report_id>/<int:id>/', collected_items_view, name = 'edit_collected_items_report'),
+    path('report/edit_perinecroscopic_report/<int:header_report_id>/<int:id>/', perinecroscopic_view, name='edit_perinecroscopic_report'),
 
     # SECTIONS
     # Rota para exibir o formulário da seção em diferentes templates

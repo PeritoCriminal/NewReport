@@ -63,9 +63,11 @@
                                         <a class="dropdown-item" href="{% url 'create_collected_items_report' report.id %}">Peças Coletadas</a>
                                     {% endif %}
 
-                                    <a class="dropdown-item" href="#">Veículos</a>
+                                    <a class="dropdown-item" href="#">Adicionar Veículos</a>
 
-                                    <a class="dropdown-item" href="#">Exames Perinecroscópicos</a>
+                                    {% if not is_there_perinecroscopic %}
+                                        <a class="dropdown-item" href="{% url 'create_perinecroscopic_report' report.id %}">Adicionar Perinecroscópico</a>
+                                    {% endif %}
 
                                     <a class="dropdown-item" href="#">Impressões Datiloscópicas</a>
 
