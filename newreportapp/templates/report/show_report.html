@@ -73,6 +73,7 @@
                     <p class="pharagraph_report">{{ title.description |linebreaks }}</p>
                     {% for img in images %}
                         {% if img.report_section == title %}
+                            <h5 class="title_report">{{ img.subtitle }}</h5>
                             <p class="pharagraph_report">{{  img.description |linebreaks }}</p>
                             <img src="{{ img.img.url }}" alt="{{ img.caption }}" style="max-width: 600px;">
                             <p class="legend_report">{{ img.caption }}</p>

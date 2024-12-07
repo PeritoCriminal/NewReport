@@ -72,16 +72,16 @@
                         </button>
                     </div>
 
+                    <!-- Campo do Subtítulo -->
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="subtitle" name="subtitle"
+                            placeholder="Subtítulo - Não é obrigatório.">
+                    </div>
+
                     <!-- Campo de descrição -->
                     <div class="form-group">
                         <textarea id="imageDescription" name="description" class="form-control" rows="2"
                             placeholder="Descrição da imagem (opcional).">{{ image.description }}</textarea>
-                    </div>
-                
-                    <!-- Campo de legenda -->
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="imageCaption" name="caption"
-                            placeholder="Legenda da imagem.">
                     </div>
                 
                     <!-- Visualização da imagem no canvas -->
@@ -89,6 +89,12 @@
                         <canvas id="imageCanvas" class="border w-100"></canvas>
                     </div>
                 
+                    <!-- Campo de legenda -->
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="imageCaption" name="caption"
+                            placeholder="Legenda da imagem.">
+                    </div>
+
                     <!-- Campo oculto para upload de imagem -->
                     <input type="file" id="imageInput" accept="image/*" class="d-none">
                 </form>                

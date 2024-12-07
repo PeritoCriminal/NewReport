@@ -14,6 +14,7 @@ class ImageReportModel(models.Model):
         related_name="images",
         verbose_name="Seção do Relatório"
     )
+    subtitle = models.CharField('Subtítulo', max_length=200, blank=True, default='')
     description = models.TextField('Descrição', default='', blank=True)
     img = StdImageField(
         upload_to='report_images/',
