@@ -48,10 +48,10 @@
 
         <div class="justify-content">
             <div class="central-content">
-                <h1 class="title-report">Laudo Técncio Pericial {{ num_report }} </h1>
+                <h1 class="title-report">Laudo Técncio Pericial {{ num_report }}</h1>
             </div>
             <p>{{ report.makePreamble }}</p>
-            <h3 class="title_report">Dados da Requisição de Exame</h3>
+            <h3 class="title-report">Dados da Requisição de Exame</h3>
             <p><strong>Objetivo:</strong> {{ report.examination_objective }}</p>
             <p><strong>Natureza:</strong> {{ report.incident_nature }}</p>
             <p><strong>Autoridade Requisitante:</strong> {{ report.requesting_authority }}</p>
@@ -71,14 +71,18 @@
                 {% for title in section %}
                     <h5 class="title-report">{{ title.title }}</h5>
                     <p class="pharagraph_report">{{ title.description |linebreaks }}</p>
-                    {% for img in images %}
-                        {% if img.report_section == title %}
-                            <h5 class="title_report">{{ img.subtitle }}</h5>
-                            <p class="pharagraph_report">{{  img.description |linebreaks }}</p>
-                            <img src="{{ img.img.url }}" alt="{{ img.caption }}" style="max-width: 600px;">
-                            <p class="legend_report">{{ img.caption }}</p>
-                        {% endif %}
-                    {% endfor %}
+                    <div class="subjustify-content">
+                        {% for img in images %}
+                            {% if img.report_section == title %}
+                                {% if img.subtitle %}
+                                    <h5 class="subtitle_report">{{ img.subtitle }}</h5>
+                                {% endif %}
+                                <p class="pharagraph_report">{{  img.description |linebreaks }}</p>
+                                <img src="{{ img.img.url }}" alt="{{ img.caption }}" style="max-width: 600px; margin-top: 1cm;">
+                                <p class="legend_report">{{ img.caption }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 {%  endfor %}
             {% endif %}
         </div>

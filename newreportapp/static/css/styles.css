@@ -1,6 +1,6 @@
 /* newreportapp/static/css/styles.css */
 
-.titulo-2 { 
+.titulo-2 {
     color: gray !important;
     margin-bottom: 20px !important;
     margin-top: 45px !important;
@@ -230,7 +230,6 @@ li {
     margin-right: 10px;
     /* Espaço entre o ícone e o texto */
 }
-
 
 .user-thumbnail {
     width: 50px;
@@ -494,6 +493,10 @@ li {
     margin: 4px 0;
 }
 
+.subjustify-content p {
+    margin-left: 1cm;
+}
+
 .justify-content h1,
 h2,
 h3,
@@ -560,6 +563,14 @@ h5 {
     margin-left: 3cm;
     padding-top: 10px;
     line-height: 30px;
+}
+
+.title_report {
+    margin-left: 3cm;
+}
+
+.subtitle_report {
+    margin-left: 1cm !important;
 }
 
 .legend_report {
