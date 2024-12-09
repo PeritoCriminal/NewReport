@@ -1,7 +1,7 @@
 from datetime import datetime
 import re
 
-def format_text_with_year___fora_de_uso(text, date=None):
+def format_text_with_year(text, date=None):
     """
     Função que formata o número do laudo, protocolo e boletim de ocorrência.
     Recebe uma string `text` e uma data `date`, formatando o texto para garantir que termina com '/YYYY'.

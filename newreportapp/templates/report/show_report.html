@@ -4,32 +4,22 @@
 
 {% block title %}newreport{% endblock title %}
 
-{% block content %}
 
+{% block extra_head %}
+<!--
+    <link rel="stylesheet" type="text/css" href="{% static 'css/pdfstyle.css' %}">
+    -->
+{% endblock extra_head %}
+
+{% block content %}
 <div class="d-flex">
-    <!-- Barra lateral fixa -->
-    <div class="fixed-sidebar">
-        <p class="titulo-2"><strong>Laudo {{ num_report }}</strong></p>
-        <a href="{% url 'edit_header_report' report.id %}">
-            Dados Gerais
-        </a>
-        <ul>
-            {% if section %}
-                {% for title in section %}
-                    <li>
-                        <a href="{% url title.rota title.header_report_id title.id %}">
-                            {{ title.title }}
-                        </a>
-                    </li>
-                {% endfor %}
-            {% else %}
-                <li>As demais seções serão listadas aqui.</li>
-            {% endif %}
-        </ul>
-    </div>
+
+    <!-- AQUI SERÁ O INÍCIO DO DOCX -->
 
     <!-- Conteúdo principal -->
     <div class="main-content mt-4 border p-4 bg-light shadow-sm rounded">
+
+        <!-- INÍCIO DO CABEÇALHO -->
         <div class="header">
             <div class="img-logo">
                 <img src="{% static 'images/logos/sptc.png' %}" alt="SPTC Logo">
@@ -45,6 +35,8 @@
                 <img src="{% static 'images/logos/sp.png' %}" alt="SP Logo">
             </div>            
         </div>
+
+        <!-- FIM DO CABEÇALHO -->
 
         <div class="justify-content">
             <div class="central-content">
@@ -66,28 +58,39 @@
                 <p><strong>Fotografia:</strong> {{ report.photographer }}</p>
             {% endif %}
             
-            {% if section %}
-                <h3 class="title-report">{{ dection }}</h3>
-                {% for title in section %}
-                    <h5 class="title-report">{{ title.title }}</h5>
-                    <p class="pharagraph_report">{{ title.description |linebreaks }}</p>
+            {% if sections_data %}
+                {% for section in sections_data %}
+                    <h5 class="title-report">{{ section.number }} - {{ section.title }}</h5>
+                    <p class="pharagraph_report">{{ section.description | linebreaks }}</p>
                     <div class="subjustify-content">
-                        {% for img in images %}
-                            {% if img.report_section == title %}
-                                {% if img.subtitle %}
-                                    <h5 class="subtitle_report">{{ img.subtitle }}</h5>
-                                {% endif %}
-                                <p class="pharagraph_report">{{  img.description |linebreaks }}</p>
-                                <img src="{{ img.img.url }}" alt="{{ img.caption }}" style="max-width: 600px; margin-top: 1cm;">
-                                <p class="legend_report">{{ img.caption }}</p>
+                        {% for img in section.images %}
+                            {% if img.subtitle %}
+                                <h5 class="subtitle_report">{{ img.subtitle_number }} - {{ img.subtitle }}</h5>
                             {% endif %}
+                            <p class="pharagraph_report">{{ img.description | linebreaks }}</p>
+                            <div class="central-content">
+                                <img src="{{ img.img_url }}" alt="{{ img.caption }}" style="max-width: 600px; margin-top: 1cm;">
+                            </div>
+                            <p class="legend_report">Figura {{ img.image_number }} - {{ img.caption }}</p>
                         {% endfor %}
                     </div>
-                {%  endfor %}
+                {% endfor %}
             {% endif %}
         </div>
+
+        <!-- INÍCIO DO RODAPÉ, NÃO APARECE NO HTML, SOMENTO NO DOCX
+         
+        <P><small>Laudo {{ num_report }} | Boletim {{ num_occurrency }} - {{ report.police_station }}</small></P>
+        <p>Página numero_da_página  de quantidade_de_paginas </p>
+
+        FIM DO RODAPÉ -->
+
     </div>
+
+    <!-- AQUI É O FIM DO DOCX -->
 </div>
+
+<a href="?generate_docx=1" class="btn btn-primary">Baixar Relatório</a>
 
 {% endblock content %}
 
