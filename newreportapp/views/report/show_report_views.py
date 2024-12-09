@@ -71,6 +71,16 @@ def show_report(request, pk):
 
         myDoc.generatePreamble(report.makePreamble())
 
+        # Itera sobre as seções e adiciona conteúdo no .docx
+        for section in sections:
+            # Adiciona o título da seção
+            myDoc.generateTitle1(section.title)
+            
+            # Adiciona a descrição da seção, se houver
+            if section.description:
+                myDoc.generateParagraph1(section.description)
+
+
         myDoc.saveDoc()
 
         

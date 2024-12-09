@@ -80,6 +80,9 @@ class ReportDocx:
         run.font.bold = True
         paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
 
+
+
+
     def generateTitle2(self, text):
         """
         Adiciona um título de nível 2 ao documento.
@@ -93,28 +96,71 @@ class ReportDocx:
         run.font.bold = True
         paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
 
+
+
+
+
     def generateParagraph1(self, text):
         """
         Adiciona um parágrafo justificado sem recuo ao documento.
         :param text: Texto do parágrafo.
         """
-        paragraph = self.document.add_paragraph(text)
-        paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
-        run = paragraph.runs[0]
-        run.font.name = "Arial"
-        run.font.size = Pt(12)
+        text = text.replace('\r', '').strip()  # fiz isso e resolveu o problema
+
+        paragraphs = text.split('\n')
+        for fragments in paragraphs:
+            paragraph = self.document.add_paragraph(fragments)
+            paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+            run = paragraph.runs[0]
+            run.font.name = "Arial"
+            run.font.size = Pt(12)
+
+
+
 
     def generateParagraph2(self, text):
         """
         Adiciona um parágrafo justificado com recuo ao documento.
         :param text: Texto do parágrafo.
         """
+        text = text.replace('\r', '').strip()
+        paragraphs = text.split('\n')
+        for fragments in paragraphs:
+            paragraph = self.document.add_paragraph(fragments)
+            paragraph.paragraph_format.left_indent = Cm(1)
+            paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+            run = paragraph.runs[0]
+            run.font.name = "Arial"
+            run.font.size = Pt(12)
+
+
+
+
+    def generateImage(self, url_img):
+        """
+        Adiciona uma imagem ao documento.
+        :param url_img: Caminho para o arquivo da imagem.
+        """
+        try:
+            # Adiciona a imagem centralizada com largura de 12 cm
+            paragraph = self.document.add_paragraph()
+            paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+            run = paragraph.add_run()
+            run.add_picture(url_img, width=Cm(12))
+        except Exception as e:
+            raise IOError(f"Erro ao adicionar a imagem: {e}")
+
+    def generateLegend(self, text):
+        """
+        Adicona uma legenda ao documento
+        """ 
         paragraph = self.document.add_paragraph(text)
-        paragraph.paragraph_format.left_indent = Cm(1)
-        paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+        paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+        # Acrescentar itálico
         run = paragraph.runs[0]
         run.font.name = "Arial"
-        run.font.size = Pt(12)
+        run.font.size = Pt(11)
+        run.font.italic = True 
 
     def saveDoc(self):
         """
