@@ -125,6 +125,14 @@ def show_report(request, pk):
 
                 # myDoc.generateLegend(img.caption)
 
+        gender = 'Perita Criminal'
+        if (report.reporting_expert.gender == 'M'):
+            gender = 'Perito Criminal'
+
+        myDoc.generateSignature(report.expert_display_name, gender)
+
+        myDoc.generateFooter(f'Laudo {num_report}', f'Boletim {num_occurrency} - {report.police_station}')        
+
         myDoc.saveDoc()
 
         

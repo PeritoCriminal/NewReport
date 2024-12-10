@@ -5,6 +5,8 @@ from docx.shared import RGBColor
 from docx import Document
 from docx.shared import Pt, Cm
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 from django.conf import settings
 import os
 
@@ -116,7 +118,9 @@ class ReportDocx:
         run.font.color.rgb = RGBColor(0, 0, 0)
         run.font.bold = True
         paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
-        run.space_after = Cm(0.5)
+        paragraph_format = paragraph.paragraph_format
+        paragraph_format.space_before = Cm(1)  
+        paragraph_format.space_after = Cm(0.5)
 
 
 
@@ -151,10 +155,6 @@ class ReportDocx:
             run = paragraph.runs[0]
             run.font.name = "Arial"
             run.font.size = Pt(12)
-
-
-
-
     
     
 
@@ -176,11 +176,6 @@ class ReportDocx:
             legend_paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER  # Centralizando a legenda
         except Exception as e:
             raise IOError(f"Erro ao adicionar a imagem: {e}")
-
-
-
-
-
 
 
     def generateLegend(self, text):
@@ -227,8 +222,109 @@ class ReportDocx:
 
 
 
+    def generateFooter(self, pretext, text):
+        """
+        Gera um rodapé exibido em todas as páginas do documento:
+        - Primeira linha: texto fornecido.
+        - Segunda linha: "Página X de Y".
+        Os textos são alinhados à direita e formatados em Times New Roman, tamanho 12.
+        """
+        # Acessa o rodapé da primeira seção
+        section = self.document.sections[0]
+        footer = section.footer
+        paragraph = footer.paragraphs[0]
+        paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+
+        # Adiciona o texto fixo na primeira linha
+        run_text = paragraph.add_run(pretext)
+        run_text.font.name = "Times New Roman"
+        run_text.font.size = Pt(10)
+
+        run_text = paragraph.add_run('  |  ')
+        run_text.font.name = "Times New Roman"
+        run_text.font.size = Pt(14)
+
+        run_text = paragraph.add_run(text)  # Quebra de linha após o texto
+        run_text.font.name = "Times New Roman"
+        run_text.font.size = Pt(10)
+        paragraph_format = paragraph.paragraph_format
+        paragraph_format.space_before = Cm(0.5)  
+        # paragraph_format.space_after = Cm(0.5)
+
+        run_text = paragraph.add_run('\n')
+
+        # Adiciona a segunda linha com "Página X de Y"
+        # "Página "
+        run_page_text = paragraph.add_run("Página ")
+        run_page_text.font.name = "Times New Roman"
+        run_page_text.font.size = Pt(10)
+
+        # Campo dinâmico para a página atual (X)
+        this_page = OxmlElement("w:fldSimple")
+        this_page.set(qn("w:instr"), "PAGE")  # Campo do Word para número da página atual
+        run_this_page = OxmlElement("w:r")
+        text_this_page = OxmlElement("w:t")
+        text_this_page.text = ""  # Será preenchido pelo Word
+        run_this_page.append(text_this_page)
+        this_page.append(run_this_page)
+        paragraph._p.append(this_page)
+
+        # " de "
+        run_of_text = paragraph.add_run(" de ")
+        run_of_text.font.name = "Times New Roman"
+        run_of_text.font.size = Pt(10)
+
+        # Campo dinâmico para o total de páginas (Y)
+        total_pages = OxmlElement("w:fldSimple")
+        total_pages.set(qn("w:instr"), "NUMPAGES")  # Campo do Word para total de páginas
+        run_total_pages = OxmlElement("w:r")
+        text_total_pages = OxmlElement("w:t")
+        text_total_pages.text = ""  # Será preenchido pelo Word
+        run_total_pages.append(text_total_pages)
+        total_pages.append(run_total_pages)
+        paragraph._p.append(total_pages)
 
 
+    def generateSignature(self, expert, text):
+        """
+        Adiciona uma assinatura ao documento com o formato especificado.
+        :param expert: Nome do perito.
+        :param text: Texto adicional.
+        """
+        # Parágrafo para "Assinado digitalmente"
+        paragraph = self.document.add_paragraph("Assinado digitalmente")
+        paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+        run = paragraph.runs[0]
+        run.font.name = "Arial"
+        run.font.size = Pt(12)
+        run.font.bold = True
+        paragraph_format = paragraph.paragraph_format
+        paragraph_format.space_before = Pt(0)
+        paragraph_format.space_after = Pt(0)
+
+        # Parágrafo para o nome do perito
+        paragraph_expert = self.document.add_paragraph(expert)
+        paragraph_expert.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+        run_expert = paragraph_expert.runs[0]
+        run_expert.font.name = "Times New Roman"
+        run_expert.font.size = Pt(12)
+        run_expert.font.italic = True
+        paragraph_format = paragraph_expert.paragraph_format
+        paragraph_format.space_before = Pt(0)
+        paragraph_format.space_after = Pt(0)
+
+        # Parágrafo para o texto adicional
+        paragraph_text = self.document.add_paragraph(text)
+        paragraph_text.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+        run_text = paragraph_text.runs[0]
+        run_text.font.name = "Times New Roman"
+        run_text.font.size = Pt(12)
+        run_text.font.italic = True
+        paragraph_format = paragraph_text.paragraph_format
+        paragraph_format.space_before = Pt(0)
+        paragraph_format.space_after = Pt(0)
+
+        
 
     def saveDoc(self):
         """
