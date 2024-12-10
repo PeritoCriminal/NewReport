@@ -57,6 +57,13 @@ def show_report(request, pk):
 
         sections_data.append(section_data)
 
+
+
+    #---------------------------------------------------------------------------------------
+
+
+    #   Criação da instancia myDoc   
+    
     # Verifica se o .docx foi solicitado
     if request.GET.get("generate_docx"):
         header_report_image = os.path.join(settings.BASE_DIR, 'newreportapp', 'static', 'images', 'logos', 'header_report.jpg')
@@ -71,15 +78,52 @@ def show_report(request, pk):
 
         myDoc.generatePreamble(report.makePreamble())
 
-        # Itera sobre as seções e adiciona conteúdo no .docx
-        for section in sections:
-            # Adiciona o título da seção
-            myDoc.generateTitle1(section.title)
-            
-            # Adiciona a descrição da seção, se houver
+        myDoc.generateTitle1('Dados da Requisição de Exame')
+
+        myDoc.keyAndValue('Objetivo', report.examination_objective)
+
+        myDoc.keyAndValue('Natureza', report.incident_nature)
+
+        myDoc.keyAndValue('Autoridade Requisitante', report.requesting_authority)
+
+        myDoc.keyAndValue('Boletim', report.police_station)
+
+        myDoc.keyAndValue('Data e Hora da Ocorrência', f'{report.occurrence_date}, às {report.occurrence_time}' )
+        
+        myDoc.generateTitle1('Dados do Atendimento')
+
+        myDoc.keyAndValue('Protocolo / Registro de entrada', num_protocol)
+
+        myDoc.keyAndValue('Recebimento da Requisição', f'{report.call_date}, às {report.occurrence_time}')
+
+        myDoc.keyAndValue('Data e Hora do Atendimento', f'{report.service_date}, às {report.service_time}')
+
+        myDoc.keyAndValue('Perito Examinador', report.expert_display_name)
+
+        if (report.photographer):
+            myDoc.keyAndValue('Fotografia', report.photographer)
+
+        index_img = 1
+        for section in sections:            
+            myDoc.generateTitle1(section.title)            
             if section.description:
                 myDoc.generateParagraph1(section.description)
 
+            section_images = images.filter(report_section=section)
+            for img in section_images:
+                if (img.subtitle):
+                    myDoc.generateTitle2(img.subtitle)
+                if (img.description):
+                    myDoc.generateParagraph2(img.description)
+
+                image_path = os.path.join(settings.MEDIA_ROOT, img.img.name)
+                if os.path.exists(image_path):
+                    myDoc.generateImage(image_path, f'Figura {index_img} - {img.caption}')
+                    index_img += 1
+                else:
+                    print(f"Imagem não encontrada: {image_path}")
+
+                # myDoc.generateLegend(img.caption)
 
         myDoc.saveDoc()
 
@@ -91,6 +135,9 @@ def show_report(request, pk):
         response.closed_file = lambda: os.remove(filepath) if os.path.exists(filepath) else None
 
         return response
+    
+
+    # -----------------------------------------------------------------------------------------------
 
     # Contexto para o template
     context = {
