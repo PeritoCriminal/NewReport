@@ -102,11 +102,11 @@ urlpatterns = [
     path('report/veicles_report/<int:header_report_id>/', veicles_view, name='create_veicles_report'),
 
     # Rotas para edição de relatórios
-    path('report/preservation_report/<int:header_report_id>/<int:id>/', local_preservation_report_view, name='edit_preservation_report'),
-    path('report/description_report/<int:header_report_id>/<int:id>/', local_description_report_view, name='edit_description_report'),
-    path('report/edit_clues_and_traces_report/<int:header_report_id>/<int:id>/', clues_and_traces_view, name='edit_clues_and_traces_report'),
-    path('report/edit_collected_items_report/<int:header_report_id>/<int:id>/', collected_items_view, name = 'edit_collected_items_report'),
-    path('report/edit_perinecroscopic_report/<int:header_report_id>/<int:id>/', perinecroscopic_view, name='edit_perinecroscopic_report'),
+    #path('report/preservation_report/<int:header_report_id>/<int:id>/', local_preservation_report_view, name='edit_preservation_report'),
+    #path('report/description_report/<int:header_report_id>/<int:id>/', local_description_report_view, name='edit_description_report'),
+    #path('report/edit_clues_and_traces_report/<int:header_report_id>/<int:id>/', clues_and_traces_view, name='edit_clues_and_traces_report'),
+    #path('report/edit_collected_items_report/<int:header_report_id>/<int:id>/', collected_items_view, name = 'edit_collected_items_report'),
+    #path('report/edit_perinecroscopic_report/<int:header_report_id>/<int:id>/', perinecroscopic_view, name='edit_perinecroscopic_report'),
 
     # SECTIONS
     # Rota para exibir o formulário da seção em diferentes templates

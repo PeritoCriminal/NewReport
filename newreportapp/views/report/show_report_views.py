@@ -78,6 +78,8 @@ def show_report(request, pk):
 
         myDoc = ReportDocx(filepath, header_report_image)
 
+        myDoc.clearAllDoc()
+
         myDoc.generateTitle0(f'Laudo {num_report}')
 
         myDoc.generatePreamble(report.makePreamble())
@@ -139,11 +141,10 @@ def show_report(request, pk):
 
         myDoc.saveDoc()
 
+        filename_report = myDoc.generateFileName(report.report_number, report.designation_date)
+
+        response = FileResponse(open(filepath, "rb"), as_attachment=True, filename=filename_report)
         
-        # Retorna o arquivo como resposta
-        response = FileResponse(open(filepath, "rb"), as_attachment=True, filename=f"report_{pk}.docx")
-        
-        # Exclui o arquivo temporário após o envio
         response.closed_file = lambda: os.remove(filepath) if os.path.exists(filepath) else None
 
         return response

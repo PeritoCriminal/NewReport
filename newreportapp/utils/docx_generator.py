@@ -8,7 +8,7 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from django.conf import settings
-import os
+import os, re
 
 
 class ReportDocx:
@@ -37,7 +37,7 @@ class ReportDocx:
         for section in sections:
             section.top_margin = Cm(1.27)
             section.bottom_margin = Cm(1.27)
-            # section.left_margin = Cm(3)
+            # section.left_margin = Cm(3)  # Essas duas linhas vão ficar comentadas caso eu queira usar depois.
             # section.right_margin = Cm(2)
 
             header = section.header
@@ -46,6 +46,18 @@ class ReportDocx:
             header_run = header_paragraph.add_run()
             header_run.add_picture(header_report_image, width=Cm(14))
             header_run.space_after = Cm(0.5)
+
+    def clearAllDoc(self):
+        """
+        Limpa todo o conteúdo do documento, incluindo cabeçalhos e rodapés, deixando-o em branco.
+        """
+        for paragraph in self.document.paragraphs:
+            p_element = paragraph._element
+            p_element.getparent().remove(p_element)
+
+        for table in self.document.tables:
+            t_element = table._element
+            t_element.getparent().remove(t_element)
 
 
 
@@ -324,7 +336,12 @@ class ReportDocx:
         paragraph_format.space_before = Pt(0)
         paragraph_format.space_after = Pt(0)
 
-        
+
+    def generateFileName(self, report_number, designation_date):
+        sanitized_report_number = re.sub(r'[^\w\s]', '', report_number).replace(' ', '_')
+        year = designation_date.year
+        return f"{sanitized_report_number}_{year}$.docx"        
+
 
     def saveDoc(self):
         """
