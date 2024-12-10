@@ -22,6 +22,7 @@ def show_report(request, pk):
     is_there_clue_and_trace = section_local.filter(title='Elementos Observados').exists()
     is_there_collected_items = sections.filter(title='Elementos Coletados').exists()
     is_there_perinecroscopic = sections.filter(title='Exame Perinecroscópico').exists()
+    is_there_veicles = sections.filter(title='Veículos').exists()
 
     # Formata os números dos relatórios
     num_report = format_text_with_year(report.report_number, report.designation_date)
@@ -34,6 +35,7 @@ def show_report(request, pk):
     # Pré-processa seções e imagens para enviar ao template
     sections_data = []
     global_image_index = 1  # Contador global para imagens
+    global_subtitle_index = 1
 
     for section_index, section in enumerate(sections, start=1):
         section_images = images.filter(report_section=section)
@@ -43,16 +45,18 @@ def show_report(request, pk):
             'number': section_index,
             'images': [],
         }
-        
+        global_subtitle_index = 1
         for img in section_images:
             section_data['images'].append({
                 'subtitle': img.subtitle,
                 'description': img.description,
                 'img_url': img.img.url,
                 'caption': img.caption,
-                'subtitle_number': f"{section_index}.{global_image_index}",
+                'subtitle_number': f"{section_index}.{global_subtitle_index}",
                 'image_number': global_image_index,
             })
+            if(img.subtitle):
+                global_subtitle_index += 1
             global_image_index += 1
 
         sections_data.append(section_data)
@@ -157,6 +161,7 @@ def show_report(request, pk):
         'is_there_clue_and_trace': is_there_clue_and_trace,
         'is_there_collected_items': is_there_collected_items,
         'is_there_perinecroscopic': is_there_perinecroscopic,
+        'is_there_veicles': is_there_veicles,
         'institute_unit': report.institute_unit,
         'forensic_team_base': report.forensic_team_base,
         'num_report': num_report,

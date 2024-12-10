@@ -22,6 +22,7 @@ from .views import (change_password_view,
                     local_description_report_view,
                     clues_and_traces_view,
                     collected_items_view,
+                    veicles_view,
                     perinecroscopic_view,
                     save_image_report,
                     delete_image_view,
@@ -98,6 +99,7 @@ urlpatterns = [
     path('report/clues_and_traces_report/<int:header_report_id>/', clues_and_traces_view, name='create_clues_and_traces_report'),
     path('report/collected_items_report/<int:header_report_id>/', collected_items_view, name='create_collected_items_report'),
     path('report/perinecroscopc_report/<int:header_report_id>/', perinecroscopic_view, name='create_perinecroscopic_report'),
+    path('report/veicles_report/<int:header_report_id>/', veicles_view, name='create_veicles_report'),
 
     # Rotas para edição de relatórios
     path('report/preservation_report/<int:header_report_id>/<int:id>/', local_preservation_report_view, name='edit_preservation_report'),
