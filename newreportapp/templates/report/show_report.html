@@ -60,12 +60,12 @@
             
             {% if sections_data %}
                 {% for section in sections_data %}
-                    <h5 class="title-report">{{ section.number }} - {{ section.title }}</h5>
+                    <h5 class="title-report">{{ section.title }}</h5>
                     <p class="pharagraph_report">{{ section.description | linebreaks }}</p>
                     <div class="subjustify-content">
                         {% for img in section.images %}
                             {% if img.subtitle %}
-                                <h5 class="subtitle_report">{{ img.subtitle_number }} - {{ img.subtitle }}</h5>
+                                <h5 class="subtitle_report">{{ img.subtitle }}</h5>
                             {% endif %}
                             <p class="pharagraph_report">{{ img.description | linebreaks }}</p>
                             <div class="central-content">
@@ -75,6 +75,10 @@
                         {% endfor %}
                     </div>
                 {% endfor %}
+            {% endif %}
+            {% if report.conclusion %}
+                <h3 class="title-report">Conclusão</h3>
+                    <p>{{ report.conclusion | linebreaks }}</p>
             {% endif %}
         </div>
 

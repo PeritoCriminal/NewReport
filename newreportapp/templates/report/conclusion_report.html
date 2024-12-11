@@ -1,0 +1,29 @@
+<!-- newreportapp/templates/repot/conclusion_report.thml -->
+
+{% extends 'base.html' %}
+
+{% block title %}Conclusão{% endblock title %}
+
+{% block content %}
+
+
+<div class="mt-4 border p-4 bg-light shadow-sm rounded">
+        
+    <h4 class="titulo-2">Conclusão</h4>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+            <textarea name="conclusion_description" id="conclusion_description" class="form-control" rows="6" placeholder="{{ place_holder_for_description }}">{{ header_report.conclusion }}</textarea>
+            
+            <br/><button type="submit" class="btn btn-primary">Salvar</button>
+            <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+  </div>
+    
+
+{% endblock content %}
+
+{% block scripts %}
+    
+
+{% endblock scripts %}
