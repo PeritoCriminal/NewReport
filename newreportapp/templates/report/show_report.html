@@ -76,6 +76,10 @@
                     </div>
                 {% endfor %}
             {% endif %}
+            {% if report.considerations %}
+                <h3 class="title-report">Considerações</h3>
+                    <p>{{ report.considerations | linebreaks }}</p>
+            {% endif %}
             {% if report.conclusion %}
                 <h3 class="title-report">Conclusão</h3>
                     <p>{{ report.conclusion | linebreaks }}</p>

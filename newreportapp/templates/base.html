@@ -49,59 +49,31 @@
                                     
                                     <a class="dropdown-item" href="#">Declarações</a>
                                 
-                                    <a class="dropdown-item" href="#">Dados de Localização</a>
+                                    <a class="dropdown-item" href="#">Dados de Localização</a>                                
+                                    
+                                    <a class="dropdown-item" href="{% url 'create_preservation_report' report.id %}">Preservação de Local</a>
+                                    
+                                    <a class="dropdown-item" href="{% url 'create_description_report' report.id %}">Descrição do Local</a>
+                                  
+                                    <a class="dropdown-item" href="{% url 'create_clues_and_traces_report' report.id %}">Elementos Observados</a>
+                                    
+                                    <a class="dropdown-item" href="{% url 'create_collected_items_report' report.id %}">Peças Coletadas</a>
+                                    
+                                    <a class="dropdown-item" href="{% url 'create_veicles_report' report.id %}">Veículos</a>
                                 
-                                    {% if not is_there_preservation %}
-                                        <a class="dropdown-item" href="{% url 'create_preservation_report' report.id %}">Acrescentar Preservação de Local</a>
-                                        {% else %}
-                                        <a class="dropdown-item" href="{% url 'create_preservation_report' report.id %}">Editar Preservação de Local</a>
-                                    {% endif %}
-
-                                    {% if not is_there_description %}
-                                        <a class="dropdown-item" href="{% url 'create_description_report' report.id %}">Acrescentar Descrição do Local</a>
-                                        {% else %}
-                                        <a class="dropdown-item" href="{% url 'create_description_report' report.id %}">Editar Descrição do Local</a>
-                                    {% endif %}
-
-                                    {% if not is_there_clue_and_trace %}
-                                        <a class="dropdown-item" href="{% url 'create_clues_and_traces_report' report.id %}">Acrescentar Elementos Observados</a>
-                                        {% else %}
-                                        <a class="dropdown-item" href="{% url 'create_clues_and_traces_report' report.id %}">Editar Elementos Observados</a>
-                                    {% endif %}
-
-                                    {% if not is_there_collected_items %}
-                                        <a class="dropdown-item" href="{% url 'create_collected_items_report' report.id %}">Acrescentar Peças Coletadas</a>
-                                        {% else %}
-                                        <a class="dropdown-item" href="{% url 'create_collected_items_report' report.id %}">Editar Peças Coletadas</a>
-                                    {% endif %}
-
-                                    {% if not is_there_veicles %}
-                                        <a class="dropdown-item" href="{% url 'create_veicles_report' report.id %}">Adicionar Veículos</a>
-                                    {% else %}    
-                                        <a class="dropdown-item" href="{% url 'create_veicles_report' report.id %}">Editar Veículos</a>
-                                    {% endif %}
-
-                                    {% if not is_there_perinecroscopic %}
-                                        <a class="dropdown-item" href="{% url 'create_perinecroscopic_report' report.id %}">Adicionar Exame Perinecroscópico</a>
-                                    {% else %}
-                                        <a class="dropdown-item" href="{% url 'create_perinecroscopic_report' report.id %}">Editar Exame Perinecroscópico</a>
-                                    {% endif %}
-
-                                    {% if not is_there_fingerprints %}
-                                        <a class="dropdown-item" href="{% url 'create_fingerprint_report' report.id %}">Adicionar Impressões Datiloscópicas</a>
-                                    {% else %}
-                                        <a class="dropdown-item" href="{% url 'create_fingerprint_report' report.id %}">Editar Impressões Datiloscópicas</a>
-                                    {% endif %}
-
+                                    <a class="dropdown-item" href="{% url 'create_perinecroscopic_report' report.id %}">Exame Perinecroscópico</a>
+                                
+                                    <a class="dropdown-item" href="{% url 'create_fingerprint_report' report.id %}">Impressões Datiloscópicas</a>
+                                
                                     <a class="dropdown-item" href="#">Peças Enviadas Para Análise</a>
 
                                     <a class="dropdown-item" href="#">Resultado das Análises</a>
 
                                     <a class="dropdown-item" href="#">Peças Enviadas à Autoridade Requisitante</a>                                    
                                     
-                                    <a class="dropdown-item" href="#">Considerações</a>
+                                    <a class="dropdown-item" href="{% url 'create_considerations_report' report.id %}">Considerações</a>
 
-                                    <a class="dropdown-item" href="{% url 'create_conclusion_report' header_report_id=41 %}">Conclusão</a>
+                                    <a class="dropdown-item" href="{% url 'create_conclusion_report' report.id %}">Conclusão</a>
 
                                     <a class="dropdown-item" href="?generate_docx=1" class="btn btn-primary">Gerar Relatório .docx</a>
                                 

@@ -29,4 +29,5 @@ from .report.veicles_views import veicles_view
 from .report.perinecroscopic_views import perinecroscopic_view
 from .report.fingerprints_views import fingerprints_view
 from .report.conclusion_views import conclusion_view
+from .report.considerations_views import considerations_view
 # from .report.load_image_data_views import load_image_data
