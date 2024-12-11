@@ -64,10 +64,10 @@
                                     <a class="dropdown-item" href="{% url 'create_perinecroscopic_report' report.id %}">Exame Perinecroscópico</a>
                                 
                                     <a class="dropdown-item" href="{% url 'create_fingerprint_report' report.id %}">Impressões Datiloscópicas</a>
-                                
-                                    <a class="dropdown-item" href="#">Peças Enviadas Para Análise</a>
 
-                                    <a class="dropdown-item" href="#">Resultado das Análises</a>
+                                    <a class="dropdown-item" href="{% url 'create_for_analysis_report' report.id %}">Peças Enviadas Para Análise</a>
+
+                                    <a class="dropdown-item" href="#">Resultados das Análises</a>
 
                                     <a class="dropdown-item" href="#">Peças Enviadas à Autoridade Requisitante</a>                                    
                                     
