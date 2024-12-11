@@ -27,4 +27,5 @@ from .report.clues_and_traces_views import clues_and_traces_view
 from .report.collected_items_views import collected_items_view
 from .report.veicles_views import veicles_view
 from .report.perinecroscopic_views import perinecroscopic_view
+from .report.fingerprints_views import fingerprints_view
 # from .report.load_image_data_views import load_image_data

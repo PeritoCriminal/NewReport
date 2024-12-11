@@ -105,6 +105,7 @@ class ReportDocx:
         :param text: Texto do título.
         """
         paragraph = self.document.add_paragraph(text, style="Heading 1")
+        paragraph.paragraph_format.left_indent = Cm(2)
         run = paragraph.runs[0]
         run.font.name = "Arial"
         run.font.size = Pt(12)
@@ -123,7 +124,7 @@ class ReportDocx:
         :param text: Texto do título.
         """
         paragraph = self.document.add_paragraph(text, style="Heading 2")
-        paragraph.paragraph_format.left_indent = Cm(1)
+        paragraph.paragraph_format.left_indent = Cm(3)
         run = paragraph.runs[0]
         run.font.name = "Arial"
         run.font.size = Pt(12)
@@ -146,6 +147,7 @@ class ReportDocx:
         paragraphs = text.split('\n')
         for fragments in paragraphs:
             paragraph = self.document.add_paragraph(fragments)
+            paragraph.paragraph_format.left_indent = Cm(1)
             paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
             run = paragraph.runs[0]
             run.font.name = "Arial"
@@ -161,8 +163,8 @@ class ReportDocx:
         text = text.replace('\r', '').strip()
         paragraphs = text.split('\n')
         for fragments in paragraphs:
-            paragraph = self.document.add_paragraph(fragments)
-            paragraph.paragraph_format.left_indent = Cm(1)
+            paragraph = self.document.add_paragraph(fragments, style="Descrição")
+            paragraph.paragraph_format.left_indent = Cm(2)
             paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
             run = paragraph.runs[0]
             run.font.name = "Arial"
@@ -222,9 +224,9 @@ class ReportDocx:
 
         # Configura a chave
         run_key = paragraph.add_run(f"{key}: ")
-        run_key.font.bold = True
-        run_key.font.name = "Arial"
-        run_key.font.size = Pt(11)
+        # run_key.font.bold = True
+        run_key.font.name = "Times New Roman"
+        run_key.font.size = Pt(12)
 
         # Configura o valor
         run_value = paragraph.add_run(value)

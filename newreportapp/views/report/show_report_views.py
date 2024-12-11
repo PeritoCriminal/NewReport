@@ -94,15 +94,15 @@ def show_report(request, pk):
 
         myDoc.keyAndValue('Boletim', report.police_station)
 
-        myDoc.keyAndValue('Data e Hora da Ocorrência', f'{report.occurrence_date}, às {report.occurrence_time}' )
+        myDoc.keyAndValue('Data e Hora da Ocorrência', f'{report.dateToDoc(report.occurrence_date)}, às {report.hourToDoc(report.occurrence_time)}' )
         
         myDoc.generateTitle1('Dados do Atendimento')
 
         myDoc.keyAndValue('Protocolo / Registro de entrada', num_protocol)
 
-        myDoc.keyAndValue('Recebimento da Requisição', f'{report.call_date}, às {report.occurrence_time}')
+        myDoc.keyAndValue('Recebimento da Requisição', f'{report.dateToDoc(report.call_date)}, às {report.hourToDoc(report.call_time)}')
 
-        myDoc.keyAndValue('Data e Hora do Atendimento', f'{report.service_date}, às {report.service_time}')
+        myDoc.keyAndValue('Data e Hora do Atendimento', f'{report.dateToDoc(report.service_date)}, às {report.hourToDoc(report.service_time)}')
 
         myDoc.keyAndValue('Perito Examinador', report.expert_display_name)
 

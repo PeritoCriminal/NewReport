@@ -1,0 +1,21 @@
+<!-- newreportapp/templates/repot/perinecroscopic_report.thml -->
+
+{% extends 'base.html' %}
+
+{% block title %}IMpressões Datiloscópicas{% endblock title %}
+
+{% block content %}
+
+    <div class="mt-4 border p-4 bg-light shadow-sm rounded">
+        
+        <h4 class="titulo-2">Impressões Datiloscópicas</h4>
+
+        {% include 'report/partial_section_report.html' with action_url=request.path %}
+
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    
+
+{% endblock scripts %}

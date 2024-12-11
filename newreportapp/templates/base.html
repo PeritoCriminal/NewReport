@@ -40,10 +40,12 @@
                         {% if request.resolver_match.url_name == 'show_report' %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-file-alt"></i> Incluir no Laudo
+                                    <i class="fas fa-file-alt"></i>Laudo
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="reportDropdown">
                                     <!--<a class="dropdown-item" href="{% url 'edit_header_report' report.id %}">Dados Gerais</a>-->
+                                    
+                                    <a class="dropdown-item" href="{% url 'edit_header_report' report.id %}">Dados Gerais</a>
                                     
                                     <a class="dropdown-item" href="#">Declarações</a>
                                 
@@ -85,7 +87,11 @@
                                         <a class="dropdown-item" href="{% url 'create_perinecroscopic_report' report.id %}">Editar Exame Perinecroscópico</a>
                                     {% endif %}
 
-                                    <a class="dropdown-item" href="#">Impressões Datiloscópicas</a>
+                                    {% if not is_there_fingerprints %}
+                                        <a class="dropdown-item" href="{% url 'create_fingerprint_report' report.id %}">Adicionar Impressões Datiloscópicas</a>
+                                    {% else %}
+                                        <a class="dropdown-item" href="{% url 'create_fingerprint_report' report.id %}">Editar Impressões Datiloscópicas</a>
+                                    {% endif %}
 
                                     <a class="dropdown-item" href="#">Peças Enviadas Para Análise</a>
 
@@ -96,6 +102,9 @@
                                     <a class="dropdown-item" href="#">Considerações</a>
 
                                     <a class="dropdown-item" href="#">Conclusão</a>
+
+                                    <a class="dropdown-item" href="?generate_docx=1" class="btn btn-primary">Gerar Relatório .docx</a>
+                                
                                 </div>
                             </li>
                         {% endif %}

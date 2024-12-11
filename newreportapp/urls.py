@@ -24,6 +24,7 @@ from .views import (change_password_view,
                     collected_items_view,
                     veicles_view,
                     perinecroscopic_view,
+                    fingerprints_view,
                     save_image_report,
                     delete_image_view,
                     # load_image_data,
@@ -100,6 +101,7 @@ urlpatterns = [
     path('report/collected_items_report/<int:header_report_id>/', collected_items_view, name='create_collected_items_report'),
     path('report/perinecroscopc_report/<int:header_report_id>/', perinecroscopic_view, name='create_perinecroscopic_report'),
     path('report/veicles_report/<int:header_report_id>/', veicles_view, name='create_veicles_report'),
+    path('report/fingerprint_report/<int:header_report_id>/', fingerprints_view, name='create_fingerprint_report'),
 
     # Rotas para edição de relatórios
     #path('report/preservation_report/<int:header_report_id>/<int:id>/', local_preservation_report_view, name='edit_preservation_report'),
