@@ -23,6 +23,7 @@ from .views import (change_password_view,
                     clues_and_traces_view,
                     collected_items_view,
                     for_analysis_view,
+                    for_custody_view,
                     veicles_view,
                     perinecroscopic_view,
                     fingerprints_view,
@@ -108,6 +109,8 @@ urlpatterns = [
     path('report/conclusion_report/<int:header_report_id>/', conclusion_view, name='create_conclusion_report'),
     path('report/considerations_report/<int:header_report_id>/', considerations_view, name='create_considerations_report'),
     path('report/for_analysis_report/<int:header_report_id>/', for_analysis_view, name='create_for_analysis_report'),
+    path('report/for_custody_report/<int:header_report_id>/', for_custody_view, name='create_for_custody_report'),
+
 
     # Rotas para edição de relatórios
     #path('report/preservation_report/<int:header_report_id>/<int:id>/', local_preservation_report_view, name='edit_preservation_report'),

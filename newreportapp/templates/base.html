@@ -69,7 +69,7 @@
 
                                     <a class="dropdown-item" href="#">Resultados das Análises</a>
 
-                                    <a class="dropdown-item" href="#">Peças Enviadas à Autoridade Requisitante</a>                                    
+                                    <a class="dropdown-item" href="{% url 'create_for_custody_report' report.id %}">Remessa Para Autoridade Requisitante</a>
                                     
                                     <a class="dropdown-item" href="{% url 'create_considerations_report' report.id %}">Considerações</a>
 

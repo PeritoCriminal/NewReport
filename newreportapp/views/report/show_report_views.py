@@ -135,6 +135,10 @@ def show_report(request, pk):
         if (report.reporting_expert.gender == 'M'):
             gender = 'Perito Criminal'
 
+        myDoc.generateBlankLine()
+
+        myDoc.generateParagraph1('Este laudo segue assinado digitalmente e encontra-se arquivado no sistema GDL da Superintendência da Polícia Técnico Científica do Estado de São Paulo.')
+
         myDoc.generateSignature(report.expert_display_name, gender)
 
         myDoc.generateFooter(f'Laudo {num_report}', f'Boletim {num_occurrency} - {report.police_station}')        

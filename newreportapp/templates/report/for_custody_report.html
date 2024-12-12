@@ -1,0 +1,21 @@
+<!-- newreportapp/templates/repot/for_custody_report.html - Mantenha essa linha ao copiar o arquivo -->
+
+{% extends 'base.html' %}
+
+{% block title %}Peças Para Análise{% endblock title %}
+
+{% block content %}
+
+    <div class="mt-4 border p-4 bg-light shadow-sm rounded">
+        
+        <h4 class="titulo-2">Remessa Para Autoridade Requisitante</h4>
+
+        {% include 'report/partial_section_report.html' with action_url=request.path %}
+
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    
+
+{% endblock scripts %}

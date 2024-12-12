@@ -170,7 +170,8 @@ class ReportDocx:
             run.font.name = "Arial"
             run.font.size = Pt(12)
     
-    
+    def generateBlankLine(self):
+        self.document.add_paragraph()
 
     def generateImage(self, url_img, legend_text):
         """
