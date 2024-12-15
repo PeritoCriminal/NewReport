@@ -222,8 +222,8 @@
                 
                     // Passe as dimensões redimensionadas ao ImageObject
                     imageObject = new ImageObject(img, ctx, newWidth, newHeight);
-                    console.log(`Nova imagem no arquivo. img: ${img.width}; ctx: ${ctx.width}`);
-                    console.log('nova imagem no canvas.');
+                    console.log(`Nova imagem no arquivo. img: ${img.width}; ctx: ${ctx}`);
+                    console.log(`nova imagem no canvas. img: ${img.width}; ctx: ${ctx}`);
                 };
                 
                 img.src = e.target.result;
@@ -297,7 +297,6 @@
         });
     }
     
-
 </script>
     
 {% endblock scripts %}

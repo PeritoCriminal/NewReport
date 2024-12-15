@@ -13,7 +13,7 @@ def save_image_report(request):
     if request.method == "POST":
         # Dados recebidos do formulário
         section_id = request.POST.get('section_id')
-        subtitle = request.POST.get('subtitle')
+        subtitle = request.POST.get('subtitle', '')
         description = request.POST.get('description', '')
         caption = request.POST.get('caption', '')
         image_data = request.POST.get('image_data', '')  # Base64

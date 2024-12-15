@@ -130,6 +130,13 @@ def show_report(request, pk):
                     print(f"Imagem não encontrada: {image_path}")
 
                 # myDoc.generateLegend(img.caption)
+        if (report.considerations):
+            myDoc.generateTitle1('Considerações')
+            myDoc.generateParagraph1(report.considerations)
+        
+        if (report.conclusion):
+            myDoc.generateTitle1('Considerações')
+            myDoc.generateParagraph1(report.conclusion)
 
         gender = 'Perita Criminal'
         if (report.reporting_expert.gender == 'M'):
