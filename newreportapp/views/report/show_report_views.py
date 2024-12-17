@@ -135,7 +135,7 @@ def show_report(request, pk):
             myDoc.generateParagraph1(report.considerations)
         
         if (report.conclusion):
-            myDoc.generateTitle1('Considerações')
+            myDoc.generateTitle1('Conclusão')
             myDoc.generateParagraph1(report.conclusion)
 
         gender = 'Perita Criminal'
