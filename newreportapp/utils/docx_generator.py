@@ -142,16 +142,19 @@ class ReportDocx:
         Adiciona um parágrafo justificado sem recuo ao documento.
         :param text: Texto do parágrafo.
         """
-        text = text.replace('\r', '').strip()  # fiz isso e resolveu o problema
+        text = text.replace('\r', '').strip()
 
         paragraphs = text.split('\n')
         for fragments in paragraphs:
-            paragraph = self.document.add_paragraph(fragments)
-            paragraph.paragraph_format.left_indent = Cm(1)
-            paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
-            run = paragraph.runs[0]
-            run.font.name = "Arial"
-            run.font.size = Pt(12)
+            if fragments.strip():  # Verifica se a linha não está vazia
+                paragraph = self.document.add_paragraph(fragments)
+                paragraph.paragraph_format.left_indent = Cm(1)
+                paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+
+                if paragraph.runs:  # Verifica se há runs no parágrafo
+                    run = paragraph.runs[0]
+                    run.font.name = "Arial"
+                    run.font.size = Pt(12)
 
 
 
@@ -160,15 +163,20 @@ class ReportDocx:
         Adiciona um parágrafo justificado com recuo ao documento.
         :param text: Texto do parágrafo.
         """
-        text = text.replace('\r', '').strip()
-        paragraphs = text.split('\n')
+        text = text.replace('\r', '').strip()  # Remove retornos de carro e espaços extras
+
+        paragraphs = text.split('\n')  # Divide o texto em linhas
         for fragments in paragraphs:
-            paragraph = self.document.add_paragraph(fragments, style="Descrição")
-            paragraph.paragraph_format.left_indent = Cm(2)
-            paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
-            run = paragraph.runs[0]
-            run.font.name = "Arial"
-            run.font.size = Pt(12)
+            if fragments.strip():  # Verifica se a linha não está vazia
+                paragraph = self.document.add_paragraph(fragments, style="Descrição")
+                paragraph.paragraph_format.left_indent = Cm(2)
+                paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+
+                if paragraph.runs:  # Garante que existam runs antes de acessar o índice 0
+                    run = paragraph.runs[0]
+                    run.font.name = "Arial"
+                    run.font.size = Pt(12)
+
     
     def generateBlankLine(self):
         self.document.add_paragraph()
