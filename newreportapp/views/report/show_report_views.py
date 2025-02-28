@@ -92,7 +92,7 @@ def show_report(request, pk):
 
         myDoc.keyAndValue('Autoridade Requisitante', report.requesting_authority)
 
-        myDoc.keyAndValue('Boletim', report.police_station)
+        myDoc.keyAndValue('Boletim', f'{num_occurrency} - {report.police_station}')
 
         myDoc.keyAndValue('Data e Hora da Ocorrência', f'{report.dateToDoc(report.occurrence_date)}, às {report.hourToDoc(report.occurrence_time)}' )
         
@@ -104,7 +104,7 @@ def show_report(request, pk):
 
         myDoc.keyAndValue('Data e Hora do Atendimento', f'{report.dateToDoc(report.service_date)}, às {report.hourToDoc(report.service_time)}')
 
-        myDoc.keyAndValue('Perito Examinador', report.expert_display_name)
+        myDoc.keyAndValue('Perito', report.expert_display_name)
 
         if (report.photographer):
             myDoc.keyAndValue('Fotografia', report.photographer)

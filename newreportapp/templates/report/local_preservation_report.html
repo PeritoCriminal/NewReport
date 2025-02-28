@@ -110,17 +110,17 @@
         }
 
         selectElementTeam.addEventListener('change', (event)=>{
-            team_preservation = `${selectElementTeam.value}`;
+            team_preservation = `- Equipe: ${selectElementTeam.value}`;
             describePreservationContext();
         });
 
         teamSupervisor.addEventListener('change', (event)=>{
-            encharge_preservation = `Encarregado: ${teamSupervisor.value}`;
+            encharge_preservation = `- Encarregado: ${teamSupervisor.value}`;
             describePreservationContext();
         });
 
         vtrVeicle.addEventListener('change', (event)=>{
-            vtr_preservation = `Viatura: ${vtrVeicle.value}`;
+            vtr_preservation = `- Viatura: ${vtrVeicle.value}`;
             describePreservationContext();
         });
 
@@ -131,18 +131,18 @@
 
         deltaInPlace.addEventListener('change', (event)=>{
             if(deltaInPlace.checked){
-                authority_at_place = 'Autoridade Requisitante presente no local: Sim';
+                authority_at_place = '- Autoridade Requisitante presente no local: Sim';
             }else{
-                authority_at_place = 'Autoridade Requisitante presente no local: Não';
+                authority_at_place = '- Autoridade Requisitante presente no local: Não';
             } 
             describePreservationContext();           
         });
 
         pcTeamInPlace.addEventListener('change', (event)=>{
             if(pcTeamInPlace.checked){
-                investigation_team_at_place = 'Equipe de Investigação no local: Sim';
+                investigation_team_at_place = '- Equipe de Investigação no local: Sim';
             }else{
-                investigation_team_at_place = 'Equipe de Investigação no local: Não';
+                investigation_team_at_place = '- Equipe de Investigação no local: Não';
             } 
             describePreservationContext();           
         });

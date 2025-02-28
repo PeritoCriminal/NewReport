@@ -137,7 +137,7 @@ class ReportDocx:
 
 
 
-    def generateParagraph1(self, text):
+    def generateParagraph5(self, text):
         """
         Adiciona um parágrafo justificado sem recuo ao documento.
         :param text: Texto do parágrafo.
@@ -155,6 +155,36 @@ class ReportDocx:
                     run = paragraph.runs[0]
                     run.font.name = "Arial"
                     run.font.size = Pt(12)
+
+    def generateParagraph1(self, text):
+        """
+        Adiciona um parágrafo justificado sem recuo ao documento.
+        Se o parágrafo começar com um hífen '-' e contiver ':', aplica keyAndValue.
+        :param text: Texto do parágrafo.
+        """
+        text = text.replace('\r', '').strip()
+
+        paragraphs = text.split('\n')
+        for fragments in paragraphs:
+            fragments = fragments.strip()
+            if not fragments:
+                continue  # Ignora linhas vazias
+
+            if fragments.startswith('-') and ':' in fragments:
+                key, value = map(str.strip, fragments[1:].split(':', 1))
+                self.keyAndValue(key, value)
+            else:
+                paragraph = self.document.add_paragraph(fragments)
+                paragraph.paragraph_format.left_indent = Cm(1)
+                paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+
+                if paragraph.runs:
+                    run = paragraph.runs[0]
+                    run.font.name = "Arial"
+                    run.font.size = Pt(12)
+
+
+
 
 
 
@@ -230,10 +260,13 @@ class ReportDocx:
         """
         paragraph = self.document.add_paragraph()
         paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT  # Alinhamento à esquerda
+        paragraph_format = paragraph.paragraph_format
+        paragraph_format.space_before = Pt(0)
+        paragraph_format.space_after = Pt(0)
 
         # Configura a chave
         run_key = paragraph.add_run(f"{key}: ")
-        # run_key.font.bold = True
+        run_key.font.bold = True
         run_key.font.name = "Times New Roman"
         run_key.font.size = Pt(12)
 

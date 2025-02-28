@@ -53,7 +53,7 @@
             <p><strong>Protocolo / Registro de entrada:</strong> {{ num_protocol }}</p>
             <p><strong>Recebimento da Requisição:</strong> {{ report.call_date }} às {{ report.call_time }}</p>
             <p><strong>Data e Hora do Atendimento:</strong> {{ report.service_date }} às {{ report.service_time }}</p>
-            <p><strong>Perito Examinador:</strong> {{ report.expert_display_name }}</p>
+            <p><strong>Perito:</strong> {{ report.expert_display_name }}</p>
             {% if report.photographer %}
                 <p><strong>Fotografia:</strong> {{ report.photographer }}</p>
             {% endif %}
