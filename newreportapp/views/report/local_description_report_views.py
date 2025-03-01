@@ -64,6 +64,7 @@ def local_description_report_view(request, id=None, header_report_id=None):
             section_report = form.save(commit=False)
             section_report.header_report = header_report
             section_report.subject = subject
+            section_report.order = 30
             section_report.save()
 
             messages.success(request, f"{action} do relatório realizada com sucesso!")

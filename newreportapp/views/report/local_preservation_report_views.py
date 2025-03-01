@@ -60,12 +60,12 @@ Em casos de acidentes de trânsito, este campo pode ser utilizado para registrar
             report_section.header_report = header_report
             report_section.subject = subject
             report_section.title = title
-            report_section.rota = rota
         
         if form.is_valid():
             section_report = form.save(commit=False)
             section_report.header_report = header_report
             section_report.subject = subject
+            section_report.order = 20
             section_report.save()
 
             messages.success(request, f"{action} do relatório realizada com sucesso!")

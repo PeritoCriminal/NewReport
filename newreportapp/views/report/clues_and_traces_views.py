@@ -65,6 +65,7 @@ def clues_and_traces_view(request, id=None, header_report_id=None):
             # section_report.title = title
             section_report.header_report = header_report
             section_report.subject = subject
+            section_report.order = 40
             section_report.save()
 
             messages.success(request, f"{action} do relatório realizada com sucesso!")
