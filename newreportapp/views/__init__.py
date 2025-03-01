@@ -32,4 +32,5 @@ from .report.conclusion_views import conclusion_view
 from .report.considerations_views import considerations_view
 from .report.for_analysis_views import for_analysis_view
 from .report.for_custody_views import for_custody_view
+from .report.location_data_report_views import location_data_view
 # from .report.load_image_data_views import load_image_data

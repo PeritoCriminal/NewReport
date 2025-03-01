@@ -1,0 +1,95 @@
+<!-- newreportapp/templates/repot/location_data_report.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Dados de Localização{% endblock title %}
+
+{% block content %}
+
+<div class="mt-4 border p-4 bg-light shadow-sm rounded">
+    
+    <h4 class="titulo-2">Dados da Localização</h4>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <textarea name="data_location_description" id="data_location_description" class="form-control" rows="6" placeholder="{{ place_holder_for_description }}">{{ header_report.conclusion }}</textarea>
+        
+        <!-- Novo input para upload de imagem -->
+        <div class="mt-3">
+            <label for="imageInput" class="form-label">Selecionar Imagem</label>
+            <input type="file" class="form-control" id="imageInput" accept="image/*">
+        </div>
+        
+        <br/><button type="submit" class="btn btn-primary">Salvar</button>
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    document.querySelector("#imageInput").addEventListener("change", function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const image = new Image();
+            image.onload = function() {
+                EXIF.getData(image, function() {
+                    const lat = EXIF.getTag(this, "GPSLatitude");
+                    const lon = EXIF.getTag(this, "GPSLongitude");
+                    const latRef = EXIF.getTag(this, "GPSLatitudeRef");
+                    const lonRef = EXIF.getTag(this, "GPSLongitudeRef");
+
+                    if (lat && lon) {
+                        const refMap = { "N": "Norte", "S": "Sul", "E": "Leste", "W": "Oeste" };
+                        const formatDMS = (deg, min, sec, ref) => {
+                            return `${refMap[ref]} ${deg}°${min}'${sec.toFixed(3)}\"`;
+                        };
+
+                        const latitude = (lat[0] + lat[1] / 60 + lat[2] / 3600) * (latRef === "S" ? -1 : 1);
+                        const longitude = (lon[0] + lon[1] / 60 + lon[2] / 3600) * (lonRef === "W" ? -1 : 1);
+
+                        const finalLat = formatDMS(lat[0], lat[1], lat[2], latRef);
+                        const finalLon = formatDMS(lon[0], lon[1], lon[2], lonRef);
+
+                        const descriptionField = document.querySelector("#data_location_description");            
+                        descriptionField.value = `- Coordenadas: Latitude ${finalLat}, Longitude ${finalLon}`;
+
+                        // Abrir Google Maps em nova aba
+                        const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                        window.open(mapsUrl, "_blank");
+
+                        // Obter endereço a partir das coordenadas
+                        getAddressFromCoordinates(latitude, longitude);
+                    } else {
+                        alert("A imagem selecionada não contém dados de localização.");
+                    }
+                });
+            };
+            image.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    function getAddressFromCoordinates(lat, lon) {
+        const apiKey = 'AIzaSyDLV_bRItwSLIrlWoWIYbR3EUNIel3YVmg';  // Substitua pela sua chave da API do Google Maps
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=${apiKey}`;
+        const pre_text = document.querySelector("#data_location_description").value;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "OK" && data.results.length > 0) {
+                    const address = data.results[0].formatted_address;
+                    document.querySelector("#data_location_description").value = `- Endereço: ${address}\n${pre_text}`;
+                } else {
+                    alert("Não foi possível obter o endereço.");
+                }
+            })
+            .catch(error => console.error("Erro ao buscar endereço:", error));
+    }
+</script>
+
+{% endblock scripts %}
